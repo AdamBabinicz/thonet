@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ImageGallery } from '@/components/image-gallery';
+import { getImagesByCategory } from '@/data/images';
 
 export function BiographySection() {
   const { t } = useTranslation();
@@ -39,7 +42,7 @@ export function BiographySection() {
                   {t('biography.earlyYearsText')}
                 </p>
               </div>
-              
+
               <div className="space-y-4">
                 <h3 className="text-2xl font-semibold text-card-foreground" data-testid="text-breakthrough-title">
                   {t('biography.breakthroughTitle')}

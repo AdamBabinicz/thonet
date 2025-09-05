@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { Zap, CheckCircle, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ImageGallery } from '@/components/image-gallery';
+import { getImagesByCategory } from '@/data/images';
 
 export function HeritageSection() {
   const { t } = useTranslation();
@@ -35,6 +38,9 @@ export function HeritageSection() {
     { labelKey: 'heritage.chair14.numberOfParts', value: '6 elementów' },
     { labelKey: 'heritage.chair14.assemblyTime', value: '30 minut' },
   ];
+
+  const heritageImages = getImagesByCategory('heritage');
+
 
   return (
     <section id="heritage" className="py-20 bg-card">
@@ -105,12 +111,7 @@ export function HeritageSection() {
                 </div>
               </div>
               <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600"
-                  alt="Słynne krzesło Thonet No. 14 w eleganckiej aranżacji"
-                  className="rounded-lg shadow-lg w-full h-auto"
-                  data-testid="img-chair-14"
-                />
+                <ImageGallery images={heritageImages} className="mb-12" />
               </div>
             </div>
           </motion.div>
