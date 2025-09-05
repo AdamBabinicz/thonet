@@ -125,6 +125,11 @@
     }
   },
   "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Eine interaktive Webseite, die der Geschichte und dem Erbe von Michael Thonet und seinen revolutionären Möbeltechniken gewidmet ist.",
+    "navigation": "Navigation",
+    "accessibility": "Barrierefreiheit",
+    "technologies": "Technologien",
     "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
     "dedication": "Gewidmet dem Sammler von Bugholzmöbeln Paweł Michalski",
     "legal": {

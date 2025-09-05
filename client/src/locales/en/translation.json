@@ -125,6 +125,11 @@
     }
   },
   "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "An interactive site dedicated to the history and heritage of Michael Thonet and his revolutionary furniture techniques.",
+    "navigation": "Navigation",
+    "accessibility": "Accessibility",
+    "technologies": "Technologies",
     "copyright": "© 2024 Thonet Digital Heritage. All rights reserved.",
     "dedication": "Dedicated to bent furniture collector Paweł Michalski",
     "legal": {

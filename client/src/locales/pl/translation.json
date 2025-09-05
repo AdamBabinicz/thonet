@@ -125,6 +125,11 @@
     }
   },
   "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Interaktywna strona poświęcona historii i dziedzictwu Michaela Thoneta oraz jego rewolucyjnych technik meblarskich.",
+    "navigation": "Nawigacja",
+    "accessibility": "Dostępność",
+    "technologies": "Technologie",
     "copyright": "© 2024 Thonet Digital Heritage. Wszystkie prawa zastrzeżone.",
     "dedication": "Dedykowane kolekcjonerowi mebli giętych Pawłowi Michalskiemu",
     "legal": {
