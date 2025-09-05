@@ -73,6 +73,10 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
 
   const handleLanguageChange = (lang: string) => {
     changeLanguage(lang);
+    // Auto-close panel after language change
+    setTimeout(() => {
+      onToggle();
+    }, 200);
   };
 
   const scrollToSection = (sectionId: string) => {
