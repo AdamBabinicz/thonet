@@ -1,0 +1,144 @@
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię"
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię słynnego krzesła No. 14 - najbardziej znanego dzieła Thoneta. Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledzij krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "footer": {
+    "title": "Cyfrowe Dziedzictwo Thoneta",
+    "description": "Interaktywna aplikacja poświęcona życiu i dziełu Michaela Thoneta - pioniera nowoczesnego designu przemysłowego.",
+    "copyright": "© 2024 Thonet Digital Heritage. Wszelkie prawa zastrzeżone.",
+    "navigation": "Nawigacja",
+    "accessibility": "Dostępność",
+    "technologies": "Technologie:"
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  }
+}

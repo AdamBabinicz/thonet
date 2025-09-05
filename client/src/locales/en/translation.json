@@ -1,0 +1,144 @@
+{
+  "hero": {
+    "subtitle": "Digital Heritage",
+    "title": "Michael Thonet",
+    "titleAccent": "Pioneer of Design",
+    "description": "Discover the revolutionary story of the man who forever changed the world of furniture making. Immerse yourself in an interactive journey through the life, works and extraordinary heritage of Michael Thonet.",
+    "exploreButton": "Start Exploration",
+    "biographyButton": "Learn Biography"
+  },
+  "navigation": {
+    "home": "Home",
+    "biography": "Biography",
+    "interactiveModules": "Interactive Modules",
+    "heritage": "Heritage",
+    "timeline": "Timeline",
+    "skipToContent": "Skip to main content"
+  },
+  "controlHub": {
+    "title": "Control Center",
+    "close": "Close navigation panel",
+    "open": "Open navigation panel",
+    "sections": "Sections",
+    "language": "Language",
+    "theme": "Theme",
+    "accessibility": "Accessibility",
+    "currentLanguage": "Current language: English",
+    "changeToPolish": "Zmień język na polski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Light",
+    "darkTheme": "Dark",
+    "currentThemeLight": "Current theme: Light",
+    "currentThemeDark": "Current theme: Dark",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme",
+    "highContrast": "High Contrast",
+    "enableHighContrast": "Enable high contrast mode",
+    "disableHighContrast": "Disable high contrast mode"
+  },
+  "biography": {
+    "title": "Biography of the Master",
+    "description": "Michael Thonet (1796-1871) was a German carpenter and industrialist who revolutionized furniture production by introducing innovative steam-bending wood technology.",
+    "earlyYearsTitle": "Early Years",
+    "earlyYearsText": "Born in Boppard on the Rhine, Michael Thonet began his career as a carpenter. From a young age, he was fascinated by the possibilities of giving wood new shapes.",
+    "breakthroughTitle": "Breakthrough Discovery",
+    "breakthroughText": "In the 1830s, Thonet developed a revolutionary method of bending beech wood using steam, which enabled mass production of elegant furniture."
+  },
+  "interactiveModules": {
+    "title": "Interactive Educational Modules",
+    "description": "Learn the secrets of Thonet's craft through innovative, interactive components. Each module is designed to bring you closer to the fascinating world of wood bending technology.",
+    "productDeconstruction": {
+      "title": "Product Deconstruction",
+      "description": "Learn the anatomy of the famous Chair No. 14 - Thonet's most famous work. Click the button to see how the chair breaks down into components.",
+      "startButton": "Start Deconstruction",
+      "reassembleButton": "Reassemble",
+      "helpText": "Click the button to start the animation of the chair breaking down into components"
+    },
+    "processSimulation": {
+      "title": "Process Simulation",
+      "description": "Follow step by step the revolutionary process of steam bending wood. Each stage of production will be presented with detailed explanations.",
+      "step1Title": "Wood Preparation",
+      "step1Description": "Selection of appropriate beech wood with suitable moisture content",
+      "step2Title": "Steam Treatment",
+      "step2Description": "Heating wood with steam at 100°C for 2-6 hours",
+      "step3Title": "Bending in Form",
+      "step3Description": "Placing softened wood in metal form and shaping",
+      "step4Title": "Drying and Finishing",
+      "step4Description": "Natural drying and final surface treatment",
+      "previousStep": "Previous process step",
+      "nextStep": "Next process step",
+      "autoplay": "Automatic process playback",
+      "stopAutoplay": "Stop automatic playback",
+      "stepStatus": "Step {{current}} of {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Heritage and Impact on Modernity",
+    "description": "Michael Thonet's innovations went far beyond his era, shaping modern design and furniture production to this day.",
+    "technologicalRevolution": {
+      "title": "Technological Revolution",
+      "description": "Introduction of mass furniture production through standardization and mechanization of processes."
+    },
+    "democratization": {
+      "title": "Design Democratization",
+      "description": "Making beautiful, functional furniture available to a wider social group through lower production costs."
+    },
+    "globalImpact": {
+      "title": "Global Impact",
+      "description": "Influence on the development of contemporary industrial design and philosophy of functionality."
+    },
+    "chair14": {
+      "title": "Chair No. 14 - Design Icon",
+      "description": "Produced in over 50 million copies, Chair No. 14 has been recognized as one of the most important works of industrial design in history.",
+      "yearIntroduced": "Year introduced:",
+      "numberProduced": "Number produced:",
+      "numberOfParts": "Number of parts:",
+      "assemblyTime": "Assembly time:"
+    }
+  },
+  "timeline": {
+    "title": "Life and Works Timeline",
+    "description": "Key events in Michael Thonet's life and the development of his enterprise.",
+    "1796": {
+      "title": "Birth in Boppard",
+      "description": "Michael Thonet comes into the world in a small town on the Rhine, in a family with carpentry traditions."
+    },
+    "1819": {
+      "title": "Beginning of Activity",
+      "description": "Establishment of his own carpentry workshop and first experiments with wood processing techniques."
+    },
+    "1841": {
+      "title": "Move to Vienna",
+      "description": "At the invitation of Prince Metternich, Thonet moves his business to Vienna, where he receives better development conditions."
+    },
+    "1850": {
+      "title": "Factory Establishment",
+      "description": "Creation of the company \"Gebrüder Thonet\" and beginning of mass production of bent wood furniture."
+    },
+    "1859": {
+      "title": "Chair No. 14",
+      "description": "Introduction to the market of the famous Chair No. 14, which will become an icon of industrial design."
+    },
+    "1871": {
+      "title": "Death of the Master",
+      "description": "Michael Thonet dies in Vienna, leaving behind an industrial empire and revolutionary heritage."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Interactive application dedicated to the life and work of Michael Thonet - pioneer of modern industrial design.",
+    "copyright": "© 2024 Thonet Digital Heritage. All rights reserved.",
+    "navigation": "Navigation",
+    "accessibility": "Accessibility",
+    "technologies": "Technologies:"
+  },
+  "aria": {
+    "themeChanged": "Theme changed to {{theme}}",
+    "highContrastEnabled": "High contrast mode enabled",
+    "highContrastDisabled": "High contrast mode disabled",
+    "chairExploded": "Chair has been broken down into components. Component labels are visible.",
+    "chairReassembled": "Chair has been reassembled.",
+    "autoplayStarted": "Automatic process playback started",
+    "autoplayStopped": "Automatic process playback stopped"
+  }
+}

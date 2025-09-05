@@ -1,0 +1,144 @@
+{
+  "hero": {
+    "subtitle": "Digitales Erbe",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier des Designs",
+    "description": "Entdecken Sie die revolutionäre Geschichte des Mannes, der die Welt der Möbelherstellung für immer veränderte. Tauchen Sie ein in eine interaktive Reise durch Leben, Werke und außergewöhnliches Erbe von Michael Thonet.",
+    "exploreButton": "Erkundung Beginnen",
+    "biographyButton": "Biographie Kennenlernen"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "biography": "Biographie",
+    "interactiveModules": "Interaktive Module",
+    "heritage": "Erbe",
+    "timeline": "Zeitlinie",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
+  "controlHub": {
+    "title": "Steuerzentrum",
+    "close": "Navigationspanel schließen",
+    "open": "Navigationspanel öffnen",
+    "sections": "Bereiche",
+    "language": "Sprache",
+    "theme": "Design",
+    "accessibility": "Barrierefreiheit",
+    "currentLanguage": "Aktuelle Sprache: Deutsch",
+    "changeToPolish": "Zmień język na polski",
+    "changeToEnglish": "Change language to English",
+    "lightTheme": "Hell",
+    "darkTheme": "Dunkel",
+    "currentThemeLight": "Aktuelles Design: Hell",
+    "currentThemeDark": "Aktuelles Design: Dunkel",
+    "switchToLight": "Zu hellem Design wechseln",
+    "switchToDark": "Zu dunklem Design wechseln",
+    "highContrast": "Hoher Kontrast",
+    "enableHighContrast": "Hohen Kontrast aktivieren",
+    "disableHighContrast": "Hohen Kontrast deaktivieren"
+  },
+  "biography": {
+    "title": "Biographie des Meisters",
+    "description": "Michael Thonet (1796-1871) war ein deutscher Tischler und Industrieller, der die Möbelproduktion revolutionierte, indem er innovative Dampfbiegetechnik für Holz einführte.",
+    "earlyYearsTitle": "Frühe Jahre",
+    "earlyYearsText": "Geboren in Boppard am Rhein, begann Michael Thonet seine Laufbahn als Tischler. Schon in jungen Jahren faszinierten ihn die Möglichkeiten, Holz neue Formen zu geben.",
+    "breakthroughTitle": "Bahnbrechende Entdeckung",
+    "breakthroughText": "In den 1830er Jahren entwickelte Thonet eine revolutionäre Methode des Biegens von Buchenholz mit Dampf, was die Massenproduktion eleganter Möbel ermöglichte."
+  },
+  "interactiveModules": {
+    "title": "Interaktive Bildungsmodule",
+    "description": "Lernen Sie die Geheimnisse von Thonets Handwerk durch innovative, interaktive Komponenten kennen. Jedes Modul wurde entwickelt, um Sie der faszinierenden Welt der Holzbiegetechnik näher zu bringen.",
+    "productDeconstruction": {
+      "title": "Produktzerlegung",
+      "description": "Lernen Sie die Anatomie des berühmten Stuhls Nr. 14 kennen - Thonets bekanntestes Werk. Klicken Sie auf die Schaltfläche, um zu sehen, wie sich der Stuhl in Komponenten zerlegt.",
+      "startButton": "Zerlegung Beginnen",
+      "reassembleButton": "Wieder Zusammenbauen",
+      "helpText": "Klicken Sie auf die Schaltfläche, um die Animation der Stuhlzerlegung in Komponenten zu starten"
+    },
+    "processSimulation": {
+      "title": "Prozesssimulation",
+      "description": "Verfolgen Sie Schritt für Schritt den revolutionären Prozess des Dampfbiegens von Holz. Jede Produktionsstufe wird mit detaillierten Erklärungen präsentiert.",
+      "step1Title": "Holzvorbereitung",
+      "step1Description": "Auswahl geeigneten Buchenholzes mit entsprechendem Feuchtigkeitsgehalt",
+      "step2Title": "Dampfbehandlung",
+      "step2Description": "Erhitzung des Holzes mit Dampf bei 100°C für 2-6 Stunden",
+      "step3Title": "Biegen in Form",
+      "step3Description": "Platzierung des erweichten Holzes in Metallform und Formgebung",
+      "step4Title": "Trocknung und Veredelung",
+      "step4Description": "Natürliche Trocknung und abschließende Oberflächenbehandlung",
+      "previousStep": "Vorheriger Prozessschritt",
+      "nextStep": "Nächster Prozessschritt",
+      "autoplay": "Automatische Prozesswiedergabe",
+      "stopAutoplay": "Automatische Wiedergabe stoppen",
+      "stepStatus": "Schritt {{current}} von {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Erbe und Einfluss auf die Moderne",
+    "description": "Michael Thonets Innovationen gingen weit über seine Zeit hinaus und prägten bis heute modernes Design und Möbelproduktion.",
+    "technologicalRevolution": {
+      "title": "Technologische Revolution",
+      "description": "Einführung der Massenmöbelproduktion durch Standardisierung und Mechanisierung der Prozesse."
+    },
+    "democratization": {
+      "title": "Demokratisierung des Designs",
+      "description": "Bereitstellung schöner, funktionaler Möbel für eine breitere gesellschaftliche Gruppe durch niedrigere Produktionskosten."
+    },
+    "globalImpact": {
+      "title": "Globaler Einfluss",
+      "description": "Einfluss auf die Entwicklung zeitgenössischen Industriedesigns und Philosophie der Funktionalität."
+    },
+    "chair14": {
+      "title": "Stuhl Nr. 14 - Design-Ikone",
+      "description": "In über 50 Millionen Exemplaren produziert, wurde Stuhl Nr. 14 als eines der wichtigsten Werke des Industriedesigns in der Geschichte anerkannt.",
+      "yearIntroduced": "Einführungsjahr:",
+      "numberProduced": "Anzahl produziert:",
+      "numberOfParts": "Anzahl Teile:",
+      "assemblyTime": "Montagezeit:"
+    }
+  },
+  "timeline": {
+    "title": "Lebens- und Werkzeitleiste",
+    "description": "Wichtige Ereignisse in Michael Thonets Leben und der Entwicklung seines Unternehmens.",
+    "1796": {
+      "title": "Geburt in Boppard",
+      "description": "Michael Thonet kommt in einer kleinen Stadt am Rhein zur Welt, in einer Familie mit Tischlertradition."
+    },
+    "1819": {
+      "title": "Beginn der Tätigkeit",
+      "description": "Gründung seiner eigenen Tischlerwerkstatt und erste Experimente mit Holzbearbeitungstechniken."
+    },
+    "1841": {
+      "title": "Umzug nach Wien",
+      "description": "Auf Einladung von Fürst Metternich verlegt Thonet sein Geschäft nach Wien, wo er bessere Entwicklungsbedingungen erhält."
+    },
+    "1850": {
+      "title": "Fabrikgründung",
+      "description": "Gründung der Firma \"Gebrüder Thonet\" und Beginn der Massenproduktion von Bugholzmöbeln."
+    },
+    "1859": {
+      "title": "Stuhl Nr. 14",
+      "description": "Markteinführung des berühmten Stuhls Nr. 14, der zu einer Ikone des Industriedesigns wird."
+    },
+    "1871": {
+      "title": "Tod des Meisters",
+      "description": "Michael Thonet stirbt in Wien und hinterlässt ein Industrieimperium und revolutionäres Erbe."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digitales Erbe",
+    "description": "Interaktive Anwendung, die dem Leben und Werk von Michael Thonet gewidmet ist - Pionier des modernen Industriedesigns.",
+    "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
+    "navigation": "Navigation",
+    "accessibility": "Barrierefreiheit",
+    "technologies": "Technologien:"
+  },
+  "aria": {
+    "themeChanged": "Design geändert zu {{theme}}",
+    "highContrastEnabled": "Hoher Kontrast aktiviert",
+    "highContrastDisabled": "Hoher Kontrast deaktiviert",
+    "chairExploded": "Stuhl wurde in Komponenten zerlegt. Komponentenbeschriftungen sind sichtbar.",
+    "chairReassembled": "Stuhl wurde wieder zusammengebaut.",
+    "autoplayStarted": "Automatische Prozesswiedergabe gestartet",
+    "autoplayStopped": "Automatische Prozesswiedergabe gestoppt"
+  }
+}
