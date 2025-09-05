@@ -1,0 +1,61 @@
+Specyfikacja Techniczna: Projekt "Thonet Digital Heritage"
+1. Cel Główny
+Zbudować kompletną, wydajną i w pełni dostępną aplikację internetową poświęconą historii i dziedzictwu Michaela Thoneta oraz jego mebli giętych. Aplikacja ma mieć charakter premium, łącząc elegancki design z nowoczesnymi, interaktywnymi modułami. Projekt musi być zrealizowany z bezkompromisowym podejściem do jakości technicznej, SEO i dostępności.
+2. Stos Technologiczny
+Framework: React 18+ (z Vite.js)
+Język: TypeScript 5+
+Stylowanie: Tailwind CSS 3+
+Animacje i Interakcje: Framer Motion 10+
+Internacjonalizacja (i18n): react-i18next z i18next-browser-languagedetector
+Ikony: lucide-react
+Zarządzanie Meta Tagami & SEO: react-helmet-async
+Testowanie: Vitest (jednostkowe, integracyjne), React Testing Library, vitest-axe (automatyzacja testów a11y), Playwright (End-to-End)
+3. Innowacje UI/UX i Moduły Funkcjonalne
+3.1. Panel Nawigacyjny "Control Hub"
+Implementacja bocznego, pionowego panelu nawigacyjnego w celu maksymalizacji przestrzeni dla treści wizualnej.
+Stan Domyślny: Zwinięty do pionowego paska ikon po lewej stronie viewportu.
+Interakcja: Panel rozwija się płynnie (framer-motion) po aktywacji przez onClick lub onFocus na dedykowanym przycisku (ikona hamburgera/menu).
+Zawartość Panelu:
+Nawigacja Sekcji: Lista linków (<a href="#section-id">) do płynnego przewijania. Każdy link musi być w pełni dostępny z klawiatury.
+Przełącznik Języka: Grupa przycisków (<button>) dla pl, en, de. Aktywny język musi być oznaczony wizualnie i atrybutem aria-current="true".
+Przełącznik Motywu: Przycisk przełączający motyw wizualny (jasny/ciemny). Jego stan musi być anonsowany przez aria-label (np. aria-label="Przełącz na motyw ciemny").
+Przycisk Dostępności: Opcjonalny przycisk aktywujący tryb wysokiego kontrastu, który nadpisuje domyślne kolory motywu.
+3.2. Interaktywne Moduły Edukacyjne
+Implementacja co najmniej dwóch interaktywnych komponentów w celu angażowania użytkownika.
+Moduł 1: De-konstrukcja Produktu: Komponent prezentujący model mebla. Przycisk z aria-expanded uruchamia animację (framer-motion) rozkładającą produkt na części składowe, z jednoczesnym wyświetleniem adnotacji tekstowych.
+Moduł 2: Symulacja Procesu: Komponent wizualizujący proces technologiczny (np. gięcie drewna). Interakcja użytkownika (kliknięcie przycisku) inicjuje sekwencję animowanych kroków. Stan każdego kroku musi być anonsowany dla czytników ekranu.
+4. Wymagania Krytyczne (Non-Functional Requirements)
+4.1. Dostępność (a11y) - Priorytet Zero
+Aplikacja musi być zgodna ze standardem WCAG 2.1 na poziomie AA. Ze względu na zidentyfikowane ograniczenia środowiska deweloperskiego, poniższe wymagania są bezwzględne:
+Kontrast Kolorów: Wszystkie kombinacje tekstu i tła MUSZĄ osiągać minimalny współczynnik kontrastu 4.5:1. Dotyczy to obu motywów (jasnego i ciemnego brązowo-złotego). Weryfikacja za pomocą narzędzi deweloperskich i testów automatycznych.
+Semantyka i ARIA:
+Wszystkie interaktywne elementy bez widocznego tekstu (np. ikony w "Control Hub") MUSZĄ posiadać precyzyjny aria-label w odpowiednim języku (np. aria-label="Zmień język na angielski").
+Struktura nagłówków (h1-h6) musi być logiczna i hierarchiczna. Na stronie może znajdować się tylko jeden <h1>.
+Należy zaimplementować link "Przejdź do treści głównej" (Skip Link) jako pierwszy fokusowalny element na stronie.
+Nawigacja Klawiaturowa: Wszystkie funkcjonalności muszą być w 100% dostępne i obsługiwane za pomocą klawiatury. Fokus musi być zawsze widoczny i logicznie zarządzany, zwłaszcza wewnątrz "Control Hub" (focus trap).
+Testowanie Automatyczne: Do pakietu testów Vitest MUSI być zintegrowana biblioteka vitest-axe do automatycznego skanowania renderowanych komponentów pod kątem naruszeń a11y w trakcie developmentu.
+4.2. Internacjonalizacja (i18n) - Architektura Pełnego Pokrycia
+System musi gwarantować pełne i spójne tłumaczenie całego interfejsu.
+Struktura Tłumaczeń: Wszystkie teksty MUSZĄ być przechowywane w plikach json w strukturze /src/locales/{locale}/translation.json (gdzie locale to pl, en, de).
+System Kluczy: W całej aplikacji zabronione jest umieszczanie na stałe (hardcoding) jakichkolwiek stringów widocznych dla użytkownika. Każdy tekst musi być pobierany za pomocą hooka useTranslation i dedykowanego klucza (np. t('hero.title')).
+Routing: Należy zaimplementować routing oparty na locale (/[locale]/...). Domyślnym językiem jest pl, a jego prefiks w URL jest opcjonalny. Przekierowania z / na /pl muszą być skonfigurowane.
+Atrybut lang: Atrybut lang w tagu <html> musi być dynamicznie aktualizowany przez react-helmet-async w zależności od aktywnego języka.
+4.3. SEO i Dane Strukturalne (Schema.org)
+W celu maksymalizacji widoczności w wyszukiwarkach, każda strona musi implementować odpowiednie schematy JSON-LD.
+Schemat WebSite (Strona Główna):
+@type: "WebSite"
+name: "Cyfrowe Dziedzictwo Thoneta"
+url: Kanoniczny URL strony
+potentialAction: Wskazanie na wewnętrzną wyszukiwarkę (jeśli istnieje).
+Schemat Person (Podstrona biograficzna):
+@type: "Person"
+name: "Michael Thonet"
+birthDate, deathDate
+description: Krótki biogram.
+Schemat Product (Dla prezentacji kluczowych modeli mebli):
+@type: "Product"
+name: "Krzesło nr 14"
+model: "No. 14 chair"
+manufacturer: { "@type": "Organization", "name": "Gebrüder Thonet" }
+image: URL do wysokiej jakości obrazu produktu.
+Implementacja: Wszystkie skrypty JSON-LD muszą być wstrzykiwane do <head> za pomocą react-helmet-async.
