@@ -21,10 +21,10 @@ export function ProductDeconstruction() {
   };
 
   const parts = [
-    { id: 'backrest', x: isExploded ? -40 : 0, y: isExploded ? -30 : 0, label: 'Oparcie' },
-    { id: 'seat', x: isExploded ? 40 : 0, y: isExploded ? -20 : 0, label: 'Siedzisko' },
-    { id: 'leg-left', x: isExploded ? -30 : 0, y: isExploded ? 40 : 0, label: 'Noga lewa' },
-    { id: 'leg-right', x: isExploded ? 30 : 0, y: isExploded ? 50 : 0, label: 'Noga prawa' },
+    { id: 'backrest', x: isExploded ? -60 : 0, y: isExploded ? -40 : 0, label: 'Oparcie' },
+    { id: 'seat', x: isExploded ? 60 : 0, y: isExploded ? -10 : 0, label: 'Siedzisko' },
+    { id: 'leg-left', x: isExploded ? -50 : 0, y: isExploded ? 60 : 0, label: 'Nogi lewe' },
+    { id: 'leg-right', x: isExploded ? 50 : 0, y: isExploded ? 60 : 0, label: 'Nogi prawe' },
   ];
 
   return (
@@ -37,30 +37,127 @@ export function ProductDeconstruction() {
       </p>
 
       <div className="relative bg-muted rounded-lg p-8 mb-8 min-h-[400px] flex items-center justify-center overflow-visible">
-        <div className="relative w-48 h-48" data-testid="chair-model">
+        <div className="relative w-64 h-64" data-testid="chair-model">
           {/* Chair Parts */}
-          {parts.map((part, index) => (
-            <motion.div
-              key={part.id}
-              animate={{
-                x: part.x,
-                y: part.y,
-              }}
-              transition={{
-                duration: 0.6,
-                type: "spring",
-                damping: 20,
-                stiffness: 100,
-              }}
-              className={`absolute bg-gradient-to-br from-primary to-accent rounded-lg shadow-lg ${
-                index === 0 ? 'w-16 h-32 top-0 left-1/2 transform -translate-x-1/2' :
-                index === 1 ? 'w-24 h-4 top-20 left-1/2 transform -translate-x-1/2' :
-                index === 2 ? 'w-3 h-20 top-24 left-6' :
-                'w-3 h-20 top-24 right-6'
-              }`}
-              data-testid={`chair-part-${part.id}`}
-            />
-          ))}
+          {parts.map((part, index) => {
+            if (index === 0) {
+              // Backrest - curved bentwood style
+              return (
+                <motion.div
+                  key={part.id}
+                  animate={{
+                    x: part.x,
+                    y: part.y,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    type: "spring",
+                    damping: 20,
+                    stiffness: 100,
+                  }}
+                  className="absolute top-4 left-1/2 transform -translate-x-1/2"
+                  data-testid={`chair-part-${part.id}`}
+                >
+                  <div className="w-20 h-36 bg-gradient-to-br from-amber-700 to-amber-900 rounded-full shadow-lg relative overflow-hidden">
+                    <div className="absolute inset-2 bg-gradient-to-br from-amber-600 to-amber-800 rounded-full"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-32 border-2 border-amber-500 rounded-full opacity-30"></div>
+                  </div>
+                </motion.div>
+              );
+            } else if (index === 1) {
+              // Seat - circular with cane pattern
+              return (
+                <motion.div
+                  key={part.id}
+                  animate={{
+                    x: part.x,
+                    y: part.y,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    type: "spring",
+                    damping: 20,
+                    stiffness: 100,
+                  }}
+                  className="absolute top-28 left-1/2 transform -translate-x-1/2"
+                  data-testid={`chair-part-${part.id}`}
+                >
+                  <div className="w-28 h-6 bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-full shadow-lg relative">
+                    <div className="absolute inset-1 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full opacity-80"></div>
+                    <div className="absolute inset-0 bg-yellow-400 rounded-full opacity-20"></div>
+                    {/* Cane weave pattern */}
+                    <div className="absolute inset-2 grid grid-cols-6 gap-0.5">
+                      {Array.from({length: 12}).map((_, i) => (
+                        <div key={i} className="bg-yellow-300 rounded-full opacity-40"></div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            } else if (index === 2) {
+              // Left legs - front and back
+              return (
+                <motion.div
+                  key={part.id}
+                  animate={{
+                    x: part.x,
+                    y: part.y,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    type: "spring",
+                    damping: 20,
+                    stiffness: 100,
+                  }}
+                  className="absolute top-32 left-16"
+                  data-testid={`chair-part-${part.id}`}
+                >
+                  <div className="relative">
+                    {/* Front left leg */}
+                    <div className="w-4 h-24 bg-gradient-to-b from-amber-700 to-amber-900 rounded-full shadow-md absolute"></div>
+                    {/* Back left leg */}
+                    <div className="w-4 h-28 bg-gradient-to-b from-amber-700 to-amber-900 rounded-full shadow-md absolute -top-4 -left-1"></div>
+                    {/* Wood grain effect */}
+                    <div className="w-4 h-24 absolute rounded-full opacity-30">
+                      <div className="h-full w-0.5 bg-amber-500 absolute left-1"></div>
+                      <div className="h-full w-0.5 bg-amber-500 absolute right-1"></div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            } else {
+              // Right legs - front and back
+              return (
+                <motion.div
+                  key={part.id}
+                  animate={{
+                    x: part.x,
+                    y: part.y,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    type: "spring",
+                    damping: 20,
+                    stiffness: 100,
+                  }}
+                  className="absolute top-32 right-16"
+                  data-testid={`chair-part-${part.id}`}
+                >
+                  <div className="relative">
+                    {/* Front right leg */}
+                    <div className="w-4 h-24 bg-gradient-to-b from-amber-700 to-amber-900 rounded-full shadow-md absolute"></div>
+                    {/* Back right leg */}
+                    <div className="w-4 h-28 bg-gradient-to-b from-amber-700 to-amber-900 rounded-full shadow-md absolute -top-4 left-1"></div>
+                    {/* Wood grain effect */}
+                    <div className="w-4 h-24 absolute rounded-full opacity-30">
+                      <div className="h-full w-0.5 bg-amber-500 absolute left-1"></div>
+                      <div className="h-full w-0.5 bg-amber-500 absolute right-1"></div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            }
+          })}
         </div>
 
         {/* Component Labels */}
@@ -72,17 +169,17 @@ export function ProductDeconstruction() {
           className="absolute inset-0 pointer-events-none"
           data-testid="component-labels"
         >
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md border">
+          <div className="absolute top-0 left-4 bg-background text-foreground px-3 py-1 rounded-md text-sm shadow-lg border font-medium">
             Oparcie
           </div>
-          <div className="absolute top-16 right-0 transform translate-x-12 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md border">
+          <div className="absolute top-20 right-4 bg-background text-foreground px-3 py-1 rounded-md text-sm shadow-lg border font-medium">
             Siedzisko
           </div>
-          <div className="absolute bottom-4 left-0 transform -translate-x-8 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md border">
-            Nogi
+          <div className="absolute bottom-8 left-4 bg-background text-foreground px-3 py-1 rounded-md text-sm shadow-lg border font-medium">
+            Nogi lewe
           </div>
-          <div className="absolute bottom-0 right-0 transform translate-x-8 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md border">
-            Stelaż
+          <div className="absolute bottom-8 right-4 bg-background text-foreground px-3 py-1 rounded-md text-sm shadow-lg border font-medium">
+            Nogi prawe
           </div>
         </motion.div>
       </div>
