@@ -125,12 +125,71 @@
     }
   },
   "footer": {
-    "title": "Thonet Digitales Erbe",
-    "description": "Interaktive Anwendung, die dem Leben und Werk von Michael Thonet gewidmet ist - Pionier des modernen Industriedesigns.",
     "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
-    "navigation": "Navigation",
-    "accessibility": "Barrierefreiheit",
-    "technologies": "Technologien:"
+    "dedication": "Gewidmet dem Sammler von Bugholzmöbeln Paweł Michalski",
+    "legal": {
+      "title": "Rechtliche Informationen",
+      "content": "Diese Seite wurde für Bildungs- und Präsentationszwecke erstellt.",
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen"
+    }
+  },
+  "common": {
+    "backToHome": "Zurück zur Startseite"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "description": "Datenschutzerklärung der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "dataCollection": {
+      "title": "Datensammlung",
+      "content": "Unsere Website sammelt minimale Daten, die für die Funktionalität erforderlich sind. Wir sammeln keine persönlichen Daten ohne Ihre Zustimmung."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Wir verwenden Cookies nur, um Ihre Spracheinstellungen und das Website-Design zu speichern. Wir verwenden keine Cookies für Tracking."
+    },
+    "thirdParty": {
+      "title": "Drittanbieter-Services",
+      "content": "Die Website kann Links zu externen Services enthalten. Wir sind nicht verantwortlich für die Datenschutzrichtlinien dieser Websites."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "content": "Sie haben das Recht auf Zugang, Berichtigung und Löschung Ihrer persönlichen Daten gemäß geltendem Recht."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "Bei Fragen zur Datenschutzerklärung kontaktieren Sie uns bitte."
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "description": "Nutzungsbedingungen der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "acceptance": {
+      "title": "Annahme der Bedingungen",
+      "content": "Durch die Nutzung dieser Website akzeptieren Sie diese Nutzungsbedingungen vollständig."
+    },
+    "usage": {
+      "title": "Nutzungsrichtlinien",
+      "content": "Die Website ist für Bildungs- und Informationszwecke bestimmt. Eine rechtswidrige Nutzung ist untersagt."
+    },
+    "intellectual": {
+      "title": "Geistiges Eigentum",
+      "content": "Alle Inhalte der Website sind urheberrechtlich geschützt. Das Kopieren erfordert die Erlaubnis des Eigentümers."
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "content": "Informationen auf der Website dienen nur zu Informationszwecken. Wir garantieren nicht deren Vollständigkeit oder Richtigkeit."
+    },
+    "limitation": {
+      "title": "Haftungsbeschränkung",
+      "content": "Wir haften nicht für Schäden, die durch die Nutzung der Website entstehen."
+    },
+    "changes": {
+      "title": "Änderungen der Bedingungen",
+      "content": "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern."
+    }
   },
   "aria": {
     "themeChanged": "Design geändert zu {{theme}}",

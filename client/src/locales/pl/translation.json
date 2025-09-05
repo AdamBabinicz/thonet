@@ -56,7 +56,7 @@
     },
     "processSimulation": {
       "title": "Symulacja Procesu",
-      "description": "Prześledzij krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
       "step1Title": "Przygotowanie Drewna",
       "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
       "step2Title": "Obróbka Parą",
@@ -125,12 +125,71 @@
     }
   },
   "footer": {
-    "title": "Cyfrowe Dziedzictwo Thoneta",
-    "description": "Interaktywna aplikacja poświęcona życiu i dziełu Michaela Thoneta - pioniera nowoczesnego designu przemysłowego.",
-    "copyright": "© 2024 Thonet Digital Heritage. Wszelkie prawa zastrzeżone.",
-    "navigation": "Nawigacja",
-    "accessibility": "Dostępność",
-    "technologies": "Technologie:"
+    "copyright": "© 2024 Thonet Digital Heritage. Wszystkie prawa zastrzeżone.",
+    "dedication": "Dedykowane kolekcjonerowi mebli giętych Pawłowi Michalskiemu",
+    "legal": {
+      "title": "Informacje prawne",
+      "content": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych.",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej"
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "dataCollection": {
+      "title": "Zbieranie Danych",
+      "content": "Nasza strona internetowa zbiera minimalne dane niezbędne do funkcjonowania. Nie zbieramy danych osobowych bez Twojej zgody."
+    },
+    "cookies": {
+      "title": "Pliki Cookie",
+      "content": "Używamy plików cookie wyłącznie do zapamiętania Twoich preferencji językowych i motywu strony. Nie używamy cookies do śledzenia."
+    },
+    "thirdParty": {
+      "title": "Usługi Trzecich Stron",
+      "content": "Strona może zawierać linki do zewnętrznych serwisów. Nie ponosimy odpowiedzialności za politykę prywatności tych stron."
+    },
+    "rights": {
+      "title": "Twoje Prawa",
+      "content": "Masz prawo do dostępu, poprawy i usunięcia swoich danych osobowych zgodnie z obowiązującymi przepisami prawa."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących polityki prywatności, skontaktuj się z nami."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystając z tej strony, akceptujesz niniejsze warunki korzystania w całości."
+    },
+    "usage": {
+      "title": "Zasady Korzystania",
+      "content": "Strona przeznaczona jest do celów edukacyjnych i informacyjnych. Zabrania się używania jej w sposób niezgodny z prawem."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie treści na stronie są chronione prawem autorskim. Kopiowanie wymaga zgody właściciela."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Odpowiedzialności",
+      "content": "Informacje na stronie mają charakter informacyjny. Nie gwarantujemy ich kompletności ani aktualności."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Nie ponosimy odpowiedzialności za szkody wynikające z korzystania ze strony."
+    },
+    "changes": {
+      "title": "Zmiany Warunków",
+      "content": "Zastrzegamy sobie prawo do zmiany niniejszych warunków w każdym czasie."
+    }
   },
   "aria": {
     "themeChanged": "Zmieniono motyw na {{theme}}",

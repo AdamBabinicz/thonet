@@ -47,7 +47,7 @@ export function FooterSection() {
               {t('footer.copyright')}
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-md font-medium text-card-foreground mb-4" data-testid="text-footer-navigation">
               {t('footer.navigation')}
@@ -66,9 +66,29 @@ export function FooterSection() {
               ))}
             </ul>
           </div>
-          
+
           <div>
-            <h4 className="text-md font-medium text-card-foreground mb-4" data-testid="text-footer-accessibility">
+            <h4 className="text-lg font-semibold mb-4">{t('footer.legal.title')}</h4>
+            <div className="space-y-2">
+              <a
+                href="/privacy"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t('footer.legal.privacy')}
+              </a>
+              <a
+                href="/terms"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t('footer.legal.terms')}
+              </a>
+            </div>
+            <p className="text-muted-foreground mt-4 text-sm">
+              {t('footer.legal.content')}
+            </p>
+
+
+            <h4 className="text-md font-medium text-card-foreground mb-4 mt-6" data-testid="text-footer-accessibility">
               {t('footer.accessibility')}
             </h4>
             <ul className="space-y-2 text-muted-foreground mb-6">
@@ -78,7 +98,7 @@ export function FooterSection() {
                 </li>
               ))}
             </ul>
-            
+
             <div>
               <p className="text-sm text-muted-foreground mb-2" data-testid="text-technologies-label">
                 {t('footer.technologies')}

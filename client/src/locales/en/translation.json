@@ -125,12 +125,71 @@
     }
   },
   "footer": {
-    "title": "Thonet Digital Heritage",
-    "description": "Interactive application dedicated to the life and work of Michael Thonet - pioneer of modern industrial design.",
     "copyright": "© 2024 Thonet Digital Heritage. All rights reserved.",
-    "navigation": "Navigation",
-    "accessibility": "Accessibility",
-    "technologies": "Technologies:"
+    "dedication": "Dedicated to bent furniture collector Paweł Michalski",
+    "legal": {
+      "title": "Legal Information",
+      "content": "This site was created for educational and presentation purposes.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  },
+  "common": {
+    "backToHome": "Back to Home"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Privacy policy of Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "dataCollection": {
+      "title": "Data Collection",
+      "content": "Our website collects minimal data necessary for functionality. We do not collect personal data without your consent."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "We use cookies only to remember your language preferences and site theme. We do not use cookies for tracking."
+    },
+    "thirdParty": {
+      "title": "Third Party Services",
+      "content": "The site may contain links to external services. We are not responsible for the privacy policies of these sites."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "content": "You have the right to access, correct and delete your personal data in accordance with applicable law."
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "If you have questions about the privacy policy, please contact us."
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "Terms of service for Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "content": "By using this website, you accept these terms of use in their entirety."
+    },
+    "usage": {
+      "title": "Usage Guidelines",
+      "content": "The site is intended for educational and informational purposes. Using it in an unlawful manner is prohibited."
+    },
+    "intellectual": {
+      "title": "Intellectual Property",
+      "content": "All content on the site is protected by copyright. Copying requires permission from the owner."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content": "Information on the site is for informational purposes. We do not guarantee its completeness or accuracy."
+    },
+    "limitation": {
+      "title": "Limitation of Liability",
+      "content": "We are not liable for damages resulting from the use of the site."
+    },
+    "changes": {
+      "title": "Changes to Terms",
+      "content": "We reserve the right to change these terms at any time."
+    }
   },
   "aria": {
     "themeChanged": "Theme changed to {{theme}}",
