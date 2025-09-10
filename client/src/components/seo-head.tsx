@@ -13,12 +13,12 @@ interface SEOHeadProps {
   };
 }
 
-const siteUrl = "https://thonet-digital-heritage.netlify.app"; // Pamiętaj, aby podmienić na docelowy URL
-const siteName = "Projekt Thonet: Cyfrowy Hołd";
+const siteUrl = "https://wizjoner.netlify.app";
+const siteName = "Dziedzictwo Mebli Giętych: Cyfrowy Hołd";
 const defaultDescription =
-  "Odkryj historię i dziedzictwo Michaela Thoneta oraz jego rewolucyjnych mebli giętych. Interaktywna podróż przez świat rzemiosła i innowacji.";
-const defaultImage = `${siteUrl}/og-image.png`; // Domyślny obrazek dla social media
-const twitterHandle = "@TwojTwitterHandle"; // Opcjonalnie: podaj swój uchwyt Twitter
+  "Interaktywny hołd dla Michaela Thoneta, pioniera technologii gięcia drewna. Poznaj jego życie, rewolucyjne projekty i wpływ na światowy design.";
+const defaultImage = `${siteUrl}/17.png`;
+const twitterHandle = "";
 
 export function SEOHead({
   title,
