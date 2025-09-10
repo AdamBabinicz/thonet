@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { locationsData, LocationData } from "@/data/locations";
-import { Icon } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const customIcon = new Icon({
+const customIcon = new L.Icon({
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   iconRetinaUrl:
@@ -34,7 +34,7 @@ export function MapSection() {
   return (
     <section id="map" className="py-20 bg-card" aria-labelledby="map-title">
       <div className="container mx-auto px-6 lg:px-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -50,12 +50,12 @@ export function MapSection() {
           <p className="text-xl text-muted-foreground leading-relaxed">
             {t("map_section.description")}
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-1 space-y-4">
             {locationsData.map((location) => (
-              <motion.div
+              <m.div
                 key={location.id}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -81,11 +81,11 @@ export function MapSection() {
                 <p className="text-sm text-muted-foreground">
                   {t(location.descriptionKey)}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -118,7 +118,7 @@ export function MapSection() {
                 </Marker>
               ))}
             </MapContainer>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

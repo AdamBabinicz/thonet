@@ -1,37 +1,32 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import HttpApi from "i18next-http-backend";
 
-import plTranslation from '../locales/pl/translation.json';
-import enTranslation from '../locales/en/translation.json';
-import deTranslation from '../locales/de/translation.json';
+export const initializeI18n = () => {
+  if (i18n.isInitialized) {
+    return;
+  }
 
-const resources = {
-  pl: { translation: plTranslation },
-  en: { translation: enTranslation },
-  de: { translation: deTranslation },
+  i18n
+    .use(HttpApi)
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      supportedLngs: ["en", "pl", "de"],
+      fallbackLng: "pl",
+      debug: false,
+      interpolation: {
+        escapeValue: false,
+      },
+      detection: {
+        order: ["path", "cookie", "localStorage", "navigator", "htmlTag"],
+        lookupFromPathIndex: 0,
+      },
+      backend: {
+        loadPath: "/locales/{{lng}}/{{ns}}.json",
+      },
+    });
 };
-
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    fallbackLng: 'pl',
-    debug: false,
-    
-    detection: {
-      order: ['path', 'localStorage', 'navigator'],
-      caches: ['localStorage'],
-    },
-
-    interpolation: {
-      escapeValue: false,
-    },
-
-    react: {
-      useSuspense: false,
-    },
-  });
 
 export default i18n;

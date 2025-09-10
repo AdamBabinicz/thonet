@@ -14,7 +14,7 @@ import HeritageArticle from "@/pages/heritage-article";
 import NotFound from "@/pages/not-found";
 import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
 import "./lib/i18n";
 
 function AppContent() {
@@ -57,20 +57,22 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <AriaLiveProvider>
-            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
-              <ControlHub
-                isOpen={isControlHubOpen}
-                onToggle={toggleControlHub}
-              />
-              <div
-                className={`transition-transform duration-300 ease-in-out ${
-                  isControlHubOpen ? "lg:ml-80" : "ml-0"
-                }`}
-              >
-                <AppContent />
+            <LazyMotion features={domAnimation}>
+              <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+                <ControlHub
+                  isOpen={isControlHubOpen}
+                  onToggle={toggleControlHub}
+                />
+                <div
+                  className={`transition-transform duration-300 ease-in-out ${
+                    isControlHubOpen ? "lg:ml-80" : "ml-0"
+                  }`}
+                >
+                  <AppContent />
+                </div>
+                <Toaster />
               </div>
-              <Toaster />
-            </div>
+            </LazyMotion>
           </AriaLiveProvider>
         </TooltipProvider>
       </ThemeProvider>
