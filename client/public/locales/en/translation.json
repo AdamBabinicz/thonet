@@ -395,5 +395,9 @@
   "seo": {
     "siteName": "The Legacy of Bentwood Furniture: A Digital Tribute to Michael Thonet",
     "defaultDescription": "An interactive tribute to Michael Thonet, a pioneer of wood bending technology. Discover his life, revolutionary designs, and impact on global design."
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved."
   }
 }

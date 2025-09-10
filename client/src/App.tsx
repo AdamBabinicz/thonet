@@ -13,32 +13,42 @@ import Terms from "@/pages/terms";
 import HeritageArticle from "@/pages/heritage-article";
 import NotFound from "@/pages/not-found";
 import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
-import { useTranslation } from "react-i18next";
 import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
 import "./lib/i18n";
 
-function AppContent() {
+function AppRoutes() {
   useLanguageFromUrl();
-  const { t } = useTranslation();
   const [location] = useLocation();
+
+  // UWAGA: Celowo NIE używamy tutaj `useTranslation`, aby uniknąć problemów z timingiem.
+  // Trasy są statyczne, a logika językowa jest w komponentach.
 
   return (
     <AnimatePresence mode="wait">
       <Switch key={location}>
-        <Route path="/" component={Home} />
-        <Route path="/:lang(pl|en|de)" component={Home} />
+        <Route path="/:lang(pl|en|de)?" component={Home} />
+
         <Route
-          path={`/:lang(pl|en|de)/${t("routes.privacy")}`}
+          path="/:lang(pl|en|de)/polityka-prywatnosci"
           component={Privacy}
         />
+        <Route path="/:lang(pl|en|de)/privacy" component={Privacy} />
+        <Route path="/:lang(pl|en|de)/datenschutz" component={Privacy} />
+
+        <Route path="/:lang(pl|en|de)/warunki-korzystania" component={Terms} />
+        <Route path="/:lang(pl|en|de)/terms" component={Terms} />
+        <Route path="/:lang(pl|en|de)/nutzungsbedingungen" component={Terms} />
+
         <Route
-          path={`/:lang(pl|en|de)/${t("routes.terms")}`}
-          component={Terms}
-        />
-        <Route
-          path={`/:lang(pl|en|de)/${t("routes.heritage")}/:slug`}
+          path="/:lang(pl|en|de)/heritage/:slug"
           component={HeritageArticle}
         />
+        <Route
+          path="/:lang(pl|en|de)/dziedzictwo/:slug"
+          component={HeritageArticle}
+        />
+        <Route path="/:lang(pl|en|de)/erbe/:slug" component={HeritageArticle} />
+
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
@@ -68,7 +78,7 @@ function App() {
                     isControlHubOpen ? "lg:ml-80" : "ml-0"
                   }`}
                 >
-                  <AppContent />
+                  <AppRoutes />
                 </div>
                 <Toaster />
               </div>

@@ -81,8 +81,8 @@ export default function HeritageArticle() {
       transition={pageTransition}
     >
       <SEOHead
-        title={t(`${i18nArticleKey}.title`)}
-        description={t(`${i18nArticleKey}.p1`)}
+        titleKey={`${i18nArticleKey}.title`}
+        descriptionKey={`${i18nArticleKey}.p1`}
         image={articleImageSrc}
       />
       <main id="main-content" className="pt-12 pb-20">

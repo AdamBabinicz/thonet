@@ -395,5 +395,9 @@
   "seo": {
     "siteName": "Das Erbe der Bugholzmöbel: Eine digitale Hommage an Michael Thonet",
     "defaultDescription": "Eine interaktive Hommage an Michael Thonet, einen Pionier der Holzbiegetechnologie. Entdecken Sie sein Leben, seine revolutionären Entwürfe und seinen Einfluss auf das globale Design."
+  },
+  "notFound": {
+    "title": "404 - Seite nicht gefunden",
+    "description": "Die von Ihnen gesuchte Seite existiert nicht oder wurde verschoben."
   }
 }

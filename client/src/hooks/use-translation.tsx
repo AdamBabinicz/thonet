@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 
 export function useTranslationSetup() {
   const { i18n, t } = useTranslation();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
@@ -13,7 +13,6 @@ export function useTranslationSetup() {
   const switchLanguage = (newLang: string) => {
     const currentLang = i18n.language;
 
-    // Pobierz wszystkie możliwe "slugi" tras dla bieżącego języka
     const currentPrivacyPath = t("routes.privacy");
     const currentTermsPath = t("routes.terms");
     const currentHeritagePath = t("routes.heritage");
@@ -21,22 +20,16 @@ export function useTranslationSetup() {
       returnObjects: true,
     }) as Record<string, string>;
 
-    let newPath = `/${newLang}`; // Domyślna ścieżka to strona główna
+    let newPath = `/${newLang}`;
 
-    // Funkcja do sprawdzania, czy jesteśmy na danej ścieżce
     const onPath = (pathSegment: string) =>
       location.startsWith(`/${currentLang}/${pathSegment}`);
 
-    // Sprawdź, czy jesteśmy na stronie polityki prywatności
     if (onPath(currentPrivacyPath)) {
       newPath = `/${newLang}/${t("routes.privacy", { lng: newLang })}`;
-    }
-    // Sprawdź, czy jesteśmy na stronie warunków korzystania
-    else if (onPath(currentTermsPath)) {
+    } else if (onPath(currentTermsPath)) {
       newPath = `/${newLang}/${t("routes.terms", { lng: newLang })}`;
-    }
-    // Sprawdź, czy jesteśmy na stronie artykułu
-    else if (onPath(currentHeritagePath)) {
+    } else if (onPath(currentHeritagePath)) {
       const pathParts = location.split("/");
       const currentLocalizedSlug = pathParts[pathParts.length - 1];
 
@@ -53,7 +46,7 @@ export function useTranslationSetup() {
       }
     }
 
-    window.location.href = newPath;
+    setLocation(newPath);
   };
 
   return {

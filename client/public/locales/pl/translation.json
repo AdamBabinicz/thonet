@@ -395,5 +395,9 @@
   "seo": {
     "siteName": "Historia Mebli Giętych: Cyfrowy Hołd dla Michaela Thoneta",
     "defaultDescription": "Interaktywny hołd dla Michaela Thoneta, pioniera technologii gięcia drewna. Poznaj jego życie, rewolucyjne projekty i wpływ na światowy design."
+  },
+  "notFound": {
+    "title": "404 - Strona nie została znaleziona",
+    "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
   }
 }

@@ -16,6 +16,10 @@ export const initializeI18n = () => {
       supportedLngs: ["en", "pl", "de"],
       fallbackLng: "pl",
       debug: false,
+      // Ta sekcja jest kluczowa - włącza integrację z React.Suspense
+      react: {
+        useSuspense: true,
+      },
       interpolation: {
         escapeValue: false,
       },

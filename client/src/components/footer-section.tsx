@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 
 export function FooterSection() {
   const { t, i18n } = useTranslation();
@@ -100,18 +100,18 @@ export function FooterSection() {
               {t("footer.legal.title")}
             </h4>
             <div className="space-y-2">
-              <a
+              <Link
                 href={createLocalizedPath("privacy")}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 {t("footer.legal.privacy")}
-              </a>
-              <a
+              </Link>
+              <Link
                 href={createLocalizedPath("terms")}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 {t("footer.legal.terms")}
-              </a>
+              </Link>
             </div>
             <p className="text-muted-foreground mt-4 text-sm">
               {t("footer.legal.details", { year: yearDisplay })}

@@ -34,12 +34,12 @@ interface ControlHubProps {
 }
 
 export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { theme, setTheme, isHighContrast, toggleHighContrast } = useTheme();
   const { changeLanguage, currentLanguage } = useTranslationSetup();
   const hubRef = useRef<HTMLDivElement>(null);
   const [announceMessage, setAnnounceMessage] = useState("");
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     if (isOpen && hubRef.current) {
@@ -120,32 +120,14 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
       return;
     }
     changeLanguage(newLang);
+    setTimeout(() => {
+      onToggle();
+    }, 200);
   };
 
   const handleSectionNavigation = (sectionId: string) => {
-    const pathWithoutHash = location.split("#")[0];
-    const isHomePage =
-      pathWithoutHash === "/" || /^\/(pl|en|de)$/.test(pathWithoutHash);
-
+    setLocation(`/${currentLanguage}/#${sectionId}`);
     onToggle();
-
-    if (isHomePage) {
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 300);
-    } else {
-      const lang = i18n.language;
-      setLocation(`/${lang}`);
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 300);
-    }
   };
 
   const languages = [

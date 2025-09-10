@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { homeSections, SectionConfig } from "@/config/sections";
 import { InView } from "react-intersection-observer";
+import { Helmet } from "react-helmet-async";
 
 const FooterSection = lazy(() =>
   import("@/components/footer-section").then((module) => ({
@@ -33,15 +34,9 @@ const SectionLoader = () => (
 );
 
 const pageVariants = {
-  initial: {
-    opacity: 0,
-  },
-  in: {
-    opacity: 1,
-  },
-  out: {
-    opacity: 0,
-  },
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
 const pageTransition = {
@@ -122,6 +117,13 @@ export default function Home() {
       variants={pageVariants}
       transition={pageTransition}
     >
+      <Helmet>
+        <link
+          rel="preload"
+          as="image"
+          href="https://wizjoner.netlify.app/12.avif"
+        />
+      </Helmet>
       <SEOHead isHomePage={true} />
       <a
         href="#main-content"
