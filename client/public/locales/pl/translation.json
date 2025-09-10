@@ -391,5 +391,9 @@
     "mainText": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym, poświęconym historii i dziedzictwu mebli giętych Michaela Thoneta.",
     "dedication": "Dedykowana jest radomskiemu hobbyście, kolekcjonerowi i renowatorowi – Pawłowi Michalskiemu.",
     "disclaimer": "Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Projekt ma charakter wyłącznie dokumentacyjny i pasjonacki."
+  },
+  "seo": {
+    "siteName": "Historia Mebli Giętych: Cyfrowy Hołd dla Michaela Thoneta",
+    "defaultDescription": "Interaktywny hołd dla Michaela Thoneta, pioniera technologii gięcia drewna. Poznaj jego życie, rewolucyjne projekty i wpływ na światowy design."
   }
 }

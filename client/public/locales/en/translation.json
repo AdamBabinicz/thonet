@@ -391,5 +391,9 @@
     "mainText": "This site is an unofficial, non-commercial educational project dedicated to the history and heritage of Michael Thonet's bentwood furniture.",
     "dedication": "It is dedicated to the Radom-based hobbyist, collector, and renovator – Paweł Michalski.",
     "disclaimer": "The Thonet® name is a registered trademark of Thonet GmbH. The project is purely documentary and passion-driven in nature."
+  },
+  "seo": {
+    "siteName": "The Legacy of Bentwood Furniture: A Digital Tribute to Michael Thonet",
+    "defaultDescription": "An interactive tribute to Michael Thonet, a pioneer of wood bending technology. Discover his life, revolutionary designs, and impact on global design."
   }
 }

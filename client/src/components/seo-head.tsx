@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 
 interface SEOHeadProps {
-  title?: string;
-  description?: string;
+  titleKey?: string;
+  descriptionKey?: string;
   image?: string;
   isHomePage?: boolean;
   schemaData?: {
@@ -14,30 +14,35 @@ interface SEOHeadProps {
 }
 
 const siteUrl = "https://wizjoner.netlify.app";
-const siteName = "Dziedzictwo Mebli Giętych: Cyfrowy Hołd";
-const defaultDescription =
-  "Interaktywny hołd dla Michaela Thoneta, pioniera technologii gięcia drewna. Poznaj jego życie, rewolucyjne projekty i wpływ na światowy design.";
-const defaultImage = `${siteUrl}/17.png`;
-const twitterHandle = "";
 
 export function SEOHead({
-  title,
-  description,
-  image = defaultImage,
+  titleKey,
+  descriptionKey,
+  image,
   isHomePage = false,
   schemaData,
 }: SEOHeadProps) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [location] = useLocation();
 
-  const pageTitle = title
+  const siteName = t("seo.siteName");
+  const defaultDescription = t("seo.defaultDescription");
+  const defaultImage = `${siteUrl}/17.png`;
+  const twitterHandle = "";
+
+  const pageTitle = titleKey
     ? isHomePage
-      ? title
-      : `${title} | ${siteName}`
+      ? t(titleKey)
+      : `${t(titleKey)} | ${siteName}`
     : siteName;
-  const pageDescription = description || defaultDescription;
+  const pageDescription = descriptionKey
+    ? t(descriptionKey)
+    : defaultDescription;
+  const finalImage = image || defaultImage;
   const canonicalUrl = `${siteUrl}${location}`;
-  const fullImageUrl = image.startsWith("http") ? image : `${siteUrl}${image}`;
+  const fullImageUrl = finalImage.startsWith("http")
+    ? finalImage
+    : `${siteUrl}${finalImage}`;
 
   const getOgLocale = () => {
     const lang = i18n.language;
@@ -86,8 +91,12 @@ export function SEOHead({
   };
 
   return (
-    <Helmet>
-      <html lang={i18n.language} />
+    <Helmet
+      key={i18n.language}
+      htmlAttributes={{
+        lang: i18n.language,
+      }}
+    >
       <title>{pageTitle}</title>
       <meta name="description" content={pageDescription} />
       <link rel="canonical" href={canonicalUrl} />
