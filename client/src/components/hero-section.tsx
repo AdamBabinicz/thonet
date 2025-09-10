@@ -107,6 +107,7 @@ export function HeroSection() {
                 alt={t("hero.imageAlt")}
                 className="w-full h-auto filter sepia-[0.3]"
                 data-testid="img-hero-portrait"
+                fetchPriority="high"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
               <div className="absolute inset-0 p-4 bg-black/40 flex flex-col items-center justify-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
