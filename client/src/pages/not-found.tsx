@@ -29,15 +29,18 @@ export default function NotFound() {
       transition={pageTransition}
       className="min-h-screen w-full flex items-center justify-center bg-muted"
     >
-      <SEOHead title="404 - Strona nie znaleziona" />
+      <SEOHead
+        titleKey="notFound.title"
+        descriptionKey="notFound.description"
+      />
       <Card className="w-full max-w-md mx-4 text-center shadow-2xl">
         <CardContent className="p-8">
           <AlertCircle className="h-16 w-16 text-primary mx-auto mb-6" />
           <h2 className="text-3xl font-bold font-serif text-foreground">
-            404 - Strona nie znaleziona
+            {t("notFound.title")}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Strona, której szukasz, nie istnieje lub została przeniesiona.
+            {t("notFound.description")}
           </p>
           <a
             href={`/${lang}/`}

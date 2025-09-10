@@ -46,10 +46,7 @@ export default function Privacy() {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <SEOHead
-        title={t("privacy.title")}
-        description={t("privacy.description")}
-      />
+      <SEOHead titleKey="privacy.title" descriptionKey="privacy.description" />
       <main id="main-content" className="py-20">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div className="mb-8">

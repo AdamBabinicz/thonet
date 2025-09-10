@@ -46,7 +46,7 @@ export default function Terms() {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <SEOHead title={t("terms.title")} description={t("terms.description")} />
+      <SEOHead titleKey="terms.title" descriptionKey="terms.description" />
       <main id="main-content" className="py-20">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div className="mb-8">
