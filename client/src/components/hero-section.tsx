@@ -103,7 +103,7 @@ export function HeroSection() {
           >
             <div className="relative group overflow-hidden rounded-lg shadow-2xl sm:my-10">
               <img
-                src="/12.png"
+                src="/12.avif"
                 alt={t("hero.imageAlt")}
                 className="w-full h-auto filter sepia-[0.3]"
                 data-testid="img-hero-portrait"
