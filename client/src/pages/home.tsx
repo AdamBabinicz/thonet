@@ -1,12 +1,9 @@
 import { SEOHead } from "@/components/seo-head";
 import { HeroSection } from "@/components/hero-section";
-import { BiographySection } from "@/components/biography-section";
-import { InteractiveModulesSection } from "@/components/interactive-modules-section";
-import { HeritageSection } from "@/components/heritage-section";
-import { TimelineSection } from "@/components/timeline-section";
-import { FooterSection } from "@/components/footer-section";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -14,44 +11,135 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { homeSections, SectionConfig } from "@/config/sections";
+
+const FooterSection = lazy(() =>
+  import("@/components/footer-section").then((module) => ({
+    default: module.FooterSection,
+  }))
+);
+
+const SectionLoader = () => (
+  <div className="w-full h-96 flex items-center justify-center bg-background">
+    <div
+      className="text-muted-foreground"
+      role="status"
+      aria-label="Ładowanie sekcji"
+    >
+      Ładowanie...
+    </div>
+  </div>
+);
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+  },
+  in: {
+    opacity: 1,
+  },
+  out: {
+    opacity: 0,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
 
 export default function Home() {
   const { t } = useTranslation();
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
-    // Show popup after a short delay to ensure smooth page load
-    const timer = setTimeout(() => {
-      setShowWelcomePopup(true);
-    }, 500);
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
 
-    return () => clearTimeout(timer);
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
   }, []);
 
   return (
-    <>
-      <SEOHead />
-      
-      {/* Skip Link for Accessibility */}
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <SEOHead isHomePage={true} />
       <a
         href="#main-content"
         className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
         data-testid="link-skip-content"
       >
-        {t('navigation.skipToContent')}
+        {t("navigation.skipToContent")}
       </a>
-
-      {/* Main Content */}
       <main id="main-content" className="transition-all duration-300">
         <HeroSection />
-        <BiographySection />
-        <InteractiveModulesSection />
-        <HeritageSection />
-        <TimelineSection />
-        <FooterSection />
+        <Suspense fallback={<SectionLoader />}>
+          {homeSections.map(({ id, component: Component }: SectionConfig) => (
+            <Component key={id} />
+          ))}
+        </Suspense>
       </main>
-
-      {/* Accessibility announcements */}
+      <Suspense fallback={null}>
+        <FooterSection />
+      </Suspense>
       <div
         id="aria-announcements"
         className="sr-only"
@@ -59,22 +147,40 @@ export default function Home() {
         aria-atomic="true"
         data-testid="aria-announcements"
       ></div>
-
-      {/* Welcome Popup */}
       <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl font-bold text-primary">
-              Thonet Digital Heritage
+            <DialogTitle className="text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
             </DialogTitle>
-            <DialogDescription className="text-center pt-4 text-base leading-relaxed">
-              Strona ta dedykowana jest kolekcjonerowi i restauratowi mebli giętych 
-              <br />
-              <strong className="text-primary">Pawłowi Michalskiemu</strong>
+            <DialogDescription asChild>
+              <div className="space-y-4 pt-4 text-sm leading-relaxed text-muted-foreground">
+                <p>{t("popup.mainText")}</p>
+                <p className="font-semibold text-foreground">
+                  {t("popup.dedication")}
+                </p>
+                <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+              </div>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

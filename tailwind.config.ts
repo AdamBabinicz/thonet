@@ -4,6 +4,18 @@ export default {
   darkMode: ["class"],
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1.5rem", // Margines 24px dla widoków mobilnych
+        sm: "2rem", // Margines 32px dla małych ekranów i większych
+        lg: "4rem", // Margines 64px dla dużych ekranów
+        xl: "5rem", // Margines 80px dla bardzo dużych ekranów
+      },
+      screens: {
+        "2xl": "1400px", // Maksymalna szerokość treści to 1400px
+      },
+    },
     extend: {
       borderRadius: {
         lg: "var(--radius)",

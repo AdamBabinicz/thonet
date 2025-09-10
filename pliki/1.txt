@@ -1,0 +1,1400 @@
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
+export function ProductDeconstruction() {
+  const { t } = useTranslation();
+  const [isExploded, setIsExploded] = useState(false);
+
+  const toggleDeconstruction = () => {
+    setIsExploded(!isExploded);
+    
+    // Announce to screen readers
+    const message = isExploded ? t('aria.chairReassembled') : t('aria.chairExploded');
+    const announcement = document.querySelector('[data-testid="aria-announcements"]');
+    if (announcement) {
+      announcement.textContent = message;
+      setTimeout(() => {
+        announcement.textContent = '';
+      }, 1000);
+    }
+  };
+
+  const parts = [
+    { id: 'backrest', x: isExploded ? -80 : 0, y: isExploded ? -60 : 0, label: 'Oparcie' },
+    { id: 'seat', x: isExploded ? 80 : 0, y: isExploded ? -20 : 0, label: 'Siedzisko' },
+    { id: 'legs', x: isExploded ? -60 : 0, y: isExploded ? 80 : 0, label: 'Nogi' },
+    { id: 'frame', x: isExploded ? 60 : 0, y: isExploded ? 80 : 0, label: 'Stelaż' },
+  ];
+
+  return (
+    <div className="bg-card rounded-xl p-8 shadow-lg" data-testid="module-product-deconstruction">
+      <h3 className="text-2xl font-semibold text-card-foreground mb-6" data-testid="text-deconstruction-title">
+        {t('interactiveModules.productDeconstruction.title')}
+      </h3>
+      <p className="text-muted-foreground mb-8" data-testid="text-deconstruction-description">
+        {t('interactiveModules.productDeconstruction.description')}
+      </p>
+
+      <div className="relative bg-muted rounded-lg p-8 mb-8 min-h-[500px] flex items-center justify-center overflow-visible">
+        <div className="relative w-80 h-80" data-testid="chair-model">
+          
+          {/* Backrest - curved bentwood */}
+          <motion.div
+            animate={{
+              x: parts[0].x,
+              y: parts[0].y,
+            }}
+            transition={{
+              duration: 0.8,
+              type: "spring",
+              damping: 15,
+              stiffness: 80,
+            }}
+            className="absolute top-8 left-1/2 transform -translate-x-1/2"
+            data-testid="chair-part-backrest"
+          >
+            <svg width="120" height="160" viewBox="0 0 120 160" className="drop-shadow-lg">
+              <defs>
+                <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#D2B48C" />
+                  <stop offset="50%" stopColor="#DEB887" />
+                  <stop offset="100%" stopColor="#BC9A6A" />
+                </linearGradient>
+              </defs>
+              {/* Main curved backrest */}
+              <path 
+                d="M 20 140 Q 20 20 60 10 Q 100 20 100 140 Q 95 145 85 145 L 35 145 Q 25 145 20 140" 
+                fill="url(#woodGrad)" 
+                stroke="#8B4513" 
+                strokeWidth="2"
+              />
+              {/* Wood grain lines */}
+              <path d="M 25 30 Q 60 25 95 30" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
+              <path d="M 30 50 Q 60 45 90 50" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
+              <path d="M 35 70 Q 60 65 85 70" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
+            </svg>
+          </motion.div>
+
+          {/* Seat - round with cane weave */}
+          <motion.div
+            animate={{
+              x: parts[1].x,
+              y: parts[1].y,
+            }}
+            transition={{
+              duration: 0.8,
+              type: "spring",
+              damping: 15,
+              stiffness: 80,
+            }}
+            className="absolute top-32 left-1/2 transform -translate-x-1/2"
+            data-testid="chair-part-seat"
+          >
+            <svg width="100" height="100" viewBox="0 0 100 100" className="drop-shadow-lg">
+              <defs>
+                <radialGradient id="seatGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#F5DEB3" />
+                  <stop offset="70%" stopColor="#DEB887" />
+                  <stop offset="100%" stopColor="#CD853F" />
+                </radialGradient>
+              </defs>
+              {/* Seat base */}
+              <circle cx="50" cy="50" r="45" fill="url(#seatGrad)" stroke="#8B4513" strokeWidth="3"/>
+              {/* Cane weave pattern */}
+              <g opacity="0.6">
+                {[...Array(8)].map((_, i) => (
+                  <line 
+                    key={`h${i}`}
+                    x1="10" 
+                    y1={15 + i * 10} 
+                    x2="90" 
+                    y2={15 + i * 10} 
+                    stroke="#D2B48C" 
+                    strokeWidth="1.5"
+                  />
+                ))}
+                {[...Array(8)].map((_, i) => (
+                  <line 
+                    key={`v${i}`}
+                    x1={15 + i * 10} 
+                    y1="10" 
+                    x2={15 + i * 10} 
+                    y2="90" 
+                    stroke="#DEB887" 
+                    strokeWidth="1.5"
+                  />
+                ))}
+              </g>
+            </svg>
+          </motion.div>
+
+          {/* Front legs */}
+          <motion.div
+            animate={{
+              x: parts[2].x,
+              y: parts[2].y,
+            }}
+            transition={{
+              duration: 0.8,
+              type: "spring",
+              damping: 15,
+              stiffness: 80,
+            }}
+            className="absolute top-44 left-1/2 transform -translate-x-1/2"
+            data-testid="chair-part-legs"
+          >
+            <svg width="100" height="120" viewBox="0 0 100 120" className="drop-shadow-lg">
+              {/* Left front leg */}
+              <rect x="15" y="10" width="8" height="100" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
+              {/* Right front leg */}
+              <rect x="77" y="10" width="8" height="100" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
+              {/* Cross brace */}
+              <rect x="15" y="80" width="70" height="6" rx="3" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="1"/>
+              {/* Wood grain on legs */}
+              <line x1="19" y1="15" x2="19" y2="105" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
+              <line x1="81" y1="15" x2="81" y2="105" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
+            </svg>
+          </motion.div>
+
+          {/* Back legs and frame */}
+          <motion.div
+            animate={{
+              x: parts[3].x,
+              y: parts[3].y,
+            }}
+            transition={{
+              duration: 0.8,
+              type: "spring",
+              damping: 15,
+              stiffness: 80,
+            }}
+            className="absolute top-36 left-1/2 transform -translate-x-1/2"
+            data-testid="chair-part-frame"
+          >
+            <svg width="120" height="140" viewBox="0 0 120 140" className="drop-shadow-lg">
+              {/* Left back leg */}
+              <rect x="25" y="0" width="8" height="120" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
+              {/* Right back leg */}
+              <rect x="87" y="0" width="8" height="120" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
+              {/* Seat support ring */}
+              <ellipse cx="60" cy="40" rx="35" ry="8" fill="none" stroke="#8B4513" strokeWidth="4"/>
+              {/* Back cross support */}
+              <rect x="25" y="60" width="70" height="6" rx="3" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="1"/>
+              {/* Wood grain on back legs */}
+              <line x1="29" y1="5" x2="29" y2="115" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
+              <line x1="91" y1="5" x2="91" y2="115" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
+            </svg>
+          </motion.div>
+
+        </div>
+
+        {/* Component Labels */}
+        <motion.div
+          animate={{
+            opacity: isExploded ? 1 : 0,
+          }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="absolute inset-0 pointer-events-none"
+          data-testid="component-labels"
+        >
+          <div className="absolute top-4 left-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
+            Oparcie z giętego drewna
+          </div>
+          <div className="absolute top-28 right-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
+            Siedzisko z plecionki
+          </div>
+          <div className="absolute bottom-16 left-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
+            Nogi przednie
+          </div>
+          <div className="absolute bottom-16 right-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
+            Stelaż tylny
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="text-center">
+        <button
+          onClick={toggleDeconstruction}
+          className="px-6 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+          aria-expanded={isExploded}
+          aria-describedby="chair-description"
+          data-testid="button-deconstruct"
+        >
+          {isExploded
+            ? t('interactiveModules.productDeconstruction.reassembleButton')
+            : t('interactiveModules.productDeconstruction.startButton')
+          }
+        </button>
+        <p id="chair-description" className="text-sm text-muted-foreground mt-4" data-testid="text-chair-description">
+          {t('interactiveModules.productDeconstruction.helpText')}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+------------------------------------
+
+import { useState } from "react";
+import { Switch, Route } from "wouter";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ControlHub } from "@/components/control-hub";
+import Home from "@/pages/home";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
+import NotFound from "@/pages/not-found";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/pl" component={Home} />
+      <Route path="/en" component={Home} />
+      <Route path="/de" component={Home} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  const [isControlHubOpen, setIsControlHubOpen] = useState(false);
+
+  const toggleControlHub = () => {
+    setIsControlHubOpen(!isControlHubOpen);
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+            <ControlHub 
+              isOpen={isControlHubOpen} 
+              onToggle={toggleControlHub}
+            />
+            <div className={`transition-all duration-300 ${isControlHubOpen ? 'ml-80' : 'ml-0'}`}>
+              <Router />
+            </div>
+            <Toaster />
+          </div>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
+
+------------------------------
+
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./index.css";
+
+createRoot(document.getElementById("root")!).render(<App />);
+
+
+-----------------------------
+
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię"
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię słynnego krzesła No. 14 - najbardziej znanego dzieła Thoneta. Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Interaktywna strona poświęcona historii i dziedzictwu Michaela Thoneta oraz jego rewolucyjnych technik meblarskich.",
+    "navigation": "Nawigacja",
+    "accessibility": "Dostępność",
+    "technologies": "Technologie",
+    "copyright": "© 2024 Thonet Digital Heritage. Wszystkie prawa zastrzeżone.",
+    "dedication": "Dedykowane kolekcjonerowi mebli giętych Pawłowi Michalskiemu",
+    "legal": {
+      "title": "Informacje prawne",
+      "content": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych.",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej"
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "dataCollection": {
+      "title": "Zbieranie Danych",
+      "content": "Nasza strona internetowa zbiera minimalne dane niezbędne do funkcjonowania. Nie zbieramy danych osobowych bez Twojej zgody."
+    },
+    "cookies": {
+      "title": "Pliki Cookie",
+      "content": "Używamy plików cookie wyłącznie do zapamiętania Twoich preferencji językowych i motywu strony. Nie używamy cookies do śledzenia."
+    },
+    "thirdParty": {
+      "title": "Usługi Trzecich Stron",
+      "content": "Strona może zawierać linki do zewnętrznych serwisów. Nie ponosimy odpowiedzialności za politykę prywatności tych stron."
+    },
+    "rights": {
+      "title": "Twoje Prawa",
+      "content": "Masz prawo do dostępu, poprawy i usunięcia swoich danych osobowych zgodnie z obowiązującymi przepisami prawa."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących polityki prywatności, skontaktuj się z nami."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystając z tej strony, akceptujesz niniejsze warunki korzystania w całości."
+    },
+    "usage": {
+      "title": "Zasady Korzystania",
+      "content": "Strona przeznaczona jest do celów edukacyjnych i informacyjnych. Zabrania się używania jej w sposób niezgodny z prawem."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie treści na stronie są chronione prawem autorskim. Kopiowanie wymaga zgody właściciela."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Odpowiedzialności",
+      "content": "Informacje na stronie mają charakter informacyjny. Nie gwarantujemy ich kompletności ani aktualności."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Nie ponosimy odpowiedzialności za szkody wynikające z korzystania ze strony."
+    },
+    "changes": {
+      "title": "Zmiany Warunków",
+      "content": "Zastrzegamy sobie prawo do zmiany niniejszych warunków w każdym czasie."
+    }
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  }
+}
+
+-----------------------------------
+
+{
+  "hero": {
+    "subtitle": "Digital Heritage",
+    "title": "Michael Thonet",
+    "titleAccent": "Pioneer of Design",
+    "description": "Discover the revolutionary story of the man who forever changed the world of furniture making. Immerse yourself in an interactive journey through the life, works and extraordinary heritage of Michael Thonet.",
+    "exploreButton": "Start Exploration",
+    "biographyButton": "Learn Biography"
+  },
+  "navigation": {
+    "home": "Home",
+    "biography": "Biography",
+    "interactiveModules": "Interactive Modules",
+    "heritage": "Heritage",
+    "timeline": "Timeline",
+    "skipToContent": "Skip to main content"
+  },
+  "controlHub": {
+    "title": "Control Center",
+    "close": "Close navigation panel",
+    "open": "Open navigation panel",
+    "sections": "Sections",
+    "language": "Language",
+    "theme": "Theme",
+    "accessibility": "Accessibility",
+    "currentLanguage": "Current language: English",
+    "changeToPolish": "Zmień język na polski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Light",
+    "darkTheme": "Dark",
+    "currentThemeLight": "Current theme: Light",
+    "currentThemeDark": "Current theme: Dark",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme",
+    "highContrast": "High Contrast",
+    "enableHighContrast": "Enable high contrast mode",
+    "disableHighContrast": "Disable high contrast mode"
+  },
+  "biography": {
+    "title": "Biography of the Master",
+    "description": "Michael Thonet (1796-1871) was a German carpenter and industrialist who revolutionized furniture production by introducing innovative steam-bending wood technology.",
+    "earlyYearsTitle": "Early Years",
+    "earlyYearsText": "Born in Boppard on the Rhine, Michael Thonet began his career as a carpenter. From a young age, he was fascinated by the possibilities of giving wood new shapes.",
+    "breakthroughTitle": "Breakthrough Discovery",
+    "breakthroughText": "In the 1830s, Thonet developed a revolutionary method of bending beech wood using steam, which enabled mass production of elegant furniture."
+  },
+  "interactiveModules": {
+    "title": "Interactive Educational Modules",
+    "description": "Learn the secrets of Thonet's craft through innovative, interactive components. Each module is designed to bring you closer to the fascinating world of wood bending technology.",
+    "productDeconstruction": {
+      "title": "Product Deconstruction",
+      "description": "Learn the anatomy of the famous Chair No. 14 - Thonet's most famous work. Click the button to see how the chair breaks down into components.",
+      "startButton": "Start Deconstruction",
+      "reassembleButton": "Reassemble",
+      "helpText": "Click the button to start the animation of the chair breaking down into components"
+    },
+    "processSimulation": {
+      "title": "Process Simulation",
+      "description": "Follow step by step the revolutionary process of steam bending wood. Each stage of production will be presented with detailed explanations.",
+      "step1Title": "Wood Preparation",
+      "step1Description": "Selection of appropriate beech wood with suitable moisture content",
+      "step2Title": "Steam Treatment",
+      "step2Description": "Heating wood with steam at 100°C for 2-6 hours",
+      "step3Title": "Bending in Form",
+      "step3Description": "Placing softened wood in metal form and shaping",
+      "step4Title": "Drying and Finishing",
+      "step4Description": "Natural drying and final surface treatment",
+      "previousStep": "Previous process step",
+      "nextStep": "Next process step",
+      "autoplay": "Automatic process playback",
+      "stopAutoplay": "Stop automatic playback",
+      "stepStatus": "Step {{current}} of {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Heritage and Impact on Modernity",
+    "description": "Michael Thonet's innovations went far beyond his era, shaping modern design and furniture production to this day.",
+    "technologicalRevolution": {
+      "title": "Technological Revolution",
+      "description": "Introduction of mass furniture production through standardization and mechanization of processes."
+    },
+    "democratization": {
+      "title": "Design Democratization",
+      "description": "Making beautiful, functional furniture available to a wider social group through lower production costs."
+    },
+    "globalImpact": {
+      "title": "Global Impact",
+      "description": "Influence on the development of contemporary industrial design and philosophy of functionality."
+    },
+    "chair14": {
+      "title": "Chair No. 14 - Design Icon",
+      "description": "Produced in over 50 million copies, Chair No. 14 has been recognized as one of the most important works of industrial design in history.",
+      "yearIntroduced": "Year introduced:",
+      "numberProduced": "Number produced:",
+      "numberOfParts": "Number of parts:",
+      "assemblyTime": "Assembly time:"
+    }
+  },
+  "timeline": {
+    "title": "Life and Works Timeline",
+    "description": "Key events in Michael Thonet's life and the development of his enterprise.",
+    "1796": {
+      "title": "Birth in Boppard",
+      "description": "Michael Thonet comes into the world in a small town on the Rhine, in a family with carpentry traditions."
+    },
+    "1819": {
+      "title": "Beginning of Activity",
+      "description": "Establishment of his own carpentry workshop and first experiments with wood processing techniques."
+    },
+    "1841": {
+      "title": "Move to Vienna",
+      "description": "At the invitation of Prince Metternich, Thonet moves his business to Vienna, where he receives better development conditions."
+    },
+    "1850": {
+      "title": "Factory Establishment",
+      "description": "Creation of the company \"Gebrüder Thonet\" and beginning of mass production of bent wood furniture."
+    },
+    "1859": {
+      "title": "Chair No. 14",
+      "description": "Introduction to the market of the famous Chair No. 14, which will become an icon of industrial design."
+    },
+    "1871": {
+      "title": "Death of the Master",
+      "description": "Michael Thonet dies in Vienna, leaving behind an industrial empire and revolutionary heritage."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "An interactive site dedicated to the history and heritage of Michael Thonet and his revolutionary furniture techniques.",
+    "navigation": "Navigation",
+    "accessibility": "Accessibility",
+    "technologies": "Technologies",
+    "copyright": "© 2024 Thonet Digital Heritage. All rights reserved.",
+    "dedication": "Dedicated to bent furniture collector Paweł Michalski",
+    "legal": {
+      "title": "Legal Information",
+      "content": "This site was created for educational and presentation purposes.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  },
+  "common": {
+    "backToHome": "Back to Home"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Privacy policy of Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "dataCollection": {
+      "title": "Data Collection",
+      "content": "Our website collects minimal data necessary for functionality. We do not collect personal data without your consent."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "We use cookies only to remember your language preferences and site theme. We do not use cookies for tracking."
+    },
+    "thirdParty": {
+      "title": "Third Party Services",
+      "content": "The site may contain links to external services. We are not responsible for the privacy policies of these sites."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "content": "You have the right to access, correct and delete your personal data in accordance with applicable law."
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "If you have questions about the privacy policy, please contact us."
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "Terms of service for Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "content": "By using this website, you accept these terms of use in their entirety."
+    },
+    "usage": {
+      "title": "Usage Guidelines",
+      "content": "The site is intended for educational and informational purposes. Using it in an unlawful manner is prohibited."
+    },
+    "intellectual": {
+      "title": "Intellectual Property",
+      "content": "All content on the site is protected by copyright. Copying requires permission from the owner."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content": "Information on the site is for informational purposes. We do not guarantee its completeness or accuracy."
+    },
+    "limitation": {
+      "title": "Limitation of Liability",
+      "content": "We are not liable for damages resulting from the use of the site."
+    },
+    "changes": {
+      "title": "Changes to Terms",
+      "content": "We reserve the right to change these terms at any time."
+    }
+  },
+  "aria": {
+    "themeChanged": "Theme changed to {{theme}}",
+    "highContrastEnabled": "High contrast mode enabled",
+    "highContrastDisabled": "High contrast mode disabled",
+    "chairExploded": "Chair has been broken down into components. Component labels are visible.",
+    "chairReassembled": "Chair has been reassembled.",
+    "autoplayStarted": "Automatic process playback started",
+    "autoplayStopped": "Automatic process playback stopped"
+  }
+}
+
+-------------------------------------
+
+{
+  "hero": {
+    "subtitle": "Digitales Erbe",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier des Designs",
+    "description": "Entdecken Sie die revolutionäre Geschichte des Mannes, der die Welt der Möbelherstellung für immer veränderte. Tauchen Sie ein in eine interaktive Reise durch Leben, Werke und außergewöhnliches Erbe von Michael Thonet.",
+    "exploreButton": "Erkundung Beginnen",
+    "biographyButton": "Biographie Kennenlernen"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "biography": "Biographie",
+    "interactiveModules": "Interaktive Module",
+    "heritage": "Erbe",
+    "timeline": "Zeitlinie",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
+  "controlHub": {
+    "title": "Steuerzentrum",
+    "close": "Navigationspanel schließen",
+    "open": "Navigationspanel öffnen",
+    "sections": "Bereiche",
+    "language": "Sprache",
+    "theme": "Design",
+    "accessibility": "Barrierefreiheit",
+    "currentLanguage": "Aktuelle Sprache: Deutsch",
+    "changeToPolish": "Zmień język na polski",
+    "changeToEnglish": "Change language to English",
+    "lightTheme": "Hell",
+    "darkTheme": "Dunkel",
+    "currentThemeLight": "Aktuelles Design: Hell",
+    "currentThemeDark": "Aktuelles Design: Dunkel",
+    "switchToLight": "Zu hellem Design wechseln",
+    "switchToDark": "Zu dunklem Design wechseln",
+    "highContrast": "Hoher Kontrast",
+    "enableHighContrast": "Hohen Kontrast aktivieren",
+    "disableHighContrast": "Hohen Kontrast deaktivieren"
+  },
+  "biography": {
+    "title": "Biographie des Meisters",
+    "description": "Michael Thonet (1796-1871) war ein deutscher Tischler und Industrieller, der die Möbelproduktion revolutionierte, indem er innovative Dampfbiegetechnik für Holz einführte.",
+    "earlyYearsTitle": "Frühe Jahre",
+    "earlyYearsText": "Geboren in Boppard am Rhein, begann Michael Thonet seine Laufbahn als Tischler. Schon in jungen Jahren faszinierten ihn die Möglichkeiten, Holz neue Formen zu geben.",
+    "breakthroughTitle": "Bahnbrechende Entdeckung",
+    "breakthroughText": "In den 1830er Jahren entwickelte Thonet eine revolutionäre Methode des Biegens von Buchenholz mit Dampf, was die Massenproduktion eleganter Möbel ermöglichte."
+  },
+  "interactiveModules": {
+    "title": "Interaktive Bildungsmodule",
+    "description": "Lernen Sie die Geheimnisse von Thonets Handwerk durch innovative, interaktive Komponenten kennen. Jedes Modul wurde entwickelt, um Sie der faszinierenden Welt der Holzbiegetechnik näher zu bringen.",
+    "productDeconstruction": {
+      "title": "Produktzerlegung",
+      "description": "Lernen Sie die Anatomie des berühmten Stuhls Nr. 14 kennen - Thonets bekanntestes Werk. Klicken Sie auf die Schaltfläche, um zu sehen, wie sich der Stuhl in Komponenten zerlegt.",
+      "startButton": "Zerlegung Beginnen",
+      "reassembleButton": "Wieder Zusammenbauen",
+      "helpText": "Klicken Sie auf die Schaltfläche, um die Animation der Stuhlzerlegung in Komponenten zu starten"
+    },
+    "processSimulation": {
+      "title": "Prozesssimulation",
+      "description": "Verfolgen Sie Schritt für Schritt den revolutionären Prozess des Dampfbiegens von Holz. Jede Produktionsstufe wird mit detaillierten Erklärungen präsentiert.",
+      "step1Title": "Holzvorbereitung",
+      "step1Description": "Auswahl geeigneten Buchenholzes mit entsprechendem Feuchtigkeitsgehalt",
+      "step2Title": "Dampfbehandlung",
+      "step2Description": "Erhitzung des Holzes mit Dampf bei 100°C für 2-6 Stunden",
+      "step3Title": "Biegen in Form",
+      "step3Description": "Platzierung des erweichten Holzes in Metallform und Formgebung",
+      "step4Title": "Trocknung und Veredelung",
+      "step4Description": "Natürliche Trocknung und abschließende Oberflächenbehandlung",
+      "previousStep": "Vorheriger Prozessschritt",
+      "nextStep": "Nächster Prozessschritt",
+      "autoplay": "Automatische Prozesswiedergabe",
+      "stopAutoplay": "Automatische Wiedergabe stoppen",
+      "stepStatus": "Schritt {{current}} von {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Erbe und Einfluss auf die Moderne",
+    "description": "Michael Thonets Innovationen gingen weit über seine Zeit hinaus und prägten bis heute modernes Design und Möbelproduktion.",
+    "technologicalRevolution": {
+      "title": "Technologische Revolution",
+      "description": "Einführung der Massenmöbelproduktion durch Standardisierung und Mechanisierung der Prozesse."
+    },
+    "democratization": {
+      "title": "Demokratisierung des Designs",
+      "description": "Bereitstellung schöner, funktionaler Möbel für eine breitere gesellschaftliche Gruppe durch niedrigere Produktionskosten."
+    },
+    "globalImpact": {
+      "title": "Globaler Einfluss",
+      "description": "Einfluss auf die Entwicklung zeitgenössischen Industriedesigns und Philosophie der Funktionalität."
+    },
+    "chair14": {
+      "title": "Stuhl Nr. 14 - Design-Ikone",
+      "description": "In über 50 Millionen Exemplaren produziert, wurde Stuhl Nr. 14 als eines der wichtigsten Werke des Industriedesigns in der Geschichte anerkannt.",
+      "yearIntroduced": "Einführungsjahr:",
+      "numberProduced": "Anzahl produziert:",
+      "numberOfParts": "Anzahl Teile:",
+      "assemblyTime": "Montagezeit:"
+    }
+  },
+  "timeline": {
+    "title": "Lebens- und Werkzeitleiste",
+    "description": "Wichtige Ereignisse in Michael Thonets Leben und der Entwicklung seines Unternehmens.",
+    "1796": {
+      "title": "Geburt in Boppard",
+      "description": "Michael Thonet kommt in einer kleinen Stadt am Rhein zur Welt, in einer Familie mit Tischlertradition."
+    },
+    "1819": {
+      "title": "Beginn der Tätigkeit",
+      "description": "Gründung seiner eigenen Tischlerwerkstatt und erste Experimente mit Holzbearbeitungstechniken."
+    },
+    "1841": {
+      "title": "Umzug nach Wien",
+      "description": "Auf Einladung von Fürst Metternich verlegt Thonet sein Geschäft nach Wien, wo er bessere Entwicklungsbedingungen erhält."
+    },
+    "1850": {
+      "title": "Fabrikgründung",
+      "description": "Gründung der Firma \"Gebrüder Thonet\" und Beginn der Massenproduktion von Bugholzmöbeln."
+    },
+    "1859": {
+      "title": "Stuhl Nr. 14",
+      "description": "Markteinführung des berühmten Stuhls Nr. 14, der zu einer Ikone des Industriedesigns wird."
+    },
+    "1871": {
+      "title": "Tod des Meisters",
+      "description": "Michael Thonet stirbt in Wien und hinterlässt ein Industrieimperium und revolutionäres Erbe."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Eine interaktive Webseite, die der Geschichte und dem Erbe von Michael Thonet und seinen revolutionären Möbeltechniken gewidmet ist.",
+    "navigation": "Navigation",
+    "accessibility": "Barrierefreiheit",
+    "technologies": "Technologien",
+    "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
+    "dedication": "Gewidmet dem Sammler von Bugholzmöbeln Paweł Michalski",
+    "legal": {
+      "title": "Rechtliche Informationen",
+      "content": "Diese Seite wurde für Bildungs- und Präsentationszwecke erstellt.",
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen"
+    }
+  },
+  "common": {
+    "backToHome": "Zurück zur Startseite"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "description": "Datenschutzerklärung der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "dataCollection": {
+      "title": "Datensammlung",
+      "content": "Unsere Website sammelt minimale Daten, die für die Funktionalität erforderlich sind. Wir sammeln keine persönlichen Daten ohne Ihre Zustimmung."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Wir verwenden Cookies nur, um Ihre Spracheinstellungen und das Website-Design zu speichern. Wir verwenden keine Cookies für Tracking."
+    },
+    "thirdParty": {
+      "title": "Drittanbieter-Services",
+      "content": "Die Website kann Links zu externen Services enthalten. Wir sind nicht verantwortlich für die Datenschutzrichtlinien dieser Websites."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "content": "Sie haben das Recht auf Zugang, Berichtigung und Löschung Ihrer persönlichen Daten gemäß geltendem Recht."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "Bei Fragen zur Datenschutzerklärung kontaktieren Sie uns bitte."
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "description": "Nutzungsbedingungen der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "acceptance": {
+      "title": "Annahme der Bedingungen",
+      "content": "Durch die Nutzung dieser Website akzeptieren Sie diese Nutzungsbedingungen vollständig."
+    },
+    "usage": {
+      "title": "Nutzungsrichtlinien",
+      "content": "Die Website ist für Bildungs- und Informationszwecke bestimmt. Eine rechtswidrige Nutzung ist untersagt."
+    },
+    "intellectual": {
+      "title": "Geistiges Eigentum",
+      "content": "Alle Inhalte der Website sind urheberrechtlich geschützt. Das Kopieren erfordert die Erlaubnis des Eigentümers."
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "content": "Informationen auf der Website dienen nur zu Informationszwecken. Wir garantieren nicht deren Vollständigkeit oder Richtigkeit."
+    },
+    "limitation": {
+      "title": "Haftungsbeschränkung",
+      "content": "Wir haften nicht für Schäden, die durch die Nutzung der Website entstehen."
+    },
+    "changes": {
+      "title": "Änderungen der Bedingungen",
+      "content": "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern."
+    }
+  },
+  "aria": {
+    "themeChanged": "Design geändert zu {{theme}}",
+    "highContrastEnabled": "Hoher Kontrast aktiviert",
+    "highContrastDisabled": "Hoher Kontrast deaktiviert",
+    "chairExploded": "Stuhl wurde in Komponenten zerlegt. Komponentenbeschriftungen sind sichtbar.",
+    "chairReassembled": "Stuhl wurde wieder zusammengebaut.",
+    "autoplayStarted": "Automatische Prozesswiedergabe gestartet",
+    "autoplayStopped": "Automatische Prozesswiedergabe gestoppt"
+  }
+}
+
+--------------------------------
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useAriaLive } from "@/hooks/useAriaLive";
+
+export function ProductDeconstruction() {
+  const { t } = useTranslation();
+  const [isExploded, setIsExploded] = useState(false);
+  const { announce } = useAriaLive();
+
+  const toggleDeconstruction = () => {
+    const nextState = !isExploded;
+    setIsExploded(nextState);
+
+    const message = nextState
+      ? t("interactiveModules.productDeconstruction.ariaChairExploded")
+      : t("interactiveModules.productDeconstruction.ariaChairReassembled");
+    announce(message);
+  };
+
+  const parts = {
+    backFrame: {
+      x: isExploded ? -50 : 0,
+      y: isExploded ? 60 : 0,
+      rotate: isExploded ? -5 : 0,
+    },
+    seat: {
+      x: isExploded ? 60 : 0,
+      y: isExploded ? -40 : 0,
+      rotate: isExploded ? 5 : 0,
+    },
+    frontLegs: {
+      x: isExploded ? -40 : 0,
+      y: isExploded ? -90 : 0,
+      rotate: isExploded ? -10 : 0,
+    },
+  };
+
+  const transition = { type: "spring", damping: 15, stiffness: 100 };
+
+  return (
+    <div
+      className="bg-card rounded-xl p-6 sm:p-8 shadow-lg flex flex-col"
+      data-testid="module-product-deconstruction"
+    >
+      <h3
+        className="text-2xl font-semibold text-card-foreground mb-4"
+        data-testid="text-deconstruction-title"
+      >
+        {t("interactiveModules.productDeconstruction.title")}
+      </h3>
+      <p
+        className="text-muted-foreground mb-6"
+        data-testid="text-deconstruction-description"
+      >
+        {t("interactiveModules.productDeconstruction.description")}
+      </p>
+
+      <div className="relative bg-muted rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[450px] flex items-center justify-center overflow-hidden">
+        <svg
+          viewBox="-150 -180 300 300"
+          className="w-full h-full max-w-[320px] max-h-[320px]"
+          data-testid="chair-model"
+          aria-labelledby="deconstruction-title"
+        >
+          <defs>
+            <linearGradient id="woodGrad3D" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#c5a173" />
+              <stop offset="50%" stopColor="#8b5e34" />
+              <stop offset="100%" stopColor="#6a4a2a" />
+            </linearGradient>
+            <filter
+              id="dropShadow3D"
+              x="-30%"
+              y="-30%"
+              width="160%"
+              height="160%"
+            >
+              <feDropShadow
+                dx="4"
+                dy="6"
+                stdDeviation="4"
+                floodColor="#000"
+                floodOpacity="0.25"
+              />
+            </filter>
+          </defs>
+
+          <motion.g
+            animate={parts.backFrame}
+            transition={transition}
+            filter="url(#dropShadow3D)"
+            data-testid="chair-part-backFrame"
+          >
+            <path
+              d="M -50 70 Q -65 -30 -15 -100 Q 0 -115 15 -100 Q 65 -30 50 70"
+              stroke="url(#woodGrad3D)"
+              strokeWidth="14"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M -30 10 Q 0 -15 30 10"
+              stroke="url(#woodGrad3D)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.frontLegs}
+            transition={{ ...transition, delay: 0.1 }}
+            filter="url(#dropShadow3D)"
+            data-testid="chair-part-frontLegs"
+          >
+            <path
+              d="M -35 15 L -25 75"
+              stroke="url(#woodGrad3D)"
+              strokeWidth="12"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 35 15 L 25 75"
+              stroke="url(#woodGrad3D)"
+              strokeWidth="12"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.seat}
+            transition={{ ...transition, delay: 0.05 }}
+            filter="url(#dropShadow3D)"
+            data-testid="chair-part-seat"
+          >
+            {/* Seat thickness simulation */}
+            <ellipse cx="0" cy="20" rx="55" ry="18" fill="#6a4a2a" />
+            {/* Main seat */}
+            <ellipse
+              cx="0"
+              cy="15"
+              rx="55"
+              ry="18"
+              fill="#f5deb3"
+              stroke="#6a4a2a"
+              strokeWidth="6"
+            />
+            {/* Cane weave pattern with perspective */}
+            <g opacity="0.4">
+              {[...Array(11)].map((_, i) => (
+                <path
+                  key={`h${i}`}
+                  d={`M -50 ${-10 + i * 2} C -20 ${-12 + i * 2}, 20 ${
+                    -12 + i * 2
+                  }, 50 ${-10 + i * 2}`}
+                  stroke="#cdaa7d"
+                  strokeWidth="1"
+                  fill="none"
+                  transform="translate(0, 15)"
+                />
+              ))}
+              {[...Array(9)].map((_, i) => (
+                <path
+                  key={`v${i}`}
+                  d={`M ${-40 + i * 10} 5 C ${-40 + i * 10} 0, ${
+                    -40 + i * 10
+                  } 0, ${-42 + i * 10} 25`}
+                  stroke="#cdaa7d"
+                  strokeWidth="1"
+                  fill="none"
+                  transform="translate(0, 15)"
+                />
+              ))}
+            </g>
+          </motion.g>
+        </svg>
+
+        <motion.div
+          animate={{ opacity: isExploded ? 1 : 0, scale: isExploded ? 1 : 0.9 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-[65%] left-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.backFrameLabel")}
+          </div>
+          <div className="absolute top-[20%] right-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.seatLabel")}
+          </div>
+          <div className="absolute bottom-[65%] left-[10%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.frontLegsLabel")}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="text-center mt-auto">
+        <button
+          onClick={toggleDeconstruction}
+          className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all"
+          aria-expanded={isExploded}
+          aria-controls="chair-model"
+          data-testid="button-deconstruct"
+        >
+          {isExploded
+            ? t("interactiveModules.productDeconstruction.reassembleButton")
+            : t("interactiveModules.productDeconstruction.startButton")}
+        </button>
+        <p
+          className="text-sm text-muted-foreground mt-3 px-4"
+          data-testid="text-chair-description"
+        >
+          {t("interactiveModules.productDeconstruction.helpText")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+----------------------------------
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useAriaLive } from "@/hooks/useAriaLive";
+
+export function ProductDeconstruction() {
+  const { t } = useTranslation();
+  const [isExploded, setIsExploded] = useState(false);
+  const { announce } = useAriaLive();
+
+  const toggleDeconstruction = () => {
+    const nextState = !isExploded;
+    setIsExploded(nextState);
+
+    const message = nextState
+      ? t("interactiveModules.productDeconstruction.ariaChairExploded")
+      : t("interactiveModules.productDeconstruction.ariaChairReassembled");
+    announce(message);
+  };
+
+  const parts = {
+    backLoop: {
+      y: isExploded ? 110 : 0,
+      x: isExploded ? -75 : 0,
+      rotate: isExploded ? -12 : 0,
+    },
+    seatAndRing: {
+      y: isExploded ? -75 : 0,
+      x: isExploded ? 75 : 0,
+      rotate: isExploded ? 12 : 0,
+    },
+    frontLegs: {
+      y: isExploded ? -140 : 0,
+      x: isExploded ? -50 : 0,
+      rotate: isExploded ? -18 : 0,
+    },
+  };
+
+  const transition = { type: "spring", damping: 16, stiffness: 90 };
+
+  return (
+    <div
+      className="bg-card rounded-xl p-6 sm:p-8 shadow-lg flex flex-col"
+      data-testid="module-product-deconstruction"
+    >
+      <h3
+        className="text-2xl font-semibold text-card-foreground mb-4"
+        data-testid="text-deconstruction-title"
+      >
+        {t("interactiveModules.productDeconstruction.title")}
+      </h3>
+      <p
+        className="text-muted-foreground mb-6"
+        data-testid="text-deconstruction-description"
+      >
+        {t("interactiveModules.productDeconstruction.description")}
+      </p>
+
+      <div className="relative bg-muted rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[450px] flex items-center justify-center overflow-hidden">
+        <svg
+          viewBox="-160 -210 320 400"
+          className="w-full h-full max-w-[350px] max-h-[350px]"
+          data-testid="chair-model"
+          aria-labelledby="deconstruction-title"
+        >
+          <defs>
+            <linearGradient
+              id="finalWoodGrad"
+              x1="0%"
+              y1="0%"
+              x2="80%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#b9936c" />
+              <stop offset="50%" stopColor="#8b5e34" />
+              <stop offset="100%" stopColor="#5a3d24" />
+            </linearGradient>
+            <filter
+              id="finalShadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feDropShadow
+                dx="5"
+                dy="8"
+                stdDeviation="5"
+                floodColor="#000"
+                floodOpacity="0.2"
+              />
+            </filter>
+            <clipPath id="seatClipPath">
+              <ellipse cx="0" cy="20" rx="63" ry="21" />
+            </clipPath>
+          </defs>
+
+          <motion.g
+            animate={parts.backLoop}
+            transition={transition}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-backLoop"
+          >
+            {/* Redrawn backrest with symmetrical, splayed-out legs */}
+            <path
+              d="M -65 170 C -85 80, -70 -140, 0 -140 C 70 -140, 85 80, 65 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="14"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M -30 -10 C -35 -70, 35 -70, 30 -10"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.seatAndRing}
+            transition={{ ...transition, delay: 0.05 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-ring"
+          >
+            <ellipse
+              cx="0"
+              cy="50"
+              rx="50"
+              ry="15"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="11"
+              fill="none"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.frontLegs}
+            transition={{ ...transition, delay: 0.1 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-frontLegs"
+          >
+            <path
+              d="M -45 25 C -45 80, -50 170, -50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 45 25 C 45 80, 50 170, 50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.seatAndRing}
+            transition={{ ...transition, delay: 0.05 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-seat"
+          >
+            <ellipse
+              cx="0"
+              cy="20"
+              rx="65"
+              ry="22"
+              fill="#f3e2c7"
+              stroke="#5a3d24"
+              strokeWidth="6"
+            />
+            <g clipPath="url(#seatClipPath)" opacity="0.5">
+              {[...Array(15)].map((_, i) => (
+                <path
+                  key={`h${i}`}
+                  d={`M -65 ${-2 + i * 2.5} C -30 ${-5 + i * 2.5}, 30 ${
+                    -5 + i * 2.5
+                  }, 65 ${-2 + i * 2.5}`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+              {[...Array(13)].map((_, i) => (
+                <path
+                  key={`v${i}`}
+                  d={`M ${-60 + i * 10} -20 C ${-60 + i * 10} -15, ${
+                    -60 + i * 10
+                  } -15, ${-62 + i * 10} 42`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+            </g>
+          </motion.g>
+        </svg>
+
+        <motion.div
+          animate={{ opacity: isExploded ? 1 : 0, scale: isExploded ? 1 : 0.9 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-[80%] left-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.backFrameLabel")}
+          </div>
+          <div className="absolute top-[20%] right-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.seatLabel")}
+          </div>
+          <div className="absolute top-[5%] left-[10%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.frontLegsLabel")}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="text-center mt-auto">
+        <button
+          onClick={toggleDeconstruction}
+          className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all"
+          aria-expanded={isExploded}
+          aria-controls="chair-model"
+          data-testid="button-deconstruct"
+        >
+          {isExploded
+            ? t("interactiveModules.productDeconstruction.reassembleButton")
+            : t("interactiveModules.productDeconstruction.startButton")}
+        </button>
+        <p
+          className="text-sm text-muted-foreground mt-3 px-4"
+          data-testid="text-chair-description"
+        >
+          {t("interactiveModules.productDeconstruction.helpText")}
+        </p>
+      </div>
+    </div>
+  );
+}

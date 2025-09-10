@@ -1,75 +1,84 @@
-
-import { SEOHead } from "@/components/seo-head";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
+import { FooterSection } from "@/components/footer-section";
+import { SEOHead } from "@/components/seo-head";
 import { ArrowLeft } from "lucide-react";
-import { useLocation } from "wouter";
+import { motion } from "framer-motion";
+
+const pageVariants = {
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
 
 export default function Terms() {
-  const { t } = useTranslation();
-  const [, setLocation] = useLocation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const sections = [
+    "introduction",
+    "acceptance",
+    "usage",
+    "intellectual",
+    "userContent",
+    "disclaimer",
+    "limitation",
+    "governingLaw",
+    "changes",
+    "contact",
+  ];
 
   return (
-    <>
-      <SEOHead 
-        title={t('terms.title')}
-        description={t('terms.description')}
-      />
-      
-      <div className="min-h-screen bg-background py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <Button
-            variant="ghost"
-            onClick={() => setLocation('/')}
-            className="mb-8 flex items-center gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {t('common.backToHome')}
-          </Button>
-
-          <h1 className="text-4xl font-bold mb-8 text-foreground">
-            {t('terms.title')}
-          </h1>
-
-          <div className="prose prose-lg max-w-none dark:prose-invert">
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.acceptance.title')}</h2>
-              <p className="mb-4">{t('terms.acceptance.content')}</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.usage.title')}</h2>
-              <p className="mb-4">{t('terms.usage.content')}</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.intellectual.title')}</h2>
-              <p className="mb-4">{t('terms.intellectual.content')}</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.disclaimer.title')}</h2>
-              <p className="mb-4">{t('terms.disclaimer.content')}</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.limitation.title')}</h2>
-              <p className="mb-4">{t('terms.limitation.content')}</p>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">{t('terms.changes.title')}</h2>
-              <p className="mb-4">{t('terms.changes.content')}</p>
-            </section>
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <SEOHead title={t("terms.title")} description={t("terms.description")} />
+      <main id="main-content" className="py-20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+          <div className="mb-8">
+            <a
+              href={`/${lang}/`}
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("common.backToHome")}
+            </a>
           </div>
-
-          <div className="mt-12 p-6 bg-muted rounded-lg">
-            <p className="text-sm text-muted-foreground">
-              {t('terms.lastUpdated')} {new Date().toLocaleDateString()}
+          <header className="mb-12 text-center">
+            <h2 className="text-4xl lg:text-5xl font-bold font-serif text-primary">
+              {t("terms.title")}
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              {t("terms.lastUpdated")} {new Date().toLocaleDateString(lang)}
             </p>
+          </header>
+          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-primary">
+            {sections.map((section) => (
+              <section key={section} className="mb-8">
+                <h2 className="text-2xl font-semibold">
+                  {t(`terms.${section}.title`)}
+                </h2>
+                <p>{t(`terms.${section}.content`)}</p>
+              </section>
+            ))}
           </div>
         </div>
-      </div>
-    </>
+      </main>
+      <FooterSection />
+    </motion.div>
   );
 }

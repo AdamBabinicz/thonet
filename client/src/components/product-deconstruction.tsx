@@ -1,234 +1,253 @@
-
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
+
+type ChairPart =
+  | "backLegsAndFrame"
+  | "innerArch"
+  | "seat"
+  | "frontLegs"
+  | "supportRing";
 
 export function ProductDeconstruction() {
   const { t } = useTranslation();
   const [isExploded, setIsExploded] = useState(false);
 
   const toggleDeconstruction = () => {
-    setIsExploded(!isExploded);
-    
-    // Announce to screen readers
-    const message = isExploded ? t('aria.chairReassembled') : t('aria.chairExploded');
-    const announcement = document.querySelector('[data-testid="aria-announcements"]');
-    if (announcement) {
-      announcement.textContent = message;
-      setTimeout(() => {
-        announcement.textContent = '';
-      }, 1000);
-    }
+    setIsExploded((prev) => !prev);
   };
 
-  const parts = [
-    { id: 'backrest', x: isExploded ? -80 : 0, y: isExploded ? -60 : 0, label: 'Oparcie' },
-    { id: 'seat', x: isExploded ? 80 : 0, y: isExploded ? -20 : 0, label: 'Siedzisko' },
-    { id: 'legs', x: isExploded ? -60 : 0, y: isExploded ? 80 : 0, label: 'Nogi' },
-    { id: 'frame', x: isExploded ? 60 : 0, y: isExploded ? 80 : 0, label: 'Stelaż' },
-  ];
+  const getPartStyle = (part: ChairPart) => {
+    const commonTransition = "transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    if (!isExploded) {
+      return {
+        transform: "translate3d(0, 0, 0) rotate(0deg)",
+        transition: commonTransition,
+      };
+    }
+
+    const transforms: Record<ChairPart, string> = {
+      backLegsAndFrame: "translate3d(-150px, -180px, 0) rotate(-15deg)",
+      seat: "translate3d(250px, -250px, 0) rotate(15deg)",
+      innerArch: "translate3d(0px, 165px, 0) rotate(0deg)", // Obniżony o 50%
+      supportRing: "translate3d(-150px, 200px, 0) rotate(10deg)",
+      frontLegs: "translate3d(150px, 200px, 0) rotate(10deg)",
+    };
+    return {
+      transform: transforms[part],
+      transition: commonTransition,
+    };
+  };
 
   return (
-    <div className="bg-card rounded-xl p-8 shadow-lg" data-testid="module-product-deconstruction">
-      <h3 className="text-2xl font-semibold text-card-foreground mb-6" data-testid="text-deconstruction-title">
-        {t('interactiveModules.productDeconstruction.title')}
+    <div
+      className="bg-white rounded-xl p-6 sm:p-8 shadow-lg flex flex-col border h-full"
+      aria-labelledby="deconstruction-title"
+    >
+      <h3
+        id="deconstruction-title"
+        className="text-2xl font-semibold text-gray-900 mb-4"
+      >
+        {t("interactiveModules.productDeconstruction.title")}
       </h3>
-      <p className="text-muted-foreground mb-8" data-testid="text-deconstruction-description">
-        {t('interactiveModules.productDeconstruction.description')}
+      <p className="text-gray-600 mb-6">
+        {t("interactiveModules.productDeconstruction.description")}
       </p>
 
-      <div className="relative bg-muted rounded-lg p-8 mb-8 min-h-[500px] flex items-center justify-center overflow-visible">
-        <div className="relative w-80 h-80" data-testid="chair-model">
-          
-          {/* Backrest - curved bentwood */}
-          <motion.div
-            animate={{
-              x: parts[0].x,
-              y: parts[0].y,
-            }}
-            transition={{
-              duration: 0.8,
-              type: "spring",
-              damping: 15,
-              stiffness: 80,
-            }}
-            className="absolute top-8 left-1/2 transform -translate-x-1/2"
-            data-testid="chair-part-backrest"
-          >
-            <svg width="120" height="160" viewBox="0 0 120 160" className="drop-shadow-lg">
-              <defs>
-                <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#D2B48C" />
-                  <stop offset="50%" stopColor="#DEB887" />
-                  <stop offset="100%" stopColor="#BC9A6A" />
-                </linearGradient>
-              </defs>
-              {/* Main curved backrest */}
-              <path 
-                d="M 20 140 Q 20 20 60 10 Q 100 20 100 140 Q 95 145 85 145 L 35 145 Q 25 145 20 140" 
-                fill="url(#woodGrad)" 
-                stroke="#8B4513" 
-                strokeWidth="2"
-              />
-              {/* Wood grain lines */}
-              <path d="M 25 30 Q 60 25 95 30" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
-              <path d="M 30 50 Q 60 45 90 50" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
-              <path d="M 35 70 Q 60 65 85 70" stroke="#A0522D" strokeWidth="1" fill="none" opacity="0.5"/>
-            </svg>
-          </motion.div>
-
-          {/* Seat - round with cane weave */}
-          <motion.div
-            animate={{
-              x: parts[1].x,
-              y: parts[1].y,
-            }}
-            transition={{
-              duration: 0.8,
-              type: "spring",
-              damping: 15,
-              stiffness: 80,
-            }}
-            className="absolute top-32 left-1/2 transform -translate-x-1/2"
-            data-testid="chair-part-seat"
-          >
-            <svg width="100" height="100" viewBox="0 0 100 100" className="drop-shadow-lg">
-              <defs>
-                <radialGradient id="seatGrad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#F5DEB3" />
-                  <stop offset="70%" stopColor="#DEB887" />
-                  <stop offset="100%" stopColor="#CD853F" />
-                </radialGradient>
-              </defs>
-              {/* Seat base */}
-              <circle cx="50" cy="50" r="45" fill="url(#seatGrad)" stroke="#8B4513" strokeWidth="3"/>
-              {/* Cane weave pattern */}
-              <g opacity="0.6">
-                {[...Array(8)].map((_, i) => (
-                  <line 
-                    key={`h${i}`}
-                    x1="10" 
-                    y1={15 + i * 10} 
-                    x2="90" 
-                    y2={15 + i * 10} 
-                    stroke="#D2B48C" 
-                    strokeWidth="1.5"
-                  />
-                ))}
-                {[...Array(8)].map((_, i) => (
-                  <line 
-                    key={`v${i}`}
-                    x1={15 + i * 10} 
-                    y1="10" 
-                    x2={15 + i * 10} 
-                    y2="90" 
-                    stroke="#DEB887" 
-                    strokeWidth="1.5"
-                  />
-                ))}
-              </g>
-            </svg>
-          </motion.div>
-
-          {/* Front legs */}
-          <motion.div
-            animate={{
-              x: parts[2].x,
-              y: parts[2].y,
-            }}
-            transition={{
-              duration: 0.8,
-              type: "spring",
-              damping: 15,
-              stiffness: 80,
-            }}
-            className="absolute top-44 left-1/2 transform -translate-x-1/2"
-            data-testid="chair-part-legs"
-          >
-            <svg width="100" height="120" viewBox="0 0 100 120" className="drop-shadow-lg">
-              {/* Left front leg */}
-              <rect x="15" y="10" width="8" height="100" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
-              {/* Right front leg */}
-              <rect x="77" y="10" width="8" height="100" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
-              {/* Cross brace */}
-              <rect x="15" y="80" width="70" height="6" rx="3" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="1"/>
-              {/* Wood grain on legs */}
-              <line x1="19" y1="15" x2="19" y2="105" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
-              <line x1="81" y1="15" x2="81" y2="105" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
-            </svg>
-          </motion.div>
-
-          {/* Back legs and frame */}
-          <motion.div
-            animate={{
-              x: parts[3].x,
-              y: parts[3].y,
-            }}
-            transition={{
-              duration: 0.8,
-              type: "spring",
-              damping: 15,
-              stiffness: 80,
-            }}
-            className="absolute top-36 left-1/2 transform -translate-x-1/2"
-            data-testid="chair-part-frame"
-          >
-            <svg width="120" height="140" viewBox="0 0 120 140" className="drop-shadow-lg">
-              {/* Left back leg */}
-              <rect x="25" y="0" width="8" height="120" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
-              {/* Right back leg */}
-              <rect x="87" y="0" width="8" height="120" rx="4" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="2"/>
-              {/* Seat support ring */}
-              <ellipse cx="60" cy="40" rx="35" ry="8" fill="none" stroke="#8B4513" strokeWidth="4"/>
-              {/* Back cross support */}
-              <rect x="25" y="60" width="70" height="6" rx="3" fill="url(#woodGrad)" stroke="#8B4513" strokeWidth="1"/>
-              {/* Wood grain on back legs */}
-              <line x1="29" y1="5" x2="29" y2="115" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
-              <line x1="91" y1="5" x2="91" y2="115" stroke="#A0522D" strokeWidth="0.5" opacity="0.7"/>
-            </svg>
-          </motion.div>
-
-        </div>
-
-        {/* Component Labels */}
-        <motion.div
-          animate={{
-            opacity: isExploded ? 1 : 0,
-          }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="absolute inset-0 pointer-events-none"
-          data-testid="component-labels"
+      <div className="relative bg-gray-100 rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[400px] sm:min-h-[500px] flex items-center justify-center overflow-hidden">
+        <svg
+          viewBox="-400 -450 800 900"
+          className="w-full h-full max-w-[450px] max-h-[450px]"
+          style={{ overflow: "visible" }}
         >
-          <div className="absolute top-4 left-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
-            Oparcie z giętego drewna
-          </div>
-          <div className="absolute top-28 right-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
-            Siedzisko z plecionki
-          </div>
-          <div className="absolute bottom-16 left-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
-            Nogi przednie
-          </div>
-          <div className="absolute bottom-16 right-8 bg-background text-foreground px-3 py-2 rounded-md text-sm shadow-lg border font-medium">
-            Stelaż tylny
-          </div>
-        </motion.div>
+          <defs>
+            <linearGradient
+              id="bentWoodGrad"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#c5a075" />
+              <stop offset="50%" stopColor="#8b5e34" />
+              <stop offset="100%" stopColor="#5a3d24" />
+            </linearGradient>
+            <linearGradient
+              id="frontLegsGrad"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#d3b592" />
+              <stop offset="50%" stopColor="#9c7247" />
+              <stop offset="100%" stopColor="#6b4e30" />
+            </linearGradient>
+            <filter
+              id="woodShadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feDropShadow
+                dx="6"
+                dy="9"
+                stdDeviation="6"
+                floodColor="#000000"
+                floodOpacity="0.2"
+              />
+            </filter>
+            <pattern
+              id="caningPattern"
+              patternUnits="userSpaceOnUse"
+              width="10"
+              height="10"
+              patternTransform="rotate(45)"
+            >
+              <rect width="10" height="10" fill="#f3e2c7" />
+              <path d="M0 5 H10 M5 0 V10" stroke="#d4a574" strokeWidth="0.6" />
+              <path
+                d="M0 0 L10 10 M0 10 L10 0"
+                stroke="#d4a574"
+                strokeWidth="0.4"
+                opacity="0.6"
+              />
+            </pattern>
+          </defs>
+
+          <g
+            style={{
+              ...getPartStyle("backLegsAndFrame"),
+              transitionDelay: "0ms",
+            }}
+            filter="url(#woodShadow)"
+          >
+            <path
+              d="M -90 270 C -80 160, -120 -180, 0 -180 C 120 -180, 80 160, 90 270"
+              stroke="url(#bentWoodGrad)"
+              strokeWidth="18"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </g>
+
+          <g
+            style={{ ...getPartStyle("innerArch"), transitionDelay: "150ms" }}
+            filter="url(#woodShadow)"
+          >
+            <path
+              d="M -58 -90 C -45 -140, 45 -140, 58 -90"
+              stroke="url(#bentWoodGrad)"
+              strokeWidth="16"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </g>
+
+          <g
+            style={{ ...getPartStyle("supportRing"), transitionDelay: "200ms" }}
+            filter="url(#woodShadow)"
+          >
+            <ellipse
+              cx="0"
+              cy="145"
+              rx="90"
+              ry="32"
+              stroke="url(#bentWoodGrad)"
+              strokeWidth="15"
+              fill="none"
+            />
+          </g>
+
+          <g
+            style={{ ...getPartStyle("frontLegs"), transitionDelay: "100ms" }}
+            filter="url(#woodShadow)"
+          >
+            <path
+              d="M -95 280 C -95 180, -90 100, -85 50"
+              stroke="url(#frontLegsGrad)"
+              strokeWidth="17"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 95 280 C 95 180, 90 100, 85 50"
+              stroke="url(#frontLegsGrad)"
+              strokeWidth="17"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </g>
+
+          <g
+            style={{ ...getPartStyle("seat"), transitionDelay: "50ms" }}
+            filter="url(#woodShadow)"
+          >
+            <ellipse
+              cx="0"
+              cy="50"
+              rx="105"
+              ry="50"
+              fill="url(#caningPattern)"
+              stroke="url(#bentWoodGrad)"
+              strokeWidth="16"
+            />
+          </g>
+        </svg>
+
+        <AnimatePresence>
+          {isExploded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                transition: { delay: 0.8, duration: 0.5 },
+              }}
+              exit={{ opacity: 0, transition: { duration: 0.3 } }}
+              className="absolute inset-0 pointer-events-none"
+            >
+              <div className="absolute top-[9%] left-[10%] text-center">
+                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                  {t("interactiveModules.productDeconstruction.backFrameLabel")}
+                </div>
+              </div>
+              <div className="absolute top-[15%] right-[10%] text-center">
+                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                  {t("interactiveModules.productDeconstruction.seatLabel")}
+                </div>
+              </div>
+              <div className="absolute top-[60%] left-1/2 -translate-x-1/2 text-center">
+                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                  {t("interactiveModules.productDeconstruction.innerArchLabel")}
+                </div>
+              </div>
+              <div className="absolute bottom-[10%] left-[10%] text-center">
+                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                  {t("interactiveModules.productDeconstruction.ringLabel")}
+                </div>
+              </div>
+              <div className="absolute bottom-[5%] right-[10%] text-center">
+                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                  {t("interactiveModules.productDeconstruction.frontLegsLabel")}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <div className="text-center">
+      <div className="text-center mt-auto pt-4">
         <button
           onClick={toggleDeconstruction}
-          className="px-6 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-          aria-expanded={isExploded}
-          aria-describedby="chair-description"
-          data-testid="button-deconstruct"
+          className="px-8 py-3 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all transform hover:scale-105 active:scale-95"
         >
           {isExploded
-            ? t('interactiveModules.productDeconstruction.reassembleButton')
-            : t('interactiveModules.productDeconstruction.startButton')
-          }
+            ? t("interactiveModules.productDeconstruction.reassembleButton")
+            : t("interactiveModules.productDeconstruction.startButton")}
         </button>
-        <p id="chair-description" className="text-sm text-muted-foreground mt-4" data-testid="text-chair-description">
-          {t('interactiveModules.productDeconstruction.helpText')}
+        <p className="text-sm text-gray-600 mt-3 px-4">
+          {t("interactiveModules.productDeconstruction.helpText")}
         </p>
       </div>
     </div>

@@ -3,66 +3,94 @@
     "subtitle": "Digitales Erbe",
     "title": "Michael Thonet",
     "titleAccent": "Pionier des Designs",
-    "description": "Entdecken Sie die revolutionäre Geschichte des Mannes, der die Welt der Möbelherstellung für immer veränderte. Tauchen Sie ein in eine interaktive Reise durch Leben, Werke und außergewöhnliches Erbe von Michael Thonet.",
-    "exploreButton": "Erkundung Beginnen",
-    "biographyButton": "Biographie Kennenlernen"
+    "description": "Entdecken Sie die revolutionäre Geschichte des Mannes, der die Welt des Möbelbaus für immer verändert hat. Tauchen Sie ein in eine interaktive Reise durch das Leben, die Werke und das außergewöhnliche Erbe von Michael Thonet.",
+    "exploreButton": "Erkundung starten",
+    "biographyButton": "Biografie ansehen",
+    "imageAlt": "Michael Thonet - Pionier der Bugholztechnologie",
+    "aiNotice": {
+      "text": "Bild von KI auf Basis eines Fotos aus Wikipedia generiert.",
+      "sourceTitle": "Originalquelle:",
+      "sourceAttribution": "'Michael Thonet' von: unbekannt"
+    }
   },
   "navigation": {
     "home": "Startseite",
-    "biography": "Biographie",
+    "biography": "Biografie",
+    "collection": "Sammlung",
     "interactiveModules": "Interaktive Module",
     "heritage": "Erbe",
-    "timeline": "Zeitlinie",
+    "timeline": "Zeittafel",
+    "map": "Karte",
     "skipToContent": "Zum Hauptinhalt springen"
   },
+  "routes": {
+    "privacy": "datenschutz",
+    "terms": "nutzungsbedingungen",
+    "heritage": "erbe",
+    "heritage_slugs": {
+      "technological-revolution": "technologische-revolution",
+      "design-democratization": "demokratisierung-des-designs",
+      "global-impact": "globaler-einfluss"
+    }
+  },
   "controlHub": {
-    "title": "Steuerzentrum",
-    "close": "Navigationspanel schließen",
-    "open": "Navigationspanel öffnen",
-    "sections": "Bereiche",
+    "title": "Steuerzentrale",
+    "close": "Navigationsleiste schließen",
+    "open": "Navigationsleiste öffnen",
+    "sections": "Abschnitte",
     "language": "Sprache",
-    "theme": "Design",
+    "theme": "Thema",
     "accessibility": "Barrierefreiheit",
     "currentLanguage": "Aktuelle Sprache: Deutsch",
-    "changeToPolish": "Zmień język na polski",
-    "changeToEnglish": "Change language to English",
+    "changeToPolish": "Sprache auf Polnisch ändern",
+    "changeToEnglish": "Sprache auf Englisch ändern",
+    "changeLanguageTo": "Sprache auf {{language}} ändern",
     "lightTheme": "Hell",
     "darkTheme": "Dunkel",
-    "currentThemeLight": "Aktuelles Design: Hell",
-    "currentThemeDark": "Aktuelles Design: Dunkel",
-    "switchToLight": "Zu hellem Design wechseln",
-    "switchToDark": "Zu dunklem Design wechseln",
+    "currentThemeLight": "Aktuelles Thema: Hell",
+    "currentThemeDark": "Aktuelles Thema: Dunkel",
+    "switchToLight": "Zum hellen Thema wechseln",
+    "switchToDark": "Zum dunklen Thema wechseln",
     "highContrast": "Hoher Kontrast",
-    "enableHighContrast": "Hohen Kontrast aktivieren",
-    "disableHighContrast": "Hohen Kontrast deaktivieren"
+    "enableHighContrast": "Hochkontrastmodus aktivieren",
+    "disableHighContrast": "Hochkontrastmodus deaktivieren",
+    "socials": "Soziale Netzwerke"
   },
   "biography": {
-    "title": "Biographie des Meisters",
-    "description": "Michael Thonet (1796-1871) war ein deutscher Tischler und Industrieller, der die Möbelproduktion revolutionierte, indem er innovative Dampfbiegetechnik für Holz einführte.",
+    "title": "Biografie des Meisters",
+    "description": "Michael Thonet (1796-1871) war ein deutscher Tischler und Industrieller, der die Möbelproduktion durch die Einführung der innovativen Technologie des Biegens von Holz unter Dampf revolutionierte.",
     "earlyYearsTitle": "Frühe Jahre",
-    "earlyYearsText": "Geboren in Boppard am Rhein, begann Michael Thonet seine Laufbahn als Tischler. Schon in jungen Jahren faszinierten ihn die Möglichkeiten, Holz neue Formen zu geben.",
+    "earlyYearsText": "Geboren in Boppard am Rhein, begann Michael Thonet seine Karriere als Tischler. Schon in jungen Jahren war er fasziniert von den Möglichkeiten, dem Holz neue Formen zu geben.",
     "breakthroughTitle": "Bahnbrechende Entdeckung",
-    "breakthroughText": "In den 1830er Jahren entwickelte Thonet eine revolutionäre Methode des Biegens von Buchenholz mit Dampf, was die Massenproduktion eleganter Möbel ermöglichte."
+    "breakthroughText": "In den 1830er Jahren entwickelte Thonet eine revolutionäre Methode zum Biegen von Buchenholz mit Dampf, die die Massenproduktion eleganter Möbel ermöglichte.",
+    "workshopImageNotice": "Bild von KI generiert. Inspiriert vom Stil Michael Thonets. Dieses Projekt ist bildend, nicht kommerziell und nicht mit der Marke Thonet GmbH verbunden."
   },
   "interactiveModules": {
-    "title": "Interaktive Bildungsmodule",
-    "description": "Lernen Sie die Geheimnisse von Thonets Handwerk durch innovative, interaktive Komponenten kennen. Jedes Modul wurde entwickelt, um Sie der faszinierenden Welt der Holzbiegetechnik näher zu bringen.",
+    "title": "Interaktive Lernmodule",
+    "description": "Entdecken Sie die Geheimnisse von Thonets Handwerk durch innovative, interaktive Komponenten. Jedes Modul soll Ihnen die faszinierende Welt der Holzbiegetechnologie näher bringen.",
     "productDeconstruction": {
-      "title": "Produktzerlegung",
-      "description": "Lernen Sie die Anatomie des berühmten Stuhls Nr. 14 kennen - Thonets bekanntestes Werk. Klicken Sie auf die Schaltfläche, um zu sehen, wie sich der Stuhl in Komponenten zerlegt.",
-      "startButton": "Zerlegung Beginnen",
-      "reassembleButton": "Wieder Zusammenbauen",
-      "helpText": "Klicken Sie auf die Schaltfläche, um die Animation der Stuhlzerlegung in Komponenten zu starten"
+      "ringLabel": "Stützring",
+      "innerArchLabel": "Innerer Rückenlehnenbogen",
+      "title": "Produkt-Dekonstruktion",
+      "description": "Lernen Sie die Anatomie des Thonet-Stuhls (Konzeptdiagramm). Klicken Sie auf die Schaltfläche, um zu sehen, wie der Stuhl in seine Einzelteile zerlegt wird.",
+      "startButton": "Dekonstruktion starten",
+      "reassembleButton": "Wieder zusammenbauen",
+      "helpText": "Klicken Sie auf die Schaltfläche, um die Animation der Stuhlzerlegung zu starten",
+      "ariaChairExploded": "Der Stuhl wurde in seine Einzelteile zerlegt.",
+      "ariaChairReassembled": "Der Stuhl wurde wieder zusammengebaut.",
+      "backFrameLabel": "Hintergestell und Rückenlehne",
+      "seatLabel": "Sitzfläche mit Geflecht",
+      "frontLegsLabel": "Vorderbeine"
     },
     "processSimulation": {
-      "title": "Prozesssimulation",
-      "description": "Verfolgen Sie Schritt für Schritt den revolutionären Prozess des Dampfbiegens von Holz. Jede Produktionsstufe wird mit detaillierten Erklärungen präsentiert.",
+      "title": "Prozess-Simulation",
+      "description": "Verfolgen Sie Schritt für Schritt den revolutionären Prozess des Biegens von Holz unter Dampf. Jeder Produktionsschritt wird mit detaillierten Erklärungen vorgestellt.",
       "step1Title": "Holzvorbereitung",
-      "step1Description": "Auswahl geeigneten Buchenholzes mit entsprechendem Feuchtigkeitsgehalt",
+      "step1Description": "Auswahl von geeignetem Buchenholz mit passender Feuchtigkeit",
       "step2Title": "Dampfbehandlung",
-      "step2Description": "Erhitzung des Holzes mit Dampf bei 100°C für 2-6 Stunden",
-      "step3Title": "Biegen in Form",
-      "step3Description": "Platzierung des erweichten Holzes in Metallform und Formgebung",
+      "step2Description": "Erhitzen des Holzes mit Dampf bei 100°C für 2-6 Stunden",
+      "step3Title": "Biegen in der Form",
+      "step3Description": "Einlegen des erweichten Holzes in eine Metallform und Formgebung",
       "step4Title": "Trocknung und Veredelung",
       "step4Description": "Natürliche Trocknung und abschließende Oberflächenbehandlung",
       "previousStep": "Vorheriger Prozessschritt",
@@ -74,135 +102,294 @@
   },
   "heritage": {
     "title": "Erbe und Einfluss auf die Moderne",
-    "description": "Michael Thonets Innovationen gingen weit über seine Zeit hinaus und prägten bis heute modernes Design und Möbelproduktion.",
+    "description": "Die Innovationen von Michael Thonet reichten weit über seine Epoche hinaus und prägen das moderne Design und die Möbelproduktion bis heute.",
+    "aiImageNotice": "Bild von KI generiert. Inspiriert vom Stil Michael Thonets. Dieses Projekt ist bildend, nicht kommerziell und nicht mit der Marke Thonet GmbH verbunden.",
     "technologicalRevolution": {
       "title": "Technologische Revolution",
-      "description": "Einführung der Massenmöbelproduktion durch Standardisierung und Mechanisierung der Prozesse."
+      "description": "Einführung der Massenproduktion von Möbeln durch Standardisierung und Mechanisierung der Prozesse."
     },
     "democratization": {
       "title": "Demokratisierung des Designs",
-      "description": "Bereitstellung schöner, funktionaler Möbel für eine breitere gesellschaftliche Gruppe durch niedrigere Produktionskosten."
+      "description": "Schöne, funktionale Möbel durch niedrigere Produktionskosten für eine breitere Gesellschaftsschicht zugänglich machen."
     },
     "globalImpact": {
       "title": "Globaler Einfluss",
-      "description": "Einfluss auf die Entwicklung zeitgenössischen Industriedesigns und Philosophie der Funktionalität."
+      "description": "Einfluss auf die Entwicklung des zeitgenössischen Industriedesigns und der Philosophie der Funktionalität."
     },
     "chair14": {
-      "title": "Stuhl Nr. 14 - Design-Ikone",
-      "description": "In über 50 Millionen Exemplaren produziert, wurde Stuhl Nr. 14 als eines der wichtigsten Werke des Industriedesigns in der Geschichte anerkannt.",
+      "title": "Stuhl Nr. 14 - Ikone des Designs",
+      "description": "Mit über 50 Millionen produzierten Exemplaren gilt der Stuhl Nr. 14 als eines der bedeutendsten Werke des Industriedesigns in der Geschichte.",
       "yearIntroduced": "Einführungsjahr:",
-      "numberProduced": "Anzahl produziert:",
-      "numberOfParts": "Anzahl Teile:",
+      "numberProduced": "Produzierte Stückzahl:",
+      "numberOfParts": "Anzahl der Teile:",
       "assemblyTime": "Montagezeit:"
     }
   },
   "timeline": {
-    "title": "Lebens- und Werkzeitleiste",
-    "description": "Wichtige Ereignisse in Michael Thonets Leben und der Entwicklung seines Unternehmens.",
+    "title": "Zeittafel des Lebens und Schaffens",
+    "description": "Schlüsselereignisse im Leben von Michael Thonet und der Entwicklung seines Unternehmens.",
     "1796": {
       "title": "Geburt in Boppard",
-      "description": "Michael Thonet kommt in einer kleinen Stadt am Rhein zur Welt, in einer Familie mit Tischlertradition."
+      "description": "Michael Thonet kommt in einer kleinen Stadt am Rhein in einer Familie mit Tischlertradition zur Welt."
     },
     "1819": {
       "title": "Beginn der Tätigkeit",
-      "description": "Gründung seiner eigenen Tischlerwerkstatt und erste Experimente mit Holzbearbeitungstechniken."
+      "description": "Gründung einer eigenen Tischlerwerkstatt und erste Experimente mit Holzbearbeitungstechniken."
     },
     "1841": {
       "title": "Umzug nach Wien",
-      "description": "Auf Einladung von Fürst Metternich verlegt Thonet sein Geschäft nach Wien, wo er bessere Entwicklungsbedingungen erhält."
+      "description": "Auf Einladung von Fürst Metternich verlegt Thonet seinen Betrieb nach Wien, wo er bessere Entwicklungsbedingungen erhält."
     },
     "1850": {
-      "title": "Fabrikgründung",
-      "description": "Gründung der Firma \"Gebrüder Thonet\" und Beginn der Massenproduktion von Bugholzmöbeln."
+      "title": "Gründung der Fabrik",
+      "description": "Gründung der Firma „Gebrüder Thonet“ und Beginn der Massenproduktion von Bugholzmöbeln."
     },
     "1859": {
       "title": "Stuhl Nr. 14",
-      "description": "Markteinführung des berühmten Stuhls Nr. 14, der zu einer Ikone des Industriedesigns wird."
+      "description": "Markteinführung des berühmten Stuhls Nr. 14, der zu einer Ikone des Industriedesigns werden wird."
     },
     "1871": {
       "title": "Tod des Meisters",
-      "description": "Michael Thonet stirbt in Wien und hinterlässt ein Industrieimperium und revolutionäres Erbe."
+      "description": "Michael Thonet stirbt in Wien und hinterlässt ein Industrieimperium und ein revolutionäres Erbe."
+    }
+  },
+  "collection_section": {
+    "title": "Virtuelle Galerie der Sammlung von Paweł Michalski",
+    "description": "Die auf der Seite präsentierten Möbel stammen aus der Privatsammlung eines Hobbyisten und Restaurators aus Radom. In der Ausstellung im Alten Wagenhaus in Lewków wurden über 60 Thonet-Möbel gezeigt – von der Wiege bis zum Kleiderschrank.",
+    "button_text": "Details ansehen",
+    "modal_year": "Entwurfsjahr",
+    "modal_notes": "Notizen des Restaurators",
+    "modal_image_description": "Bildbeschreibung",
+    "show_more_button": "Mehr anzeigen",
+    "show_less_button": "Weniger anzeigen"
+  },
+  "collection": {
+    "chair_no_14": {
+      "title": "Stuhl Nr. 14 - Ikone des Designs",
+      "description": "Ein berühmtes Modell, das aus vielen Darstellungen in der Popkultur bekannt ist und vom Designer einfach '14' genannt wurde. Michael Thonet erfand es 1848. Es wird bis heute in zig Millionen Exemplaren hergestellt. Dieser Stuhl begründete einen Stil, der bis heute andauert.",
+      "year": "ca. 1859",
+      "notes": "Die Restaurierung dieses Exemplars erforderte die Verstärkung der Schraubverbindungen und die Wiederherstellung des originalen, handgeflochtenen Rohrgeflechts auf der Sitzfläche.",
+      "image1_desc": "[Sammler und Restaurator Paweł Michalski]",
+      "image2_desc": "[In der privaten Restaurierungswerkstatt]",
+      "image3_desc": "[Das Ehepaar Michalski]"
+    },
+    "rocking_chair_no_10": {
+      "title": "Schaukelstuhl Nr. 10",
+      "description": "Einer der elegantesten und organischsten Entwürfe von Thonet. Seine fließenden Linien und die innovative Konstruktion machten ihn zum Lieblingsmöbel vieler Künstler, darunter Pablo Picasso, Marilyn Monroe und Liza Minnelli. Seine Form begeistert bis heute.",
+      "year": "ca. 1885",
+      "notes": "Die größte Herausforderung bestand darin, die perfekte Krümmung der Kufen wiederherzustellen, die sich im Laufe der Jahre verformt hatten. Es wurden traditionelle Dampfbiegemethoden angewendet.",
+      "image1_desc": "[Bis heute sind sie eine Ikone des Designs und werden auf dem Antiquitäten- und Sammlermarkt hoch geschätzt.]",
+      "image2_desc": "[Sie waren besonders beliebt in bürgerlichen Häusern, Sanatorien und Cafés an der Wende vom 19. zum 20. Jahrhundert.]"
+    },
+    "a_811_armchair": {
+      "title": "Sessel A 811 (Entw. Josef Hoffmann)",
+      "description": "Ein Entwurf, der Josef Hoffmann aus den 1920er Jahren zugeschrieben wird. Er zeichnet sich durch seine einfache, geometrische Form und die handgeflochtene Rückenlehne und Sitzfläche aus, was ein Markenzeichen der Entwürfe für Thonet aus dieser Zeit war.",
+      "year": "ca. 1925",
+      "notes": "Die meiste Arbeit erforderte die sorgfältige Wiederherstellung des Wiener Geflechts an der Rückenlehne unter Beibehaltung des ursprünglichen Musters und der Spannung.",
+      "image1_desc": "[Das Modell A 811 ist ein Beispiel für Thonets Übergang von der Jugendstil-Ornamentik zu Funktionalismus und Moderne.]",
+      "image2_desc": "[Hoffmann, als Mitbegründer der Wiener Werkstätte, förderte Einfachheit, klare Formen und hochwertige Handwerkskunst.]"
+    },
+    "kneeler": {
+      "title": "Kniestuhl",
+      "description": "Das wertvollste und einzigartigste Stück in der Sammlung von Paweł Michalski. Es ist auf so außergewöhnliche Weise gefertigt, dass es heute schwierig wäre, einen Hersteller zu finden, der sich zutrauen würde, das Möbelstück in dieser Technologie nachzubauen.",
+      "year": "um 1900",
+      "notes": "Dieses Exemplar ist in nahezu perfektem Zustand erhalten. Die Restaurierung umfasste eine sanfte Reinigung des Holzes und dessen Schutz mit Wachs, um die ursprüngliche Patina nicht zu stören.",
+      "image1_desc": "[Thonets Kniestühle sind nicht so bekannt wie seine Stühle oder Schaukelstühle, weshalb sie heute eine Sammlerrarität darstellen.]",
+      "image2_desc": "[Sie waren hauptsächlich in Mitteleuropa (Österreich, Tschechien, Polen) in der zweiten Hälfte des 19. und Anfang des 20. Jahrhunderts populär.]"
+    },
+    "cradle": {
+      "title": "Wiege",
+      "description": "Thonet entwarf Möbel für jede Lebensphase, und die Bugholzwiegen sind das beste Beispiel dafür. Ihre luftige, leichte Konstruktion und fließenden Linien machten sie nicht nur funktional, sondern auch schön. Oft mit aufwendigen Details verziert, waren sie eine Zierde für jedes Kinderzimmer.",
+      "year": "ca. 1890",
+      "notes": "Die Rekonstruktion der fehlenden, kleinen Zierelemente erforderte das präzise Biegen dünner Buchenholzleisten. Die Struktur wurde an unauffälligen Stellen verstärkt.",
+      "image1_desc": "[Thonet-Wiegen sind seltene Exemplare, die auf dem Antiquitäten- und Designmarkt oft hoch geschätzt werden – ihr Wert erreicht Tausende von Euro/Dollar bei La Maison London.]",
+      "image2_desc": "[Heute sind sie seltene und geschätzte Sammlerstücke, die als miniaturisierte Gebrauchsskulpturen betrachtet werden können – ein perfektes Beispiel für zeitloses Design.]",
+      "image3_desc": "[Eine davon befindet sich sogar in der Sammlung des Museum of Modern Art (MoMA) in New York, The Museum of Modern Art.]"
+    },
+    "hall_tree": {
+      "title": "Garderobenständer",
+      "description": "Thonets Garderobenständer sind der Inbegriff von Funktionalität und Eleganz. Das gebogene Holz schuf organische, fast skulpturale Formen, die einen praktischen Platz für Oberbekleidung, Hüte und Regenschirme boten. Sie waren ein wesentliches Element von Cafés und häuslichen Fluren.",
+      "year": "ca. 1900",
+      "notes": "Die wichtigste Aufgabe war die Stabilisierung der Struktur und die Reparatur von Rissen an den Hauptstützelementen. Die ursprüngliche dunkle Politur wurde erhalten, wobei nur kleine Mängel ausgebessert wurden.",
+      "image1_desc": "[Thonet-Garderoben sind oft mit kunstvollen Jugendstilelementen verziert – besonders im oberen Teil, wo gebogene Formen elegante Peitschenhiebe (Whiplash-Linien) bilden, die der Ästhetik des Art Nouveau entsprechen, Country French Interiors 1stDibs.]"
+    },
+    "cafe_table": {
+      "title": "Kaffeetisch",
+      "description": "Neben den Stühlen waren die Kaffeetische eine der Säulen des Erfolgs der Firma Thonet. Sie zeichneten sich durch einen gusseisernen, verzierten Fuß und eine Platte aus Marmor oder gebogenem Holz aus. Ihre Konstruktion war äußerst stabil und langlebig, ideal für den intensiven Gebrauch im öffentlichen Raum.",
+      "year": "ca. 1880",
+      "notes": "Die Marmorplatte erforderte eine professionelle Reinigung und Politur, um jahrelange Flecken und Kratzer zu entfernen. Der gusseiserne Fuß wurde gereinigt und vor Korrosion geschützt.",
+      "image1_desc": "[Thonets Kaffeetische schufen zusammen mit dem Stuhl Nr. 14 die visuelle Identität der Wiener Kaffeehäuser des späten 19. Jahrhunderts.]"
+    }
+  },
+  "map_section": {
+    "title": "Thonet auf der ganzen Welt",
+    "description": "Entdecken Sie die Schlüsselorte, die mit der Geschichte von Michael Thonet und seiner Firma verbunden sind – von seinem Geburtsort über die Hauptstadt des Kaiserreichs bis hin zu historischen Fabriken und legendären Cafés."
+  },
+  "locations": {
+    "boppard": {
+      "title": "Boppard, Deutschland",
+      "description": "Der Geburtsort von Michael Thonet (1796) und der Standort seiner ersten Tischlerwerkstatt."
+    },
+    "vienna": {
+      "title": "Wien, Österreich",
+      "description": "Die Stadt, in die Thonet auf Einladung von Fürst Metternich zog und die zum Herzen seines Möbelimperiums wurde."
+    },
+    "radomsko": {
+      "title": "Radomsko, Polen",
+      "description": "Eine der größten und wichtigsten Fabriken Thonets außerhalb Österreichs, gegründet 1881 und bis heute in Betrieb."
+    },
+    "cafe_central": {
+      "title": "Café Central, Wien",
+      "description": "Ein historisches Wiener Kaffeehaus, dessen Innenräume von Anfang an mit Thonet-Stühlen geschmückt waren und Zeuge von Treffen von Intellektuellen und Künstlern wurden."
     }
   },
   "footer": {
-    "title": "Thonet Digital Heritage",
-    "description": "Eine interaktive Webseite, die der Geschichte und dem Erbe von Michael Thonet und seinen revolutionären Möbeltechniken gewidmet ist.",
+    "title": "Das Thonet-Projekt: Eine digitale Hommage",
+    "description": "Eine interaktive Hommage an die Geschichte und das Erbe von Michael Thonet, einem Pionier des modernen Möbelbaus.",
     "navigation": "Navigation",
-    "accessibility": "Barrierefreiheit",
-    "technologies": "Technologien",
-    "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
-    "dedication": "Gewidmet dem Sammler von Bugholzmöbeln Paweł Michalski",
+    "disclaimer": "Diese Seite ist ein inoffizielles, nicht-kommerzielles Bildungsprojekt. Der Name Thonet® ist eine eingetragene Marke der Thonet GmbH.",
     "legal": {
       "title": "Rechtliche Informationen",
-      "content": "Diese Seite wurde für Bildungs- und Präsentationszwecke erstellt.",
-      "privacy": "Datenschutzerklärung",
+      "details": "Diese Seite wurde zu Bildungs- und Präsentationszwecken erstellt. Entworfen von einem autodidaktischen Autor auf Replit, mit Beiträgen von Google AI Studio und ChatGPT. {{year}}",
+      "privacy": "Datenschutzrichtlinie",
       "terms": "Nutzungsbedingungen"
     }
   },
   "common": {
-    "backToHome": "Zurück zur Startseite"
+    "backToHome": "Zurück zur Startseite",
+    "backToHeritage": "Zurück zum Erbe",
+    "scrollToTop": "Nach oben scrollen",
+    "disclaimerNotice": "Dies ist ein inoffizielles, nicht-kommerzielles Bildungsprojekt, eine Hommage an Michael Thonet und seine Bugholzmöbel. Die Marke Thonet® ist Eigentum der Thonet GmbH."
   },
   "privacy": {
-    "title": "Datenschutzerklärung",
-    "description": "Datenschutzerklärung der Thonet Digital Heritage Website",
+    "title": "Datenschutzrichtlinie",
+    "description": "Datenschutzrichtlinie für das Projekt Thonet Digital Heritage, die beschreibt, wie Daten gesammelt, verwendet und geschützt werden.",
     "lastUpdated": "Letzte Aktualisierung:",
-    "dataCollection": {
-      "title": "Datensammlung",
-      "content": "Unsere Website sammelt minimale Daten, die für die Funktionalität erforderlich sind. Wir sammeln keine persönlichen Daten ohne Ihre Zustimmung."
+    "introduction": {
+      "title": "Einführung",
+      "content": "Diese Datenschutzrichtlinie beschreibt, wie personenbezogene Daten von Nutzern, die die Website 'Das Thonet-Projekt: Eine digitale Hommage' besuchen, erhoben, verwendet und geschützt werden. Die Seite dient Bildungszwecken und ist nicht kommerziell, und die Privatsphäre unserer Gäste hat für uns Priorität."
+    },
+    "dataAdmin": {
+      "title": "Datenverantwortlicher",
+      "content": "Der Datenverantwortliche ist der Ersteller der Seite, eine Privatperson. Alle Anfragen bezüglich personenbezogener Daten sind elektronisch über die verfügbaren Kontaktmöglichkeiten zu stellen."
+    },
+    "dataScope": {
+      "title": "Umfang und Art der erhobenen Daten",
+      "content": "Wir erheben nur die minimalen Daten, die für das ordnungsgemäße Funktionieren der Seite erforderlich sind. Dazu gehören: Sprach- und Themeneinstellungen (im 'localStorage' des Browsers gespeichert) sowie Informationen über die Anzeige des Begrüßungs-Popups (im 'sessionStorage' gespeichert). Wir erheben keine personenbezogenen Daten wie Name, Nachname oder E-Mail-Adresse."
+    },
+    "dataPurpose": {
+      "title": "Zweck der Datenverarbeitung",
+      "content": "Die Daten werden ausschließlich zur Bereitstellung grundlegender Funktionen der Seite verarbeitet, wie z.B. das Speichern der ausgewählten Sprache und des grafischen Themas, um die Benutzererfahrung zu verbessern. Sie werden nicht für Marketingzwecke verwendet oder an Dritte weitergegeben."
     },
     "cookies": {
-      "title": "Cookies",
-      "content": "Wir verwenden Cookies nur, um Ihre Spracheinstellungen und das Website-Design zu speichern. Wir verwenden keine Cookies für Tracking."
+      "title": "Cookies und Speichertechnologien",
+      "content": "Die Seite verwendet die 'localStorage'- und 'sessionStorage'-Technologien des Browsers, die ähnlich wie Cookies funktionieren, aber die Daten werden nicht an den Server gesendet. Sie dienen ausschließlich dazu, Einstellungen auf der Benutzerseite zu speichern und verfolgen die Benutzeraktivität nicht."
+    },
+    "dataRetention": {
+      "title": "Dauer der Datenspeicherung",
+      "content": "Daten im 'localStorage' (Sprache, Thema) werden gespeichert, bis sie vom Benutzer manuell in den Browsereinstellungen gelöscht werden. Daten im 'sessionStorage' (Status des Begrüßungs-Popups) werden automatisch gelöscht, wenn der Browser-Tab geschlossen wird."
     },
     "thirdParty": {
-      "title": "Drittanbieter-Services",
-      "content": "Die Website kann Links zu externen Services enthalten. Wir sind nicht verantwortlich für die Datenschutzrichtlinien dieser Websites."
+      "title": "Dienste von Drittanbietern",
+      "content": "Die Seite wird auf der Netlify-Plattform gehostet, die anonyme, aggregierte Analysedaten (z.B. Anzahl der Besuche, Browsertyp) für statistische Zwecke und zur Gewährleistung der Sicherheit des Dienstes erheben kann. Wir haben keinen direkten Zugriff auf diese Daten auf der Ebene einzelner Benutzer."
     },
-    "rights": {
-      "title": "Ihre Rechte",
-      "content": "Sie haben das Recht auf Zugang, Berichtigung und Löschung Ihrer persönlichen Daten gemäß geltendem Recht."
+    "userRights": {
+      "title": "Benutzerrechte",
+      "content": "Da wir keine personenbezogenen Daten erheben, finden die traditionellen Rechte (Auskunft, Berichtigung, Löschung) keine direkte Anwendung. Der Benutzer hat die volle Kontrolle über die in seinem Browser gespeicherten Daten und kann sie jederzeit über die Einstellungen seines Browsers löschen."
+    },
+    "policyChanges": {
+      "title": "Änderungen der Datenschutzrichtlinie",
+      "content": "Wir behalten uns das Recht vor, Änderungen an dieser Datenschutzrichtlinie vorzunehmen. Alle Aktualisierungen werden auf dieser Seite veröffentlicht und treten am Tag ihrer Veröffentlichung in Kraft."
     },
     "contact": {
       "title": "Kontakt",
-      "content": "Bei Fragen zur Datenschutzerklärung kontaktieren Sie uns bitte."
+      "content": "Wenn Sie Fragen oder Bedenken bezüglich dieser Richtlinie haben, kontaktieren Sie uns bitte. Kontaktdaten werden auf Anfrage zur Verfügung gestellt."
     }
   },
   "terms": {
     "title": "Nutzungsbedingungen",
-    "description": "Nutzungsbedingungen der Thonet Digital Heritage Website",
+    "description": "Nutzungsbedingungen für das Projekt Thonet Digital Heritage, die die Regeln für die Nutzung der Seite und ihrer Inhalte festlegen.",
     "lastUpdated": "Letzte Aktualisierung:",
+    "introduction": {
+      "title": "Definitionen und Einführung",
+      "content": "Diese 'Nutzungsbedingungen' legen die Regeln fest, die für alle 'Benutzer' der Website 'Das Thonet-Projekt: Eine digitale Hommage' ('Dienst') gelten. Der Dienst ist ein nicht kommerzielles, bildendes Projekt, das als Hommage an Michael Thonet erstellt wurde."
+    },
     "acceptance": {
       "title": "Annahme der Bedingungen",
-      "content": "Durch die Nutzung dieser Website akzeptieren Sie diese Nutzungsbedingungen vollständig."
+      "content": "Durch die Nutzung des Dienstes akzeptieren Sie diese Bedingungen vollständig. Wenn Sie mit einer der Bestimmungen nicht einverstanden sind, verlassen Sie bitte die Seite."
     },
     "usage": {
-      "title": "Nutzungsrichtlinien",
-      "content": "Die Website ist für Bildungs- und Informationszwecke bestimmt. Eine rechtswidrige Nutzung ist untersagt."
+      "title": "Regeln für die Nutzung des Dienstes",
+      "content": "Der Benutzer verpflichtet sich, den Dienst ausschließlich für die vorgesehenen Bildungs- und Informationszwecke zu nutzen. Handlungen, die den Betrieb des Dienstes stören, seine Sicherheit gefährden oder die Rechte anderer Benutzer verletzen könnten, sind verboten."
     },
     "intellectual": {
       "title": "Geistiges Eigentum",
-      "content": "Alle Inhalte der Website sind urheberrechtlich geschützt. Das Kopieren erfordert die Erlaubnis des Eigentümers."
+      "content": "Alle Originaltexte, Grafiken, Quellcodes und das Seitenlayout sind geistiges Eigentum des Autors des Dienstes und urheberrechtlich geschützt. Der Name Thonet® ist eine eingetragene Marke der Thonet GmbH. KI-generierte Bilder, obwohl inspiriert, erheben keinen Anspruch auf historische Ähnlichkeiten und dienen illustrativen Zwecken."
+    },
+    "userContent": {
+      "title": "Benutzerinhalte",
+      "content": "Der Dienst bietet keine Möglichkeit für Benutzer, Inhalte hinzuzufügen. Alle Formen der Interaktion sind auf die in der Benutzeroberfläche der Seite bereitgestellten Funktionalitäten beschränkt."
     },
     "disclaimer": {
-      "title": "Haftungsausschluss",
-      "content": "Informationen auf der Website dienen nur zu Informationszwecken. Wir garantieren nicht deren Vollständigkeit oder Richtigkeit."
+      "title": "Ausschluss von Gewährleistung und Haftung",
+      "content": "Die im Dienst präsentierten Inhalte dienen ausschließlich Informations- und Bildungszwecken. Der Autor bemüht sich um deren Richtigkeit, übernimmt jedoch keine Verantwortung für deren absolute Korrektheit und garantiert nicht die Fehlerfreiheit. Der Dienst wird 'wie besehen' ohne jegliche Gewährleistung bereitgestellt."
     },
     "limitation": {
       "title": "Haftungsbeschränkung",
-      "content": "Wir haften nicht für Schäden, die durch die Nutzung der Website entstehen."
+      "content": "Der Autor des Dienstes haftet nicht für Schäden (direkte oder indirekte), die sich aus der Nutzung oder der Unmöglichkeit der Nutzung des Dienstes ergeben."
+    },
+    "governingLaw": {
+      "title": "Geltendes Recht",
+      "content": "Alle Streitigkeiten, die sich aus diesen Bedingungen ergeben, werden nach dem auf dem Gebiet Polens geltenden Recht beigelegt."
     },
     "changes": {
       "title": "Änderungen der Bedingungen",
-      "content": "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern."
+      "content": "Der Autor behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Die aktuelle Version wird immer auf dieser Seite verfügbar sein."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "Bei Fragen zu den Nutzungsbedingungen kontaktieren Sie uns bitte. Details werden auf Anfrage zur Verfügung gestellt."
     }
   },
   "aria": {
-    "themeChanged": "Design geändert zu {{theme}}",
-    "highContrastEnabled": "Hoher Kontrast aktiviert",
-    "highContrastDisabled": "Hoher Kontrast deaktiviert",
-    "chairExploded": "Stuhl wurde in Komponenten zerlegt. Komponentenbeschriftungen sind sichtbar.",
-    "chairReassembled": "Stuhl wurde wieder zusammengebaut.",
+    "themeChanged": "Thema auf {{theme}} geändert",
+    "highContrastEnabled": "Hochkontrastmodus aktiviert",
+    "highContrastDisabled": "Hochkontrastmodus deaktiviert",
+    "chairExploded": "Der Stuhl wurde in seine Einzelteile zerlegt. Komponentenbeschriftungen sind sichtbar.",
+    "chairReassembled": "Der Stuhl wurde wieder zusammengebaut.",
     "autoplayStarted": "Automatische Prozesswiedergabe gestartet",
-    "autoplayStopped": "Automatische Prozesswiedergabe gestoppt"
+    "autoplayStopped": "Automatische Prozesswiedergabe gestoppt",
+    "github": "GitHub-Profil besuchen",
+    "x": "X-Profil besuchen",
+    "facebook": "Facebook-Profil besuchen"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Die technologische Revolution: Das Biegen von Holz mit Dampf",
+      "p1": "Bevor Michael Thonet die Bühne betrat, war die Möbelherstellung die Domäne von Handwerkern, und komplexe, geschwungene Formen wurden durch mühsames Schnitzen und Verbinden vieler kleiner Holzstücke erreicht. Es war ein teurer, zeitaufwändiger und materialintensiver Prozess, der elegante Möbel zu einem Luxus machte, der nur wenigen zur Verfügung stand.",
+      "p2": "Thonet, mit seiner Vision und Entschlossenheit, änderte dieses Paradigma. Seine brillante Innovation – die Technologie des Biegens von massivem Buchenholz mit Dampf – war ein echter Durchbruch. Der Prozess bestand darin, sorgfältig ausgewählte Holzstäbe heißem Dampf auszusetzen, bis sie plastisch und formbar wurden. Dann wurde das Holz mit Metallformen und menschlicher Muskelkraft in elegante, fließende Formen gebogen, die zuvor ohne Schnitzen unerreichbar waren.",
+      "p3": "Nachdem die gewünschte Form gegeben war, wurden die Komponenten getrocknet, wodurch sie aushärteten und ihre neue Form dauerhaft beibehielten. Diese Methode reduzierte nicht nur die Produktionszeit drastisch, sondern minimierte auch den Materialabfall und erhöhte die Festigkeit der Möbel, indem schwache Verbindungsstellen eliminiert wurden. Es war diese Technologie, die die Schaffung leichter und dennoch unglaublich haltbarer Strukturen wie des legendären Stuhls Nr. 14 ermöglichte.",
+      "p4": "Thonets Revolution beschränkte sich nicht nur auf den Biegeprozess selbst. Er führte auch die Prinzipien der Standardisierung und Massenproduktion ein. Möbel wurden als ein Satz von wenigen wiederholbaren, austauschbaren Komponenten entworfen, die in Serie hergestellt und dann leicht montiert werden konnten. Dieser wegweisende „Flat-Pack“-Ansatz ermöglichte einen effizienten Transport und Vertrieb von Möbeln in einem beispiellosen Ausmaß und legte den Grundstein für die moderne Möbelindustrie."
+    },
+    "design-democratization": {
+      "title": "Demokratisierung des Designs: Schönheit für alle",
+      "p1": "Michael Thonets größte soziale Errungenschaft war es, gutes Design aus den Händen der Elite zu befreien. Im 19. Jahrhundert war schönes, gut gemachtes Mobiliar ein Synonym für Reichtum. Thonets industrielle Revolution veränderte diese Dynamik vollständig und führte das Konzept ein, dass Ästhetik und Funktionalität nicht teuer sein müssen.",
+      "p2": "Dank der Holzbiegetechnologie und der Standardisierung der Komponenten sanken die Produktionskosten drastisch. Ein Stuhl, der zuvor wochenlange Arbeit eines Handwerkers erfordert hätte, konnte nun in viel kürzerer Zeit von Fabrikarbeitern hergestellt werden. Diese Effizienz schlug sich direkt im Endpreis nieder. Plötzlich wurden elegante Stühle, Tische und Garderobenständer für die wachsende Mittelschicht, Cafébesitzer, Restaurants und Büros zugänglich.",
+      "p3": "Das 'Flat-Pack'-Konzept war ein weiterer Geniestreich. Der Stuhl Nr. 14, bestehend aus nur sechs Komponenten, zwei Muttern und zehn Schrauben, konnte zerlegt in einer kompakten Kiste versendet werden. In einem einzigen Kubikmeter konnten bis zu 36 zerlegte Stühle Platz finden. Dies minimierte die Transport- und Lagerkosten und ermöglichte den Export von Thonet-Möbeln weltweit zu erschwinglichen Preisen.",
+      "p4": "So wurden Thonet-Möbel allgegenwärtig. Sie zierten berühmte Wiener Cafés, Pariser Bistros, Londoner Büros und bürgerliche Häuser von Amerika bis Japan. Michael Thonet bewies, dass Massenproduktion nicht bedeuten muss, Kompromisse bei Qualität oder Ästhetik einzugehen. Seine Arbeit war der erste Schritt zu einer Idee, die zu einem Eckpfeiler des modernen Designs werden sollte: gut gestaltete Objekte zu schaffen, die das tägliche Leben aller Menschen bereichern, nicht nur einer privilegierten Minderheit."
+    },
+    "global-impact": {
+      "title": "Globaler Einfluss: Die Gestaltung des modernen Designs",
+      "p1": "Der Einfluss von Michael Thonet reicht weit über das 19. Jahrhundert und die Millionen verkaufter Stühle hinaus. Seine Innovationen in Produktion und Vertrieb wurden zum Fundament, auf dem das moderne Industriedesign aufgebaut wurde. Thonets Philosophie – Produkte zu schaffen, die schön, funktional, erschwinglich und in Serie produzierbar sind – wurde zum Heiligen Gral für zukünftige Generationen von Designern.",
+      "p2": "Seine Arbeit inspirierte Schlüsselfiguren und Bewegungen in der Designgeschichte. Architekten der frühen Moderne wie Le Corbusier waren fasziniert von der Reinheit der Form und der industriellen Logik der Thonet-Möbel. Le Corbusier verwendete den Stuhl Nr. 14 häufig in seinen Innenarchitekturen und lobte ihn für seine 'Adel' und seine perfekte Mischung aus Eleganz und Nützlichkeit. Er sagte berühmt: 'Niemals wurde ein besseres und eleganteres Design und ein präziser gefertigter und praktischerer Gegenstand geschaffen.'",
+      "p3": "Die Prinzipien der Standardisierung und Modularität, die Thonet einführte, wurden grundlegend für das Bauhaus, die deutsche Designschule, die die Moderne definierte. Die Idee, einfache, wiederholbare Elemente zu schaffen, die leicht montiert werden können, ist eine direkte Fortsetzung von Thonets Denken. Sein Umgang mit Materialien – die natürlichen Eigenschaften des Holzes voll auszuschöpfen, anstatt gegen sie anzukämpfen – wurde ebenfalls zu einem zentralen Lehrsatz des modernistischen Designs.",
+      "p4": "Thonets Erbe ist heute lebendig. Jedes Möbelstück, das wir in einem flachen Karton zur Selbstmontage kaufen, ist ein Echo seines revolutionären Vertriebssystems. Jeder Designer, der danach strebt, Ästhetik mit massenhafter Zugänglichkeit zu verbinden, folgt dem Weg, den dieser Visionär aus Boppard geebnet hat. Michael Thonet verkaufte nicht nur Möbel; er verkaufte der Welt die Idee, dass gutes Design ein universelles Recht ist, kein Luxus für wenige."
+    }
+  },
+  "popup": {
+    "title": "Das Thonet-Projekt: Eine digitale Hommage",
+    "mainText": "Diese Seite ist ein inoffizielles, nicht-kommerzielles Bildungsprojekt, das der Geschichte und dem Erbe der Bugholzmöbel von Michael Thonet gewidmet ist.",
+    "dedication": "Es ist dem Hobbyisten, Sammler und Restaurator aus Radom – Paweł Michalski – gewidmet.",
+    "disclaimer": "Der Name Thonet® ist eine eingetragene Marke der Thonet GmbH. Das Projekt hat rein dokumentarischen und leidenschaftlichen Charakter."
   }
 }

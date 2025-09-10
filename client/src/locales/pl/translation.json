@@ -5,15 +5,33 @@
     "titleAccent": "Pionier Designu",
     "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
     "exploreButton": "Rozpocznij Eksplorację",
-    "biographyButton": "Poznaj Biografię"
+    "biographyButton": "Poznaj Biografię",
+    "imageAlt": "Michael Thonet - pionier technologii gięcia drewna na parze",
+    "aiNotice": {
+      "text": "Obraz wygenerowany przez AI na podstawie zdjęcia z Wikipedii.",
+      "sourceTitle": "Oryginalne źródło:",
+      "sourceAttribution": "'Michael Thonet' autorstwa: nieznany"
+    }
   },
   "navigation": {
     "home": "Strona główna",
     "biography": "Biografia",
+    "collection": "Kolekcja",
     "interactiveModules": "Moduły Interaktywne",
     "heritage": "Dziedzictwo",
     "timeline": "Chronologia",
+    "map": "Mapa",
     "skipToContent": "Przejdź do treści głównej"
+  },
+  "routes": {
+    "privacy": "polityka-prywatnosci",
+    "terms": "warunki-korzystania",
+    "heritage": "dziedzictwo",
+    "heritage_slugs": {
+      "technological-revolution": "rewolucja-technologiczna",
+      "design-democratization": "demokratyzacja-designu",
+      "global-impact": "globalny-wplyw"
+    }
   },
   "controlHub": {
     "title": "Centrum Sterowania",
@@ -25,7 +43,8 @@
     "accessibility": "Dostępność",
     "currentLanguage": "Aktualny język: Polski",
     "changeToEnglish": "Zmień język na angielski",
-    "changeToGerman": "Sprache auf Deutsch ändern",
+    "changeToGerman": "Zmień język na niemiecki",
+    "changeLanguageTo": "Zmień język na {{language}}",
     "lightTheme": "Jasny",
     "darkTheme": "Ciemny",
     "currentThemeLight": "Aktualny motyw: Jasny",
@@ -34,7 +53,8 @@
     "switchToDark": "Przełącz na motyw ciemny",
     "highContrast": "Wysoki Kontrast",
     "enableHighContrast": "Włącz tryb wysokiego kontrastu",
-    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu",
+    "socials": "Społeczności"
   },
   "biography": {
     "title": "Biografia Mistrza",
@@ -42,17 +62,25 @@
     "earlyYearsTitle": "Wczesne Lata",
     "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
     "breakthroughTitle": "Przełomowe Odkrycie",
-    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli."
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli.",
+    "workshopImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH."
   },
   "interactiveModules": {
     "title": "Interaktywne Moduły Edukacyjne",
     "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
     "productDeconstruction": {
+      "ringLabel": "Obręcz wzmacniająca",
+      "innerArchLabel": "Wewnętrzny łuk oparcia",
       "title": "Dekonstrukcja Produktu",
-      "description": "Poznaj anatomię słynnego krzesła No. 14 - najbardziej znanego dzieła Thoneta. Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "description": "Poznaj anatomię krzesła Thoneta (schemat ideowy). Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
       "startButton": "Rozpocznij Dekonstrukcję",
       "reassembleButton": "Składanie z Powrotem",
-      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe"
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe",
+      "ariaChairExploded": "Krzesło zostało rozłożone na części składowe.",
+      "ariaChairReassembled": "Krzesło zostało złożone z powrotem.",
+      "backFrameLabel": "Stelaż tylny i oparcie",
+      "seatLabel": "Siedzisko z plecionką",
+      "frontLegsLabel": "Nogi przednie"
     },
     "processSimulation": {
       "title": "Symulacja Procesu",
@@ -75,6 +103,7 @@
   "heritage": {
     "title": "Dziedzictwo i Wpływ na Współczesność",
     "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "aiImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH.",
     "technologicalRevolution": {
       "title": "Rewolucja Technologiczna",
       "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
@@ -124,76 +153,202 @@
       "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
     }
   },
+  "collection_section": {
+    "title": "Wirtualna Galeria z Kolekcji Pawła Michalskiego",
+    "description": "Meble prezentowane na stronie pochodzą z prywatnej kolekcji hobbysty i renowatora z Radomia. Na wystawie w Dawnej Wozowni w Lewkowie można było zobaczyć ponad 60 thonetowskich mebli - od kołyski po garderobę.",
+    "button_text": "Zobacz szczegóły",
+    "modal_year": "Rok projektu",
+    "modal_notes": "Notatki renowatora",
+    "modal_image_description": "Opis zdjęcia",
+    "show_more_button": "Pokaż więcej",
+    "show_less_button": "Pokaż mniej"
+  },
+  "collection": {
+    "chair_no_14": {
+      "title": "Krzesło Nr 14 - Ikona Designu",
+      "description": "Słynny, doskonale znany z wielu wizerunków w popkulturze model, który sam projektant nazwał po prostu '14'. Michael Thonet wymyślił je w 1848 roku. Do tej pory jest produkowane, w dziesiątkach milionów sztuk. To krzesło rozpoczęło styl, który trwa do dzisiaj.",
+      "year": "ok. 1859",
+      "notes": "Renowacja tego egzemplarza wymagała wzmocnienia połączeń śrubowych oraz odtworzenia oryginalnej, ręcznie tkanej plecionki na siedzisku.",
+      "image1_desc": "[Kolekcjoner i renowator Paweł Michalski]",
+      "image2_desc": "[W prywatnej pracowni konserwatorskiej]",
+      "image3_desc": "[Małżeństwo Michalskich]"
+    },
+    "rocking_chair_no_10": {
+      "title": "Fotel bujany Nr 10",
+      "description": "Jeden z najbardziej eleganckich i organicznych projektów Thoneta. Płynne linie i innowacyjna konstrukcja sprawiły, że był to ulubiony mebel wielu artystów, w tym Pabla Picassa, Marilyn Monroe i Lizy Minelli. Jego forma zachwyca do dziś.",
+      "year": "ok. 1885",
+      "notes": "Kluczowym wyzwaniem było odtworzenie idealnej krzywizny płóz, które uległy deformacji przez lata. Zastosowano tradycyjne metody gięcia parowego.",
+      "image1_desc": "[Do dziś stanowią ikonę designu i są wysoko cenione na rynku antyków i kolekcjonerstwa.]",
+      "image2_desc": "[Były szczególnie popularne w domach mieszczańskich, sanatoriach i kawiarniach przełomu XIX i XX w.]"
+    },
+    "a_811_armchair": {
+      "title": "Fotel A 811 (proj. Josef Hoffmann)",
+      "description": "Projekt przypisywany Josefowi Hoffmannowi z lat 20. XX wieku. Charakteryzuje się prostą, geometryczną formą i ręcznie wyplatanym oparciem oraz siedziskiem, co było cechą charakterystyczną projektów dla Thoneta z tego okresu.",
+      "year": "ok. 1925",
+      "notes": "Najwięcej pracy wymagało pieczołowite odtworzenie plecionki wiedeńskiej na oparciu, z zachowaniem oryginalnego wzoru i napięcia.",
+      "image1_desc": "[Model A 811 to przykład przejścia Thoneta od secesyjnej ornamentyki do funkcjonalizmu i modernizmu.]",
+      "image2_desc": "[Hoffmann, jako współtwórca Wiener Werkstätte, promował prostotę, jasne formy i rzemiosło wysokiej jakości.]"
+    },
+    "kneeler": {
+      "title": "Klęcznik",
+      "description": "Najcenniejszy i najbardziej unikatowy element kolekcji Pawła Michalskiego. Jest on wykonany w tak wyjątkowy sposób, że dziś trudno byłoby znaleźć producenta, który podjąłby się odtworzenia mebla w tamtej technologii.",
+      "year": "przełom XIX i XX w.",
+      "notes": "Egzemplarz zachowany w niemal idealnym stanie. Renowacja polegała na delikatnym oczyszczeniu drewna i zabezpieczeniu go woskiem, aby nie naruszyć oryginalnej patyny.",
+      "image1_desc": "[Klęczniki Thoneta nie są tak powszechnie znane jak jego krzesła czy fotele bujane, dlatego dziś stanowią rzadkość kolekcjonerską.]",
+      "image2_desc": "[Były popularne głównie w Europie Środkowej (Austria, Czechy, Polska) w 2. połowie XIX i na początku XX wieku.]"
+    },
+    "cradle": {
+      "title": "Kołyska",
+      "description": "Thonet projektował meble na każdy etap życia, a gięte kołyski są tego najlepszym przykładem. Ich ażurowa, lekka konstrukcja i płynne linie sprawiały, że były nie tylko funkcjonalne, ale i piękne. Często zdobione misternymi detalami, stanowiły ozdobę dziecięcego pokoju.",
+      "year": "ok. 1890",
+      "notes": "Odtworzenie brakujących, drobnych elementów ozdobnych wymagało precyzyjnego gięcia cienkich listew bukowych. Konstrukcja została wzmocniona w niewidocznych miejscach.",
+      "image1_desc": "[Kołyski Thoneta to rzadkie egzemplarze, często cenione na rynku antyków i designu — ich wartość sięga tysięcy euro/dolarów La Maison London.]",
+      "image2_desc": "[Są to dziś rzadkie i cenione przedmioty kolekcjonerskie, które można uznać za miniaturowe rzeźby użytkowe – doskonały przykład ponadczasowego wzornictwa.]",
+      "image3_desc": "[Jedna z nich jest nawet w zbiorach Muzeum Sztuki Nowoczesnej (MoMA) w Nowym Jorku The Museum of Modern Art.]"
+    },
+    "hall_tree": {
+      "title": "Garderoba stojąca (wieszak)",
+      "description": "Wieszaki i garderoby Thoneta to kwintesencja funkcjonalności i elegancji. Gięte drewno tworzyło organiczne, niemal rzeźbiarskie formy, które były praktycznym miejscem na odzież wierzchnią, kapelusze i parasole. Były nieodłącznym elementem wyposażenia kawiarni i domowych przedpokojów.",
+      "year": "ok. 1900",
+      "notes": "Najważniejsze było ustabilizowanie konstrukcji i naprawa pęknięć na głównych elementach nośnych. Zachowano oryginalną, ciemną politurę, uzupełniając jedynie drobne ubytki.",
+      "image1_desc": "[Wieszaki Thoneta często zdobione są finezyjnymi, secesyjnymi elementami – zwłaszcza w górnej części, gdzie gięte kształty formują eleganckie zawinięcia (whiplash), zgodne z estetyką art nouveau Country French Interiors 1stDibs.]"
+    },
+    "cafe_table": {
+      "title": "Stolik kawiarniany",
+      "description": "Obok krzeseł, stoliki kawiarniane były jednym z filarów sukcesu firmy Thonet. Charakteryzowały się żeliwną, zdobioną podstawą i blatem z marmuru lub giętego drewna. Ich konstrukcja była niezwykle stabilna i trwała, idealna do intensywnego użytku w przestrzeniach publicznych.",
+      "year": "ok. 1880",
+      "notes": "Marmurowy blat wymagał profesjonalnego czyszczenia i polerowania w celu usunięcia wieloletnich plam i zarysowań. Żeliwna podstawa została oczyszczona i zabezpieczona przed korozją.",
+      "image1_desc": "[Stoliki kawiarniane Thoneta, razem z krzesłem nr 14, stworzyły wizualną tożsamość kawiarni wiedeńskiej końca XIX wieku.]"
+    }
+  },
+  "map_section": {
+    "title": "Thonet na Świecie",
+    "description": "Odkryj kluczowe miejsca związane z historią Michaela Thoneta i jego firmy – od miejsca narodzin, przez stolicę imperium, aż po historyczne fabryki i legendarne kawiarnie."
+  },
+  "locations": {
+    "boppard": {
+      "title": "Boppard, Niemcy",
+      "description": "Miejsce narodzin Michaela Thoneta (1796) i lokalizacja jego pierwszego warsztatu stolarskiego."
+    },
+    "vienna": {
+      "title": "Wiedeń, Austria",
+      "description": "Miasto, do którego Thonet przeniósł się na zaproszenie księcia Metternicha, stając się sercem jego imperium meblarskiego."
+    },
+    "radomsko": {
+      "title": "Radomsko, Polska",
+      "description": "Jedna z największych i najważniejszych fabryk Thoneta poza Austrią, założona w 1881 roku, działająca do dziś."
+    },
+    "cafe_central": {
+      "title": "Café Central, Wiedeń",
+      "description": "Historyczna wiedeńska kawiarnia, której wnętrza od początku zdobiły krzesła Thoneta, będąc świadkiem spotkań intelektualistów i artystów."
+    }
+  },
   "footer": {
-    "title": "Thonet Digital Heritage",
-    "description": "Interaktywna strona poświęcona historii i dziedzictwu Michaela Thoneta oraz jego rewolucyjnych technik meblarskich.",
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "description": "Interaktywny hołd dla historii i dziedzictwa Michaela Thoneta, pioniera nowoczesnego meblarstwa.",
     "navigation": "Nawigacja",
-    "accessibility": "Dostępność",
-    "technologies": "Technologie",
-    "copyright": "© 2024 Thonet Digital Heritage. Wszystkie prawa zastrzeżone.",
-    "dedication": "Dedykowane kolekcjonerowi mebli giętych Pawłowi Michalskiemu",
+    "disclaimer": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym. Nazwa Thonet® jest zarejestrowanym znakiem towarowym firmy Thonet GmbH.",
     "legal": {
       "title": "Informacje prawne",
-      "content": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych.",
+      "details": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych. Zaprojektowana przez autora-samouka na platformie Replit, przy współudziale Google AI Studio i ChatGPT. {{year}}",
       "privacy": "Polityka Prywatności",
       "terms": "Warunki Korzystania"
     }
   },
   "common": {
-    "backToHome": "Powrót do strony głównej"
+    "backToHome": "Powrót do strony głównej",
+    "backToHeritage": "Powrót do Dziedzictwa",
+    "scrollToTop": "Przewiń na górę",
+    "disclaimerNotice": "To nieoficjalny, niekomercyjny projekt edukacyjny, stanowiący hołd dla Michaela Thoneta i jego mebli giętych. Marka Thonet® jest własnością Thonet GmbH."
   },
   "privacy": {
     "title": "Polityka Prywatności",
-    "description": "Polityka prywatności serwisu Thonet Digital Heritage",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage, opisująca sposób gromadzenia, wykorzystywania i ochrony danych.",
     "lastUpdated": "Ostatnia aktualizacja:",
-    "dataCollection": {
-      "title": "Zbieranie Danych",
-      "content": "Nasza strona internetowa zbiera minimalne dane niezbędne do funkcjonowania. Nie zbieramy danych osobowych bez Twojej zgody."
+    "introduction": {
+      "title": "Wprowadzenie",
+      "content": "Niniejsza Polityka Prywatności opisuje, w jaki sposób gromadzone, wykorzystywane i chronione są dane osobowe użytkowników odwiedzających stronę 'Projekt Thonet: Cyfrowy Hołd'. Strona ma charakter edukacyjny i niekomercyjny, a prywatność naszych gości jest dla nas priorytetem."
+    },
+    "dataAdmin": {
+      "title": "Administrator Danych",
+      "content": "Administratorem danych jest twórca strony, osoba prywatna. Wszelkie zapytania dotyczące danych osobowych prosimy kierować drogą elektroniczną, korzystając z dostępnych form kontaktu."
+    },
+    "dataScope": {
+      "title": "Zakres i Rodzaj Zbieranych Danych",
+      "content": "Zbieramy tylko minimalne dane niezbędne do prawidłowego funkcjonowania strony. Należą do nich: preferencje językowe i motywu (zapisywane w 'localStorage' przeglądarki) oraz informacja o wyświetleniu okna powitalnego (zapisywana w 'sessionStorage'). Nie zbieramy danych osobowych takich jak imię, nazwisko czy adres e-mail."
+    },
+    "dataPurpose": {
+      "title": "Cel Przetwarzania Danych",
+      "content": "Dane są przetwarzane wyłącznie w celu zapewnienia podstawowej funkcjonalności strony, takiej jak zapamiętanie wybranego języka i motywu graficznego, aby poprawić komfort użytkowania. Nie są one wykorzystywane do celów marketingowych ani udostępniane podmiotom trzecim."
     },
     "cookies": {
-      "title": "Pliki Cookie",
-      "content": "Używamy plików cookie wyłącznie do zapamiętania Twoich preferencji językowych i motywu strony. Nie używamy cookies do śledzenia."
+      "title": "Pliki Cookie i Technologie Przechowywania",
+      "content": "Strona wykorzystuje technologie 'localStorage' i 'sessionStorage' przeglądarki, które działają podobnie do plików cookie, ale dane nie są wysyłane na serwer. Służą one wyłącznie do przechowywania ustawień po stronie użytkownika i nie śledzą jego aktywności."
+    },
+    "dataRetention": {
+      "title": "Okres Przechowywania Danych",
+      "content": "Dane w 'localStorage' (język, motyw) są przechowywane do momentu ich ręcznego usunięcia przez użytkownika w ustawieniach przeglądarki. Dane w 'sessionStorage' (status okna powitalnego) są usuwane automatycznie po zamknięciu karty przeglądarki."
     },
     "thirdParty": {
-      "title": "Usługi Trzecich Stron",
-      "content": "Strona może zawierać linki do zewnętrznych serwisów. Nie ponosimy odpowiedzialności za politykę prywatności tych stron."
+      "title": "Usługi Zewnętrzne",
+      "content": "Strona jest hostowana na platformie Netlify, która może gromadzić anonimowe, zagregowane dane analityczne (np. liczba odwiedzin, typ przeglądarki) w celach statystycznych i dla zapewnienia bezpieczeństwa usługi. Nie mamy bezpośredniego dostępu do tych danych na poziomie pojedynczego użytkownika."
     },
-    "rights": {
-      "title": "Twoje Prawa",
-      "content": "Masz prawo do dostępu, poprawy i usunięcia swoich danych osobowych zgodnie z obowiązującymi przepisami prawa."
+    "userRights": {
+      "title": "Prawa Użytkownika",
+      "content": "Ponieważ nie gromadzimy danych osobowych, tradycyjne prawa (dostęp, sprostowanie, usunięcie) nie mają bezpośredniego zastosowania. Użytkownik ma pełną kontrolę nad danymi przechowywanymi w jego przeglądarce i może je w każdej chwili usunąć za pomocą jej ustawień."
+    },
+    "policyChanges": {
+      "title": "Zmiany w Polityce Prywatności",
+      "content": "Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej Polityce Prywatności. Wszelkie aktualizacje będą publikowane na tej stronie i wchodzą w życie z dniem ich opublikowania."
     },
     "contact": {
       "title": "Kontakt",
-      "content": "W przypadku pytań dotyczących polityki prywatności, skontaktuj się z nami."
+      "content": "W przypadku pytań lub wątpliwości dotyczących niniejszej polityki, prosimy o kontakt. Szczegóły kontaktowe zostaną udostępnione na życzenie."
     }
   },
   "terms": {
     "title": "Warunki Korzystania",
-    "description": "Warunki korzystania z serwisu Thonet Digital Heritage",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage, określające zasady użytkowania strony i jej treści.",
     "lastUpdated": "Ostatnia aktualizacja:",
+    "introduction": {
+      "title": "Definicje i Wprowadzenie",
+      "content": "Niniejsze 'Warunki Korzystania' określają zasady obowiązujące wszystkich 'Użytkowników' strony 'Projekt Thonet: Cyfrowy Hołd' ('Serwis'). Serwis jest niekomercyjnym projektem edukacyjnym stworzonym jako hołd dla Michaela Thoneta."
+    },
     "acceptance": {
       "title": "Akceptacja Warunków",
-      "content": "Korzystając z tej strony, akceptujesz niniejsze warunki korzystania w całości."
+      "content": "Korzystanie z Serwisu jest równoznaczne z pełną akceptacją niniejszych warunków. Jeśli nie zgadzasz się z którymkolwiek z postanowień, prosimy o opuszczenie strony."
     },
     "usage": {
-      "title": "Zasady Korzystania",
-      "content": "Strona przeznaczona jest do celów edukacyjnych i informacyjnych. Zabrania się używania jej w sposób niezgodny z prawem."
+      "title": "Zasady Użytkowania Serwisu",
+      "content": "Użytkownik zobowiązuje się do korzystania z Serwisu wyłącznie w celach zgodnych z jego przeznaczeniem – edukacyjnym i informacyjnym. Zabronione jest podejmowanie działań, które mogłyby zakłócić działanie Serwisu, naruszyć jego bezpieczeństwo lub prawa innych Użytkowników."
     },
     "intellectual": {
       "title": "Własność Intelektualna",
-      "content": "Wszystkie treści na stronie są chronione prawem autorskim. Kopiowanie wymaga zgody właściciela."
+      "content": "Wszystkie oryginalne teksty, grafiki, kod źródłowy oraz układ strony są własnością intelektualną autora Serwisu i są chronione prawem autorskim. Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Obrazy generowane przez AI, choć inspirowane, nie roszczą sobie praw do wizerunku historycznego i służą celom ilustracyjnym."
+    },
+    "userContent": {
+      "title": "Treści Użytkownika",
+      "content": "Serwis nie przewiduje możliwości dodawania treści przez Użytkowników. Wszelkie formy interakcji są ograniczone do funkcjonalności udostępnionych w interfejsie strony."
     },
     "disclaimer": {
-      "title": "Wyłączenie Odpowiedzialności",
-      "content": "Informacje na stronie mają charakter informacyjny. Nie gwarantujemy ich kompletności ani aktualności."
+      "title": "Wyłączenie Gwarancji i Odpowiedzialności",
+      "content": "Treści prezentowane w Serwisie mają charakter wyłącznie informacyjny i edukacyjny. Autor dokłada wszelkich starań, aby były one rzetelne, jednak nie ponosi odpowiedzialności za ich stuprocentową dokładność i nie gwarantuje braku błędów. Serwis jest dostarczany 'tak jak jest', bez żadnych gwarancji."
     },
     "limitation": {
       "title": "Ograniczenie Odpowiedzialności",
-      "content": "Nie ponosimy odpowiedzialności za szkody wynikające z korzystania ze strony."
+      "content": "Autor Serwisu nie ponosi odpowiedzialności za jakiekolwiek szkody (bezpośrednie lub pośrednie) wynikające z korzystania lub niemożności korzystania z Serwisu."
+    },
+    "governingLaw": {
+      "title": "Prawo Właściwe",
+      "content": "Wszelkie spory wynikające z niniejszych warunków będą rozstrzygane zgodnie z prawem obowiązującym na terytorium Polski."
     },
     "changes": {
-      "title": "Zmiany Warunków",
-      "content": "Zastrzegamy sobie prawo do zmiany niniejszych warunków w każdym czasie."
+      "title": "Zmiany w Warunkach",
+      "content": "Autor zastrzega sobie prawo do zmiany niniejszych Warunków w dowolnym momencie. Aktualna wersja będzie zawsze dostępna na tej stronie."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących Warunków Korzystania, prosimy o kontakt, którego szczegóły zostaną udostępnione na życzenie."
     }
   },
   "aria": {
@@ -203,6 +358,38 @@
     "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
     "chairReassembled": "Krzesło zostało złożone z powrotem.",
     "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
-    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu",
+    "github": "Odwiedź profil na GitHub",
+    "x": "Odwiedź profil na X",
+    "facebook": "Odwiedź profil na Facebooku"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Rewolucja Technologiczna: Gięcie Drewna Parą",
+      "p1": "Zanim Michael Thonet wkroczył na scenę, produkcja mebli była domeną rzemieślników, a skomplikowane, krzywoliniowe kształty osiągano poprzez żmudne rzeźbienie i łączenie wielu małych kawałków drewna. Był to proces drogi, czasochłonny i materiałochłonny, co sprawiało, że eleganckie meble były luksusem dostępnym tylko dla nielicznych.",
+      "p2": "Thonet, z wizją i determinacją, zmienił ten paradygmat. Jego genialna innowacja – technologia gięcia litego drewna bukowego za pomocą pary wodnej – była prawdziwym przełomem. Proces ten polegał na poddaniu starannie wyselekjonowanych prętów drewna działaniu gorącej pary, aż stawały się one plastyczne i podatne na formowanie. Następnie, przy użyciu metalowych form i siły ludzkich mięśni, drewno było wyginane w eleganckie, płynne kształty, których wcześniej nie można było osiągnąć bez rzeźbienia.",
+      "p3": "Po nadaniu pożądanego kształtu, elementy były suszone, co sprawiało, że twardniały, zachowując nową formę na stałe. Ta metoda nie tylko drastycznie skróciła czas produkcji, ale także zredukowała zużycie materiału i zwiększyła wytrzymałość mebli, eliminując słabe punkty na łączeniach. To właśnie ta technologia pozwoliła na stworzenie lekkich, a jednocześnie niezwykle trwałych konstrukcji, takich jak legendarne Krzesło Nr 14.",
+      "p4": "Rewolucja Thoneta nie ograniczała się tylko do samego procesu gięcia. Wprowadził on również zasady standaryzacji i produkcji seryjnej. Meble były projektowane jako zestawy kilku powtarzalnych, wymiennych komponentów, które można było masowo produkować, a następnie łatwo składać. To pionierskie podejście do 'płaskich paczek' (flat-pack) pozwoliło na efektywny transport i dystrybucję mebli na niespotykaną dotąd skalę, kładąc podwaliny pod nowoczesny przemysł meblarski."
+    },
+    "design-democratization": {
+      "title": "Demokratyzacja Designu: Piękno dla Wszystkich",
+      "p1": "Największym społecznym osiągnięciem Michaela Thoneta było wyrwanie dobrego wzornictwa z rąk elity. W XIX wieku piękne, dobrze wykonane meble były synonimem bogactwa. Rewolucja przemysłowa Thoneta całkowicie zmieniła tę dynamikę, wprowadzając koncepcję, że estetyka i funkcjonalność nie muszą być drogie.",
+      "p2": "Dzięki technologii gięcia drewna i standaryzacji komponentów, koszty produkcji drastycznie spadły. Krzesło, które wcześniej wymagałoby tygodni pracy rzemieślnika, mogło być teraz wyprodukowane w znacznie krótszym czasie przez fabrycznych pracowników. Ta efektywność przełożyła się bezpośrednio na cenę końową. Nagle, eleganckie krzesła, stoły i wieszaki stały się dostępne dla rosnącej klasy średniej, właścicieli kawiarni, restauracji i biur.",
+      "p3": "Koncepcja 'płaskiej paczki' była kolejnym genialnym posunięciem. Krzesło Nr 14, składające się z zaledwie sześciu elementów, dwóch nakrętek i dziesięciu śrub, mogło być wysłane w rozłożonej formie w kompaktowej skrzyni. W jednym metrze sześciennym mieściło się aż 36 rozmontowanych krzeseł. To zminimalizowało koszty transportu i magazynowania, umożliwiając eksport mebli Thoneta na cały świat w przystępnych cenach.",
+      "p4": "W ten sposób meble Thoneta stały się wszechobecne. Zagościły w słynnych wiedeńskich kawiarniach, paryskich bistro, londyńskich biurach i mieszczańskich domach od Ameryki po Japonię. Michael Thonet udowodnił, że masowa produkcja nie musi oznaczać kompromisu w kwestii jakości czy estetyki. Jego praca była pierwszym krokiem w kierunku idei, która stała się fundamentem nowoczesnego designu: tworzenia dobrze zaprojektowanych przedmiotów, które wzbogacają codzienne życie wszystkich ludzi, a nie tylko uprzywilejowanej mniejszości."
+    },
+    "global-impact": {
+      "title": "Globalny Wpływ: Kształtowanie Nowoczesnego Designu",
+      "p1": "Wpływ Michaela Thoneta wykracza daleko poza XIX wiek i miliony sprzedanych krzeseł. Jego innowacje w produkcji i dystrybucji stały się fundamentem, na którym zbudowano całe nowoczesne wzornictwo przemysłowe. Filozofia Thoneta – tworzenie produktów, które są jednocześnie piękne, funkcjonalne, przystępne cenowo i możliwe do masowej produkcji – stała się świętym Graalem dla przyszłych pokoleń projektantów.",
+      "p2": "Jego praca zainspirowała kluczowe postaci i ruchy w historii designu. Architekci wczesnego modernizmu, tacy jak Le Corbusier, byli zafascynowani czystością formy i przemysłową logiką mebli Thoneta. Le Corbusier często umieszczał Krzesło Nr 14 w swoich projektach wnętrz, chwaląc je za 'szlachetność' i idealne połączenie elegancji z użytecznością. Mówił: 'Nigdy nie stworzono nic bardziej eleganckiego i lepiej wykonanego, bardziej praktycznego i wszechstronnego'.",
+      "p3": "Zasady standaryzacji i modułowości, które Thonet wprowadził, stały się podstawą dla Bauhausu – niemieckiej szkoły designu, która zdefiniowała modernizm. Idea tworzenia prostych, powtarzalnych elementów, które można łatwo zmontować, jest bezpośrednią kontynuacją myśli Thoneta. Jego podejście do materiału – wykorzystanie naturalnych właściwości drewna do maksimum, zamiast walki z nimi – również stało się kluczową zasadą modernistycznego projektowania.",
+      "p4": "Dziedzictwo Thoneta żyje do dziś. Każdy mebel, który kupujemy w płaskim pudełku do samodzielnego montażu, jest echem jego rewolucyjnego systemu dystrybucji. Każdy projektant, który dąży do połączenia estetyki z masową dostępnością, podąża ścieżką wytyczoną przez tego wizjonera z Boppard. Michael Thonet nie tylko sprzedawał meble; sprzedał światu ideę, że dobry design jest uniwersalnym prawem, a nie luksusem dla nielicznych."
+    }
+  },
+  "popup": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "mainText": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym, poświęconym historii i dziedzictwu mebli giętych Michaela Thoneta.",
+    "dedication": "Dedykowana jest radomskiemu hobbyście, kolekcjonerowi i restauratorowi – Pawłowi Michalskiemu.",
+    "disclaimer": "Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Projekt ma charakter wyłącznie dokumentacyjny i pasjonacki."
   }
 }

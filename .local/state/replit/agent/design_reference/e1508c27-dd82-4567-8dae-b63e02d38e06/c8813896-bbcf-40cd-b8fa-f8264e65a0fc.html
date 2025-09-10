@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyfrowe Dziedzictwo Thoneta - Michael Thonet Heritage</title>
+    <meta name="description" content="Odkryj historię i dziedzictwo Michaela Thoneta oraz jego rewolucyjnych mebli giętych. Interaktywna podróż przez świat rzemiosła i innowacji.">
+    
+    <!-- SEO and Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Cyfrowe Dziedzictwo Thoneta",
+        "url": "https://thonet-heritage.com",
+        "description": "Kompleksowa aplikacja poświęcona historii i dziedzictwu Michaela Thoneta",
+        "inLanguage": ["pl", "en", "de"]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Michael Thonet",
+        "birthDate": "1796-07-02",
+        "deathDate": "1871-03-03",
+        "description": "Niemiecki stolarz i przemysłowiec, pionier technologii gięcia drewna na parze",
+        "nationality": "Niemiecka",
+        "occupation": "Stolarz, przemysłowiec"
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ["Inter", "system-ui", "sans-serif"],
+                }
+            },
+        }
+    };
+    </script>
+
+    <style>
+        :root {
+            --radius: 0.5rem;
+            
+            /* Light Theme - Premium Brown-Gold */
+            --background: hsl(45 50% 97%);
+            --foreground: hsl(25 35% 15%);
+            --card: hsl(45 30% 95%);
+            --card-foreground: hsl(25 35% 15%);
+            --popover: hsl(45 30% 95%);
+            --popover-foreground: hsl(25 35% 15%);
+            --primary: hsl(25 35% 25%);
+            --primary-foreground: hsl(45 50% 97%);
+            --secondary: hsl(45 85% 60%);
+            --secondary-foreground: hsl(25 35% 15%);
+            --muted: hsl(45 20% 90%);
+            --muted-foreground: hsl(25 25% 45%);
+            --accent: hsl(45 75% 65%);
+            --accent-foreground: hsl(25 35% 15%);
+            --destructive: hsl(0 62% 50%);
+            --destructive-foreground: hsl(45 50% 97%);
+            --border: hsl(45 25% 85%);
+            --input: hsl(45 25% 85%);
+            --ring: hsl(25 35% 25%);
+        }
+
+        .dark {
+            --background: hsl(25 25% 8%);
+            --foreground: hsl(45 40% 92%);
+            --card: hsl(25 25% 12%);
+            --card-foreground: hsl(45 40% 92%);
+            --popover: hsl(25 25% 12%);
+            --popover-foreground: hsl(45 40% 92%);
+            --primary: hsl(45 75% 55%);
+            --primary-foreground: hsl(25 25% 8%);
+            --secondary: hsl(25 45% 25%);
+            --secondary-foreground: hsl(45 40% 92%);
+            --muted: hsl(25 20% 18%);
+            --muted-foreground: hsl(45 30% 65%);
+            --accent: hsl(45 65% 45%);
+            --accent-foreground: hsl(25 25% 8%);
+            --destructive: hsl(0 62% 50%);
+            --destructive-foreground: hsl(45 40% 92%);
+            --border: hsl(25 20% 22%);
+            --input: hsl(25 20% 22%);
+            --ring: hsl(45 75% 55%);
+        }
+
+        .high-contrast {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(0 0% 0%);
+            --primary: hsl(0 0% 0%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(0 0% 20%);
+            --secondary-foreground: hsl(0 0% 100%);
+            --border: hsl(0 0% 0%);
+            --ring: hsl(0 0% 0%);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        .control-hub {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .control-hub.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            z-index: 1000;
+            color: var(--primary-foreground);
+            background: var(--primary);
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        .product-part {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-exploded .part-1 { transform: translateX(-20px) translateY(-10px); }
+        .product-exploded .part-2 { transform: translateX(20px) translateY(-15px); }
+        .product-exploded .part-3 { transform: translateX(-15px) translateY(20px); }
+        .product-exploded .part-4 { transform: translateX(15px) translateY(25px); }
+
+        .process-step {
+            opacity: 0.3;
+            transform: scale(0.9);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .process-step.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .flag-pl { background: linear-gradient(180deg, #FFFFFF 50%, #DC143C 50%); }
+        .flag-en { background: linear-gradient(45deg, #012169 25%, transparent 25%), linear-gradient(-45deg, #012169 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #012169 75%), linear-gradient(-45deg, transparent 75%, #012169 75%), linear-gradient(180deg, #C8102E 50%, #FFFFFF 50%); }
+        .flag-de { background: linear-gradient(180deg, #000000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-background text-foreground font-sans antialiased min-h-screen">
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link focus:outline-none focus:ring-2 focus:ring-ring">
+        Przejdź do treści głównej
+    </a>
+
+    <!-- @COMPONENT: ControlHub [navigation panel with language, theme, accessibility controls] -->
+    <aside id="control-hub" class="control-hub fixed left-0 top-0 h-full w-80 bg-card border-r border-border z-50 shadow-xl" aria-label="Panel sterowania nawigacją">
+        <div class="p-6 space-y-8">
+            <!-- Close Button -->
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-card-foreground">Centrum Sterowania</h2>
+                <button id="close-hub" class="p-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring" aria-label="Zamknij panel nawigacji">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav role="navigation" aria-label="Nawigacja główna">
+                <h3 class="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">Sekcje</h3>
+                <ul class="space-y-2">
+                    <li><a href="#hero" class="block px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors">Strona główna</a></li>
+                    <li><a href="#biography" class="block px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors">Biografia</a></li>
+                    <li><a href="#interactive-modules" class="block px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors">Moduły Interaktywne</a></li>
+                    <li><a href="#heritage" class="block px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors">Dziedzictwo</a></li>
+                    <li><a href="#timeline" class="block px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors">Chronologia</a></li>
+                </ul>
+            </nav>
+
+            <!-- Language Switcher -->
+            <div>
+                <h3 class="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">Język</h3>
+                <div class="space-y-2" role="group" aria-label="Wybór języka">
+                    <button class="w-full flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring" aria-current="true" aria-label="Aktualny język: Polski">
+                        <span class="language-flag flag-pl"></span>
+                        Polski
+                    </button>
+                    <button class="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors" aria-label="Zmień język na angielski">
+                        <span class="language-flag flag-en"></span>
+                        English
+                    </button>
+                    <button class="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors" aria-label="Sprache auf Deutsch ändern">
+                        <span class="language-flag flag-de"></span>
+                        Deutsch
+                    </button>
+                </div>
+            </div>
+
+            <!-- Theme Switcher -->
+            <div>
+                <h3 class="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">Motyw</h3>
+                <div class="space-y-2">
+                    <button id="theme-light" class="w-full flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring" aria-current="true" aria-label="Aktualny motyw: Jasny">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        Jasny
+                    </button>
+                    <button id="theme-dark" class="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors" aria-label="Przełącz na motyw ciemny">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        Ciemny
+                    </button>
+                </div>
+            </div>
+
+            <!-- Accessibility Controls -->
+            <div>
+                <h3 class="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">Dostępność</h3>
+                <button id="high-contrast" class="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors" aria-label="Włącz tryb wysokiego kontrastu" aria-pressed="false">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2v20"></path>
+                    </svg>
+                    Wysoki Kontrast
+                </button>
+            </div>
+        </div>
+    </aside>
+    <!-- @END_COMPONENT: ControlHub -->
+
+    <!-- Control Hub Toggle Button -->
+    <button id="toggle-hub" class="fixed left-4 top-4 z-40 p-3 bg-primary text-primary-foreground rounded-md shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all" aria-label="Otwórz panel nawigacji" aria-expanded="false" aria-controls="control-hub">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- Main Content -->
+    <main id="main-content" class="ml-0 transition-all duration-300">
+        <!-- @COMPONENT: HeroSection [main introduction to Michael Thonet] -->
+        <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+            <!-- Premium heritage background with subtle texture -->
+            <div class="absolute inset-0 bg-gradient-to-br from-background via-muted/30 to-accent/10"></div>
+            
+            <div class="container mx-auto px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div class="space-y-4">
+                            <p class="text-sm font-medium text-primary uppercase tracking-wider">Cyfrowe Dziedzictwo</p>
+                            <h1 class="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
+                                Michael Thonet
+                                <span class="block text-primary">Pionier Designu</span>
+                            </h1>
+                            <p class="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+                                Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. 
+                                Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#interactive-modules" class="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all">
+                                Rozpocznij Eksplorację
+                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                            <a href="#biography" class="inline-flex items-center px-6 py-3 border border-border text-foreground font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-all">
+                                Poznaj Biografię
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <!-- Historic portrait of Michael Thonet in premium sepia tones -->
+                        <div class="relative overflow-hidden rounded-lg shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=1000" alt="Michael Thonet - pionier technologii gięcia drewna na parze" class="w-full h-auto filter sepia-[0.3]" />
+                            <!-- Vintage craftsman working with wood in a traditional workshop -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        
+                        <!-- Decorative elements -->
+                        <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
+                        <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: HeroSection -->
+
+        <!-- @COMPONENT: BiographySection [Michael Thonet's life story] -->
+        <section id="biography" class="py-20 bg-card">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-card-foreground mb-6">
+                            Biografia Mistrza
+                        </h2>
+                        <p class="text-xl text-muted-foreground leading-relaxed">
+                            Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, 
+                            który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6">
+                            <div class="space-y-4">
+                                <h3 class="text-2xl font-semibold text-card-foreground">Wczesne Lata</h3>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. 
+                                    Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.
+                                </p>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <h3 class="text-2xl font-semibold text-card-foreground">Przełomowe Odkrycie</h3>
+                                <p class="text-muted-foreground leading-relaxed">
+                                    W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego 
+                                    za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <!-- Workshop scene showing traditional woodworking tools and bent wood furniture -->
+                            <img src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Warsztat stolarski z tradycyjnymi narzędziami i meblami z giętego drewna" class="rounded-lg shadow-lg w-full h-auto" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: BiographySection -->
+
+        <!-- @COMPONENT: InteractiveModulesSection [educational components] -->
+        <section id="interactive-modules" class="py-20 bg-background">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+                        Interaktywne Moduły Edukacyjne
+                    </h2>
+                    <p class="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+                        Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. 
+                        Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- @COMPONENT: ProductDeconstructionModule [interactive chair breakdown] -->
+                    <div class="bg-card rounded-xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-semibold text-card-foreground mb-6">Dekonstrukcja Produktu</h3>
+                        <p class="text-muted-foreground mb-8">
+                            Poznaj anatomię słynnego krzesła No. 14 - najbardziej znanego dzieła Thoneta. 
+                            Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.
+                        </p>
+
+                        <div class="relative bg-muted rounded-lg p-8 mb-8 min-h-[300px] flex items-center justify-center overflow-hidden">
+                            <div id="chair-model" class="relative">
+                                <!-- Simplified chair representation with parts -->
+                                <div class="product-part part-1 w-16 h-40 bg-primary rounded-lg absolute top-0 left-1/2 transform -translate-x-1/2" style="background: linear-gradient(45deg, var(--primary), var(--accent));" data-label="Oparcie krzesła"></div>
+                                <div class="product-part part-2 w-32 h-4 bg-primary rounded-lg absolute top-28 left-1/2 transform -translate-x-1/2" style="background: linear-gradient(45deg, var(--primary), var(--accent));" data-label="Siedzisko"></div>
+                                <div class="product-part part-3 w-2 h-24 bg-primary rounded-lg absolute top-32 left-8" style="background: linear-gradient(45deg, var(--primary), var(--accent));" data-label="Noga przednia lewa"></div>
+                                <div class="product-part part-4 w-2 h-24 bg-primary rounded-lg absolute top-32 right-8" style="background: linear-gradient(45deg, var(--primary), var(--accent));" data-label="Noga przednia prawa"></div>
+                            </div>
+
+                            <!-- Component Labels (initially hidden) -->
+                            <div id="component-labels" class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500">
+                                <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md">Oparcie</div>
+                                <div class="absolute top-28 left-1/2 transform -translate-x-1/2 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md">Siedzisko</div>
+                                <div class="absolute bottom-16 left-8 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md">Nogi</div>
+                                <div class="absolute bottom-16 right-8 bg-background text-foreground px-2 py-1 rounded text-xs shadow-md">Stelaż</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button id="deconstruct-btn" class="px-6 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all" aria-expanded="false" aria-describedby="chair-description">
+                                Rozpocznij Dekonstrukcję
+                            </button>
+                            <p id="chair-description" class="text-sm text-muted-foreground mt-4">
+                                Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe
+                            </p>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: ProductDeconstructionModule -->
+
+                    <!-- @COMPONENT: ProcessSimulationModule [step-by-step manufacturing] -->
+                    <div class="bg-card rounded-xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-semibold text-card-foreground mb-6">Symulacja Procesu</h3>
+                        <p class="text-muted-foreground mb-8">
+                            Prześledzij krok po kroku rewolucyjny proces gięcia drewna na parze. 
+                            Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.
+                        </p>
+
+                        <div class="space-y-4 mb-8">
+                            <div class="process-step active flex items-center p-4 bg-muted rounded-lg" data-step="1">
+                                <div class="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-semibold mr-4">1</div>
+                                <div>
+                                    <h4 class="font-medium text-card-foreground">Przygotowanie Drewna</h4>
+                                    <p class="text-sm text-muted-foreground">Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step flex items-center p-4 bg-muted rounded-lg" data-step="2">
+                                <div class="w-8 h-8 bg-secondary text-secondary-foreground rounded-full flex items-center justify-center text-sm font-semibold mr-4">2</div>
+                                <div>
+                                    <h4 class="font-medium text-card-foreground">Obróbka Parą</h4>
+                                    <p class="text-sm text-muted-foreground">Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step flex items-center p-4 bg-muted rounded-lg" data-step="3">
+                                <div class="w-8 h-8 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-sm font-semibold mr-4">3</div>
+                                <div>
+                                    <h4 class="font-medium text-card-foreground">Gięcie w Formie</h4>
+                                    <p class="text-sm text-muted-foreground">Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step flex items-center p-4 bg-muted rounded-lg" data-step="4">
+                                <div class="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-semibold mr-4">4</div>
+                                <div>
+                                    <h4 class="font-medium text-card-foreground">Suszenie i Wykończenie</h4>
+                                    <p class="text-sm text-muted-foreground">Naturalne suszenie i końcowa obróbka powierzchni</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button id="process-prev" class="px-4 py-2 border border-border text-foreground rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-all" disabled aria-label="Poprzedni krok procesu">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <button id="process-next" class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all" aria-label="Następny krok procesu">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                            <button id="process-auto" class="px-6 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all" aria-label="Automatyczne odtwarzanie procesu">
+                                Autoplay
+                            </button>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="text-sm text-muted-foreground" role="status" aria-live="polite" id="process-status">
+                                Krok 1 z 4: Przygotowanie Drewna
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: ProcessSimulationModule -->
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: InteractiveModulesSection -->
+
+        <!-- @COMPONENT: HeritageSection [legacy and impact] -->
+        <section id="heritage" class="py-20 bg-card">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-card-foreground mb-6">
+                            Dziedzictwo i Wpływ na Współczesność
+                        </h2>
+                        <p class="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+                            Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, 
+                            kształtując nowoczesny design i produkcję mebli aż do dziś.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center space-y-4">
+                            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-card-foreground">Rewolucja Technologiczna</h3>
+                            <p class="text-muted-foreground">
+                                Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów.
+                            </p>
+                        </div>
+
+                        <div class="text-center space-y-4">
+                            <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                                <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="m9 12 2 2 4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-card-foreground">Demokratyzacja Designu</h3>
+                            <p class="text-muted-foreground">
+                                Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji.
+                            </p>
+                        </div>
+
+                        <div class="text-center space-y-4">
+                            <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto">
+                                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-card-foreground">Globalne Oddziaływanie</h3>
+                            <p class="text-muted-foreground">
+                                Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-16 bg-muted rounded-xl p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-2xl font-semibold text-card-foreground mb-4">Krzesło No. 14 - Ikona Designu</h3>
+                                <p class="text-muted-foreground mb-4">
+                                    Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za 
+                                    jedno z najważniejszych dzieł designu przemysłowego w historii.
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-muted-foreground">Rok wprowadzenia:</span>
+                                        <span class="font-medium">1859</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-muted-foreground">Liczba wyprodukowanych:</span>
+                                        <span class="font-medium">50+ milionów</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-muted-foreground">Liczba części:</span>
+                                        <span class="font-medium">6 elementów</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-muted-foreground">Czas montażu:</span>
+                                        <span class="font-medium">30 minut</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <!-- Classic Thonet chair No. 14 in elegant setting -->
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Słynne krzesło Thonet No. 14 w eleganckiej aranżacji" class="rounded-lg shadow-lg w-full h-auto" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: HeritageSection -->
+
+        <!-- @COMPONENT: TimelineSection [chronological events] -->
+        <section id="timeline" class="py-20 bg-background">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+                            Chronologia Życia i Dzieł
+                        </h2>
+                        <p class="text-xl text-muted-foreground leading-relaxed">
+                            Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <!-- Timeline line -->
+                        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
+
+                        <div class="space-y-12">
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">1796</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Narodziny w Boppard</h3>
+                                    <p class="text-muted-foreground">
+                                        Michael Thonet przychodzi na świat w małym miasteczku nad Renem, 
+                                        w rodzinie o tradycjach stolarskich.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-secondary text-secondary-foreground rounded-full flex items-center justify-center font-bold text-sm">1819</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Rozpoczęcie Działalności</h3>
+                                    <p class="text-muted-foreground">
+                                        Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty 
+                                        z technikami obróbki drewna.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-accent text-accent-foreground rounded-full flex items-center justify-center font-bold text-sm">1841</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Przeprowadzka do Wiednia</h3>
+                                    <p class="text-muted-foreground">
+                                        Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność 
+                                        do Wiednia, gdzie otrzymuje lepsze warunki rozwoju.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-sm">1850</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Założenie Fabryki</h3>
+                                    <p class="text-muted-foreground">
+                                        Utworzenie firmy "Gebrüder Thonet" i rozpoczęcie masowej produkcji 
+                                        mebli z giętego drewna.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-secondary text-secondary-foreground rounded-full flex items-center justify-center font-bold text-sm">1859</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Krzesło No. 14</h3>
+                                    <p class="text-muted-foreground">
+                                        Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się 
+                                        ikoną designu przemysłowego.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="relative flex items-start">
+                                <div class="flex-shrink-0 w-16 h-16 bg-accent text-accent-foreground rounded-full flex items-center justify-center font-bold text-sm">1871</div>
+                                <div class="ml-8">
+                                    <h3 class="text-xl font-semibold text-foreground mb-2">Śmierć Mistrza</h3>
+                                    <p class="text-muted-foreground">
+                                        Michael Thonet umiera w Wiedniu, pozostawiając po sobie 
+                                        przemysłowe imperium i rewolucyjne dziedzictwo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- @END_COMPONENT: TimelineSection -->
+
+        <!-- @COMPONENT: FooterSection [site footer with links and credits] -->
+        <footer class="bg-card border-t border-border py-12">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-card-foreground mb-4">Cyfrowe Dziedzictwo Thoneta</h3>
+                        <p class="text-muted-foreground mb-4">
+                            Interaktywna aplikacja poświęcona życiu i dziełu Michaela Thoneta - 
+                            pioniera nowoczesnego designu przemysłowego.
+                        </p>
+                        <p class="text-sm text-muted-foreground">
+                            © 2024 Thonet Digital Heritage. Wszelkie prawa zastrzeżone.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-md font-medium text-card-foreground mb-4">Nawigacja</h4>
+                        <ul class="space-y-2 text-muted-foreground">
+                            <li><a href="#hero" class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded">Strona główna</a></li>
+                            <li><a href="#biography" class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded">Biografia</a></li>
+                            <li><a href="#interactive-modules" class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded">Moduły Interaktywne</a></li>
+                            <li><a href="#heritage" class="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded">Dziedzictwo</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-md font-medium text-card-foreground mb-4">Dostępność</h4>
+                        <ul class="space-y-2 text-muted-foreground">
+                            <li>WCAG 2.1 AA Compliant</li>
+                            <li>Keyboard Navigation</li>
+                            <li>Screen Reader Support</li>
+                            <li>High Contrast Mode</li>
+                        </ul>
+                        
+                        <div class="mt-6">
+                            <p class="text-sm text-muted-foreground mb-2">Technologie:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">React 18+</span>
+                                <span class="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">TypeScript</span>
+                                <span class="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">Tailwind CSS</span>
+                                <span class="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">Framer Motion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- @END_COMPONENT: FooterSection -->
+    </main>
+
+    <!-- Accessibility announcements -->
+    <div id="aria-announcements" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <script>
+        // TODO: Replace with React state management and proper component lifecycle
+        (function() {
+            'use strict';
+            
+            // Control Hub Management
+            const controlHub = document.getElementById('control-hub');
+            const toggleBtn = document.getElementById('toggle-hub');
+            const closeBtn = document.getElementById('close-hub');
+            let isHubOpen = false;
+
+            function toggleControlHub() {
+                isHubOpen = !isHubOpen;
+                if (isHubOpen) {
+                    controlHub.classList.remove('collapsed');
+                    controlHub.style.transform = 'translateX(0)';
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                    toggleBtn.setAttribute('aria-label', 'Zamknij panel nawigacji');
+                    // TODO: Implement focus trap for accessibility
+                    document.body.style.marginLeft = '320px';
+                } else {
+                    controlHub.classList.add('collapsed');
+                    controlHub.style.transform = 'translateX(-100%)';
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    toggleBtn.setAttribute('aria-label', 'Otwórz panel nawigacji');
+                    document.body.style.marginLeft = '0';
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleControlHub);
+            closeBtn.addEventListener('click', toggleControlHub);
+
+            // Theme Management
+            const themeLight = document.getElementById('theme-light');
+            const themeDark = document.getElementById('theme-dark');
+            const highContrast = document.getElementById('high-contrast');
+            let currentTheme = 'light';
+            let isHighContrast = false;
+
+            function setTheme(theme) {
+                currentTheme = theme;
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    themeLight.classList.remove('bg-primary', 'text-primary-foreground');
+                    themeLight.classList.add('hover:bg-muted');
+                    themeLight.setAttribute('aria-current', 'false');
+                    themeLight.setAttribute('aria-label', 'Przełącz na motyw jasny');
+                    
+                    themeDark.classList.add('bg-primary', 'text-primary-foreground');
+                    themeDark.classList.remove('hover:bg-muted');
+                    themeDark.setAttribute('aria-current', 'true');
+                    themeDark.setAttribute('aria-label', 'Aktualny motyw: Ciemny');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    themeDark.classList.remove('bg-primary', 'text-primary-foreground');
+                    themeDark.classList.add('hover:bg-muted');
+                    themeDark.setAttribute('aria-current', 'false');
+                    themeDark.setAttribute('aria-label', 'Przełącz na motyw ciemny');
+                    
+                    themeLight.classList.add('bg-primary', 'text-primary-foreground');
+                    themeLight.classList.remove('hover:bg-muted');
+                    themeLight.setAttribute('aria-current', 'true');
+                    themeLight.setAttribute('aria-label', 'Aktualny motyw: Jasny');
+                }
+                announceToScreenReader(`Zmieniono motyw na ${theme === 'dark' ? 'ciemny' : 'jasny'}`);
+            }
+
+            function toggleHighContrast() {
+                isHighContrast = !isHighContrast;
+                if (isHighContrast) {
+                    document.documentElement.classList.add('high-contrast');
+                    highContrast.setAttribute('aria-pressed', 'true');
+                    highContrast.setAttribute('aria-label', 'Wyłącz tryb wysokiego kontrastu');
+                    announceToScreenReader('Włączono tryb wysokiego kontrastu');
+                } else {
+                    document.documentElement.classList.remove('high-contrast');
+                    highContrast.setAttribute('aria-pressed', 'false');
+                    highContrast.setAttribute('aria-label', 'Włącz tryb wysokiego kontrastu');
+                    announceToScreenReader('Wyłączono tryb wysokiego kontrastu');
+                }
+            }
+
+            themeLight.addEventListener('click', () => setTheme('light'));
+            themeDark.addEventListener('click', () => setTheme('dark'));
+            highContrast.addEventListener('click', toggleHighContrast);
+
+            // Product Deconstruction Module
+            const deconstructBtn = document.getElementById('deconstruct-btn');
+            const chairModel = document.getElementById('chair-model');
+            const componentLabels = document.getElementById('component-labels');
+            let isExploded = false;
+
+            function toggleDeconstruction() {
+                isExploded = !isExploded;
+                if (isExploded) {
+                    chairModel.classList.add('product-exploded');
+                    componentLabels.classList.remove('opacity-0');
+                    componentLabels.classList.add('opacity-100');
+                    deconstructBtn.textContent = 'Składanie z Powrotem';
+                    deconstructBtn.setAttribute('aria-expanded', 'true');
+                    announceToScreenReader('Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.');
+                } else {
+                    chairModel.classList.remove('product-exploded');
+                    componentLabels.classList.add('opacity-0');
+                    componentLabels.classList.remove('opacity-100');
+                    deconstructBtn.textContent = 'Rozpocznij Dekonstrukcję';
+                    deconstructBtn.setAttribute('aria-expanded', 'false');
+                    announceToScreenReader('Krzesło zostało złożone z powrotem.');
+                }
+            }
+
+            deconstructBtn.addEventListener('click', toggleDeconstruction);
+
+            // Process Simulation Module
+            const processSteps = document.querySelectorAll('.process-step');
+            const processPrev = document.getElementById('process-prev');
+            const processNext = document.getElementById('process-next');
+            const processAuto = document.getElementById('process-auto');
+            const processStatus = document.getElementById('process-status');
+            let currentStep = 1;
+            let isAutoPlaying = false;
+            let autoPlayInterval;
+
+            const stepDescriptions = [
+                'Przygotowanie Drewna - wybór odpowiedniego materiału',
+                'Obróbka Parą - ogrzewanie drewna w temperaturze 100°C',
+                'Gięcie w Formie - nadawanie kształtu za pomocą metalowych form',
+                'Suszenie i Wykończenie - finalne etapy produkcji'
+            ];
+
+            function updateProcessStep(step) {
+                // Remove active class from all steps
+                processSteps.forEach((stepEl, index) => {
+                    stepEl.classList.remove('active');
+                    if (index + 1 === step) {
+                        stepEl.classList.add('active');
+                    }
+                });
+
+                // Update controls
+                processPrev.disabled = step === 1;
+                processNext.disabled = step === 4;
+                
+                // Update status
+                processStatus.textContent = `Krok ${step} z 4: ${stepDescriptions[step - 1]}`;
+                announceToScreenReader(stepDescriptions[step - 1]);
+
+                currentStep = step;
+            }
+
+            function nextStep() {
+                if (currentStep < 4) {
+                    updateProcessStep(currentStep + 1);
+                } else if (isAutoPlaying) {
+                    updateProcessStep(1); // Loop back to beginning
+                }
+            }
+
+            function prevStep() {
+                if (currentStep > 1) {
+                    updateProcessStep(currentStep - 1);
+                }
+            }
+
+            function toggleAutoPlay() {
+                isAutoPlaying = !isAutoPlaying;
+                if (isAutoPlaying) {
+                    processAuto.textContent = 'Stop';
+                    processAuto.setAttribute('aria-label', 'Zatrzymaj automatyczne odtwarzanie');
+                    autoPlayInterval = setInterval(nextStep, 3000);
+                    announceToScreenReader('Rozpoczęto automatyczne odtwarzanie procesu');
+                } else {
+                    processAuto.textContent = 'Autoplay';
+                    processAuto.setAttribute('aria-label', 'Automatyczne odtwarzanie procesu');
+                    clearInterval(autoPlayInterval);
+                    announceToScreenReader('Zatrzymano automatyczne odtwarzanie procesu');
+                }
+            }
+
+            processPrev.addEventListener('click', prevStep);
+            processNext.addEventListener('click', nextStep);
+            processAuto.addEventListener('click', toggleAutoPlay);
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close control hub on navigation
+                        if (isHubOpen) {
+                            toggleControlHub();
+                        }
+                    }
+                });
+            });
+
+            // Screen reader announcements
+            function announceToScreenReader(message) {
+                const announcements = document.getElementById('aria-announcements');
+                announcements.textContent = message;
+                // Clear after announcement
+                setTimeout(() => {
+                    announcements.textContent = '';
+                }, 1000);
+            }
+
+            // Keyboard navigation support
+            document.addEventListener('keydown', function(e) {
+                // ESC key closes control hub
+                if (e.key === 'Escape' && isHubOpen) {
+                    toggleControlHub();
+                }
+                
+                // TODO: Implement additional keyboard shortcuts
+                // Space/Enter for interactive elements
+                // Arrow keys for process navigation
+            });
+
+            // TODO: Language switching functionality
+            document.querySelectorAll('[aria-label*="język"], [aria-label*="Sprache"]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // TODO: Implement i18next language switching
+                    console.log('Language switch requested:', this.textContent.trim());
+                });
+            });
+
+            // Initialize accessibility features
+            updateProcessStep(1);
+            
+            // TODO: Load user preferences from localStorage
+            // TODO: Implement focus trap for control hub
+            // TODO: Add proper ARIA live regions for dynamic content
+            // TODO: Integrate with React state management
+        })();
+    </script>
+</body>
+</html>

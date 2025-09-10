@@ -1,64 +1,92 @@
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 
 export function FooterSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [location, setLocation] = useLocation();
+  const currentLanguage = i18n.language;
 
   const navigationLinks = [
-    { href: '#hero', labelKey: 'navigation.home' },
-    { href: '#biography', labelKey: 'navigation.biography' },
-    { href: '#interactive-modules', labelKey: 'navigation.interactiveModules' },
-    { href: '#heritage', labelKey: 'navigation.heritage' },
+    { id: "hero", labelKey: "navigation.home" },
+    { id: "biography", labelKey: "navigation.biography" },
+    { id: "interactive-modules", labelKey: "navigation.interactiveModules" },
+    { id: "heritage", labelKey: "navigation.heritage" },
   ];
 
-  const accessibilityFeatures = [
-    'WCAG 2.1 AA Compliant',
-    'Keyboard Navigation',
-    'Screen Reader Support',
-    'High Contrast Mode',
-  ];
+  const scrollToSection = (sectionId: string) => {
+    const pathWithoutHash = location.split("#")[0];
+    const isHomePage =
+      pathWithoutHash === "/" || /^\/(pl|en|de)$/.test(pathWithoutHash);
 
-  const technologies = [
-    'React 18+',
-    'TypeScript',
-    'Tailwind CSS',
-    'Framer Motion',
-  ];
-
-  const scrollToSection = (href: string) => {
-    const sectionId = href.replace('#', '');
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (isHomePage) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      const lang = i18n.language;
+      setLocation(`/${lang}`);
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
     }
   };
 
+  const createLocalizedPath = (routeKey: string) => {
+    const translatedSlug = t(`routes.${routeKey}`);
+    return `/${currentLanguage}/${translatedSlug}`;
+  };
+
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const yearDisplay =
+    currentYear > startYear ? `${startYear} - ${currentYear}` : startYear;
+
   return (
-    <footer className="bg-card border-t border-border py-12" data-testid="footer">
+    <footer
+      className="bg-card border-t border-border py-12"
+      data-testid="footer"
+    >
       <div className="container mx-auto px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-lg font-semibold text-card-foreground mb-4" data-testid="text-footer-title">
-              {t('footer.title')}
+            <h3
+              className="text-lg font-semibold text-card-foreground mb-4 font-serif"
+              data-testid="text-footer-title"
+            >
+              {t("footer.title")}
             </h3>
-            <p className="text-muted-foreground mb-4" data-testid="text-footer-description">
-              {t('footer.description')}
+            <p
+              className="text-muted-foreground mb-4"
+              data-testid="text-footer-description"
+            >
+              {t("footer.description")}
             </p>
-            <p className="text-sm text-muted-foreground" data-testid="text-footer-copyright">
-              {t('footer.copyright')}
+            <p
+              className="text-xs text-muted-foreground mt-4"
+              data-testid="text-footer-disclaimer"
+            >
+              {t("footer.disclaimer")}
             </p>
           </div>
 
           <div>
-            <h4 className="text-md font-medium text-card-foreground mb-4" data-testid="text-footer-navigation">
-              {t('footer.navigation')}
+            <h4
+              className="text-md font-medium text-card-foreground mb-4"
+              data-testid="text-footer-navigation"
+            >
+              {t("footer.navigation")}
             </h4>
             <ul className="space-y-2 text-muted-foreground">
               {navigationLinks.map((link, index) => (
                 <li key={index}>
                   <button
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={() => scrollToSection(link.id)}
                     className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded text-left"
-                    data-testid={`link-footer-${link.href.replace('#', '')}`}
+                    data-testid={`link-footer-${link.id}`}
                   >
                     {t(link.labelKey)}
                   </button>
@@ -68,53 +96,26 @@ export function FooterSection() {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">{t('footer.legal.title')}</h4>
+            <h4 className="text-lg font-semibold mb-4 font-serif">
+              {t("footer.legal.title")}
+            </h4>
             <div className="space-y-2">
               <a
-                href="/privacy"
+                href={createLocalizedPath("privacy")}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
-                {t('footer.legal.privacy')}
+                {t("footer.legal.privacy")}
               </a>
               <a
-                href="/terms"
+                href={createLocalizedPath("terms")}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
-                {t('footer.legal.terms')}
+                {t("footer.legal.terms")}
               </a>
             </div>
             <p className="text-muted-foreground mt-4 text-sm">
-              {t('footer.legal.content')}
+              {t("footer.legal.details", { year: yearDisplay })}
             </p>
-
-
-            <h4 className="text-md font-medium text-card-foreground mb-4 mt-6" data-testid="text-footer-accessibility">
-              {t('footer.accessibility')}
-            </h4>
-            <ul className="space-y-2 text-muted-foreground mb-6">
-              {accessibilityFeatures.map((feature, index) => (
-                <li key={index} data-testid={`text-accessibility-${index}`}>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            <div>
-              <p className="text-sm text-muted-foreground mb-2" data-testid="text-technologies-label">
-                {t('footer.technologies')}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {technologies.map((tech, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded"
-                    data-testid={`tech-${index}`}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,3535 @@
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
+
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <>
+      <SEOHead />
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+      </main>
+      <FooterSection />
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+            <DialogDescription className="text-center pt-4 text-base leading-relaxed">
+              {t("popup.dedicationLine1")}
+              <br />
+              <strong className="text-primary">
+                {t("popup.dedicationLine2")}
+              </strong>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+
+------------------------------------
+
+import { motion } from "framer-motion";
+import { ArrowRight, Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+export function HeroSection() {
+  const { t } = useTranslation();
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  return (
+    <section
+      id="hero"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden py-20 lg:py-0"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/30 to-accent/10"></div>
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-8"
+          >
+            <div className="space-y-4">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-sm font-medium text-primary uppercase tracking-wider"
+                data-testid="text-hero-subtitle"
+              >
+                {t("hero.subtitle")}
+              </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-4xl lg:text-6xl font-bold text-foreground leading-tight font-serif"
+                data-testid="text-hero-title"
+              >
+                {t("hero.title")}
+                <span
+                  className="block text-primary"
+                  data-testid="text-hero-title-accent"
+                >
+                  {t("hero.titleAccent")}
+                </span>
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="text-xl text-muted-foreground leading-relaxed max-w-2xl"
+                data-testid="text-hero-description"
+              >
+                {t("hero.description")}
+              </motion.p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="flex flex-wrap gap-4"
+            >
+              <button
+                onClick={() => scrollToSection("interactive-modules")}
+                className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                data-testid="button-explore"
+              >
+                {t("hero.exploreButton")}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scrollToSection("biography")}
+                className="inline-flex items-center px-6 py-3 border border-border text-foreground font-medium rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                data-testid="button-biography"
+              >
+                {t("hero.biographyButton")}
+              </button>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.0, delay: 0.4 }}
+            className="relative lg:max-w-xl mx-auto self-center"
+          >
+            <div className="relative group overflow-hidden rounded-lg shadow-2xl sm:my-10">
+              <img
+                src="/12.png"
+                alt={t("hero.imageAlt")}
+                className="w-full h-auto filter sepia-[0.3]"
+                data-testid="img-hero-portrait"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              <div className="absolute inset-0 p-4 bg-black/40 flex flex-col items-center justify-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="text-white max-w-xs">
+                  <Info className="w-8 h-8 mx-auto mb-3" />
+                  <p className="text-base font-semibold">
+                    {t("hero.aiNotice.text")}
+                  </p>
+                  <p className="text-xs text-white/70 mt-4">
+                    {t("hero.aiNotice.sourceTitle")}
+                  </p>
+                  <p className="text-xs text-white/70 font-mono mt-1">
+                    {t("hero.aiNotice.sourceAttribution")}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0.5, 0.8, 0.5],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-xl -z-10"
+            ></motion.div>
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2,
+              }}
+              className="absolute -bottom-8 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl -z-10"
+            ></motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+------------------------------------
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useAriaLive } from "@/hooks/useAriaLive";
+
+export function ProductDeconstruction() {
+  const { t } = useTranslation();
+  const [isExploded, setIsExploded] = useState(false);
+  const { announce } = useAriaLive();
+
+  const toggleDeconstruction = () => {
+    const nextState = !isExploded;
+    setIsExploded(nextState);
+
+    const message = nextState
+      ? t("interactiveModules.productDeconstruction.ariaChairExploded")
+      : t("interactiveModules.productDeconstruction.ariaChairReassembled");
+    announce(message);
+  };
+
+  const parts = {
+    backLoop: {
+      y: isExploded ? 110 : 0,
+      x: isExploded ? -75 : 0,
+      rotate: isExploded ? -12 : 0,
+    },
+    innerArch: {
+      y: isExploded ? 60 : 0,
+      x: isExploded ? 95 : 0,
+      rotate: isExploded ? 25 : 0,
+    },
+    seat: {
+      y: isExploded ? -95 : 0,
+      x: isExploded ? 95 : 0,
+      rotate: isExploded ? 15 : 0,
+    },
+    ring: {
+      y: isExploded ? -165 : 0,
+      x: isExploded ? -190 : 0,
+      rotate: isExploded ? -15 : 0,
+    },
+    frontLegs: {
+      y: isExploded ? -220 : 0,
+      x: isExploded ? -50 : 0,
+      rotate: isExploded ? -18 : 0,
+    },
+  };
+
+  const transition = { type: "spring", damping: 16, stiffness: 90 };
+
+  return (
+    <div
+      className="bg-card rounded-xl p-6 sm:p-8 shadow-lg flex flex-col"
+      data-testid="module-product-deconstruction"
+    >
+      <h3
+        className="text-2xl font-semibold text-card-foreground mb-4"
+        data-testid="text-deconstruction-title"
+      >
+        {t("interactiveModules.productDeconstruction.title")}
+      </h3>
+      <p
+        className="text-muted-foreground mb-6"
+        data-testid="text-deconstruction-description"
+      >
+        {t("interactiveModules.productDeconstruction.description")}
+      </p>
+
+      <div className="relative bg-muted rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[450px] flex items-center justify-center overflow-visible">
+        <svg
+          viewBox="-160 -210 320 400"
+          className="w-full h-full max-w-[450px] max-h-[350px]"
+          data-testid="chair-model"
+          aria-labelledby="deconstruction-title"
+        >
+          <defs>
+            <linearGradient
+              id="finalWoodGrad"
+              x1="0%"
+              y1="0%"
+              x2="80%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#b9936c" />
+              <stop offset="50%" stopColor="#8b5e34" />
+              <stop offset="100%" stopColor="#5a3d24" />
+            </linearGradient>
+            <filter
+              id="finalShadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feDropShadow
+                dx="5"
+                dy="8"
+                stdDeviation="5"
+                floodColor="#000"
+                floodOpacity="0.2"
+              />
+            </filter>
+            <clipPath id="seatClipPath">
+              <ellipse cx="0" cy="20" rx="65" ry="22" />
+            </clipPath>
+          </defs>
+
+          <motion.g
+            animate={parts.backLoop}
+            transition={transition}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-backLoop"
+          >
+            <path
+              d="M -50 170 C -45 50, -100 -150, 0 -150 C 100 -150, 45 50, 50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="14"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.innerArch}
+            transition={{ ...transition, delay: 0.15 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-innerArch"
+          >
+            <path
+              d="M -48 -40 C -50 -90, 50 -90, 48 -40"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.ring}
+            transition={{ ...transition, delay: 0.05 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-ring"
+          >
+            <ellipse
+              cx="0"
+              cy="50"
+              rx="50"
+              ry="15"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="11"
+              fill="none"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.frontLegs}
+            transition={{ ...transition, delay: 0.1 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-frontLegs"
+          >
+            <path
+              d="M -45 25 C -45 80, -50 170, -50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 45 25 C 45 80, 50 170, 50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.seat}
+            transition={{ ...transition, delay: 0.08 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-seat"
+          >
+            <ellipse
+              cx="0"
+              cy="20"
+              rx="65"
+              ry="22"
+              fill="#f3e2c7"
+              stroke="#5a3d24"
+              strokeWidth="6"
+            />
+            <g clipPath="url(#seatClipPath)" opacity="0.5">
+              {[...Array(16)].map((_, i) => (
+                <path
+                  key={`h${i}`}
+                  d={`M -70 ${-4 + i * 2.8} C -30 ${-7 + i * 2.8}, 30 ${
+                    -7 + i * 2.8
+                  }, 70 ${-4 + i * 2.8}`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+              {[...Array(14)].map((_, i) => (
+                <path
+                  key={`v${i}`}
+                  d={`M ${-65 + i * 10} -22 C ${-65 + i * 10} -15, ${
+                    -65 + i * 10
+                  } -15, ${-67 + i * 10} 45`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+            </g>
+          </motion.g>
+        </svg>
+
+        <motion.div
+          animate={{ opacity: isExploded ? 1 : 0, scale: isExploded ? 1 : 0.9 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-[80%] left-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.backFrameLabel")}
+          </div>
+          <div className="absolute top-[60%] right-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.innerArchLabel")}
+          </div>
+          <div className="absolute top-[18%] right-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.seatLabel")}
+          </div>
+          <div className="absolute top-[35%] left-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.ringLabel")}
+          </div>
+          <div className="absolute top-[5%] left-[10%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.frontLegsLabel")}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="text-center mt-auto">
+        <button
+          onClick={toggleDeconstruction}
+          className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all"
+          aria-expanded={isExploded}
+          aria-controls="chair-model"
+          data-testid="button-deconstruct"
+        >
+          {isExploded
+            ? t("interactiveModules.productDeconstruction.reassembleButton")
+            : t("interactiveModules.productDeconstruction.startButton")}
+        </button>
+        <p
+          className="text-sm text-muted-foreground mt-3 px-4"
+          data-testid="text-chair-description"
+        >
+          {t("interactiveModules.productDeconstruction.helpText")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+--------------------------------
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useAriaLive } from "@/hooks/useAriaLive";
+
+export function ProductDeconstruction() {
+  const { t } = useTranslation();
+  const [isExploded, setIsExploded] = useState(false);
+  const { announce } = useAriaLive();
+
+  const toggleDeconstruction = () => {
+    const nextState = !isExploded;
+    setIsExploded(nextState);
+
+    const message = nextState
+      ? t("interactiveModules.productDeconstruction.ariaChairExploded")
+      : t("interactiveModules.productDeconstruction.ariaChairReassembled");
+    announce(message);
+  };
+
+  const parts = {
+    backLoop: {
+      y: isExploded ? 110 : 0,
+      x: isExploded ? -75 : 0,
+      rotate: isExploded ? -12 : 0,
+    },
+    innerArch: {
+      y: isExploded ? 25 : 0,
+      x: isExploded ? 95 : 0,
+      rotate: isExploded ? 25 : 0,
+    },
+    seat: {
+      y: isExploded ? -150 : 0,
+      x: isExploded ? 95 : 0,
+      rotate: isExploded ? 15 : 0,
+    },
+    ring: {
+      y: isExploded ? 60 : 0,
+      x: isExploded ? 90 : 0,
+      rotate: isExploded ? 10 : 0,
+    },
+    frontLegs: {
+      y: isExploded ? -220 : 0,
+      x: isExploded ? -50 : 0,
+      rotate: isExploded ? -18 : 0,
+    },
+  };
+
+  const transition = { type: "spring", damping: 16, stiffness: 90 };
+
+  return (
+    <div
+      className="bg-card rounded-xl p-6 sm:p-8 shadow-lg flex flex-col"
+      data-testid="module-product-deconstruction"
+    >
+      <h3
+        className="text-2xl font-semibold text-card-foreground mb-4"
+        data-testid="text-deconstruction-title"
+      >
+        {t("interactiveModules.productDeconstruction.title")}
+      </h3>
+      <p
+        className="text-muted-foreground mb-6"
+        data-testid="text-deconstruction-description"
+      >
+        {t("interactiveModules.productDeconstruction.description")}
+      </p>
+
+      <div className="relative bg-muted rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[450px] flex items-center justify-center overflow-visible">
+        <svg
+          viewBox="-160 -210 320 400"
+          className="w-full h-full max-w-[450px] max-h-[350px]"
+          data-testid="chair-model"
+          aria-labelledby="deconstruction-title"
+        >
+          <defs>
+            <linearGradient
+              id="finalWoodGrad"
+              x1="0%"
+              y1="0%"
+              x2="80%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#b9936c" />
+              <stop offset="50%" stopColor="#8b5e34" />
+              <stop offset="100%" stopColor="#5a3d24" />
+            </linearGradient>
+            <filter
+              id="finalShadow"
+              x="-50%"
+              y="-50%"
+              width="200%"
+              height="200%"
+            >
+              <feDropShadow
+                dx="5"
+                dy="8"
+                stdDeviation="5"
+                floodColor="#000"
+                floodOpacity="0.2"
+              />
+            </filter>
+            <clipPath id="seatClipPath">
+              <ellipse cx="0" cy="20" rx="65" ry="22" />
+            </clipPath>
+          </defs>
+
+          <motion.g
+            animate={parts.backLoop}
+            transition={transition}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-backLoop"
+          >
+            <path
+              d="M -50 170 C -45 50, -100 -150, 0 -150 C 100 -150, 45 50, 50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="14"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.innerArch}
+            transition={{ ...transition, delay: 0.15 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-innerArch"
+          >
+            <path
+              d="M -48 -40 C -50 -90, 50 -90, 48 -40"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.ring}
+            transition={{ ...transition, delay: 0.05 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-ring"
+          >
+            <ellipse
+              cx="0"
+              cy="50"
+              rx="50"
+              ry="15"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="11"
+              fill="none"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.frontLegs}
+            transition={{ ...transition, delay: 0.1 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-frontLegs"
+          >
+            <path
+              d="M -45 25 C -45 80, -50 170, -50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 45 25 C 45 80, 50 170, 50 170"
+              stroke="url(#finalWoodGrad)"
+              strokeWidth="12"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </motion.g>
+
+          <motion.g
+            animate={parts.seat}
+            transition={{ ...transition, delay: 0.08 }}
+            filter="url(#finalShadow)"
+            data-testid="chair-part-seat"
+          >
+            <ellipse
+              cx="0"
+              cy="20"
+              rx="65"
+              ry="22"
+              fill="#f3e2c7"
+              stroke="#5a3d24"
+              strokeWidth="6"
+            />
+            <g clipPath="url(#seatClipPath)" opacity="0.5">
+              {[...Array(16)].map((_, i) => (
+                <path
+                  key={`h${i}`}
+                  d={`M -70 ${-4 + i * 2.8} C -30 ${-7 + i * 2.8}, 30 ${
+                    -7 + i * 2.8
+                  }, 70 ${-4 + i * 2.8}`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+              {[...Array(14)].map((_, i) => (
+                <path
+                  key={`v${i}`}
+                  d={`M ${-65 + i * 10} -22 C ${-65 + i * 10} -15, ${
+                    -65 + i * 10
+                  } -15, ${-67 + i * 10} 45`}
+                  stroke="#ad885c"
+                  strokeWidth="1.2"
+                  fill="none"
+                />
+              ))}
+            </g>
+          </motion.g>
+        </svg>
+
+        <motion.div
+          animate={{ opacity: isExploded ? 1 : 0, scale: isExploded ? 1 : 0.9 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="absolute inset-0 pointer-events-none"
+        >
+          <div className="absolute top-[85%] left-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.backFrameLabel")}
+          </div>
+          <div className="absolute top-[55%] right-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.innerArchLabel")}
+          </div>
+          <div className="absolute top-[10%] right-[2%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.seatLabel")}
+          </div>
+          <div className="absolute top-[80%] right-[5%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.ringLabel")}
+          </div>
+          <div className="absolute top-[5%] left-[10%] bg-background/80 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs sm:text-sm shadow-lg border font-medium">
+            {t("interactiveModules.productDeconstruction.frontLegsLabel")}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="text-center mt-auto">
+        <button
+          onClick={toggleDeconstruction}
+          className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all"
+          aria-expanded={isExploded}
+          aria-controls="chair-model"
+          data-testid="button-deconstruct"
+        >
+          {isExploded
+            ? t("interactiveModules.productDeconstruction.reassembleButton")
+            : t("interactiveModules.productDeconstruction.startButton")}
+        </button>
+        <p
+          className="text-sm text-muted-foreground mt-3 px-4"
+          data-testid="text-chair-description"
+        >
+          {t("interactiveModules.productDeconstruction.helpText")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+----------------------------------
+
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ImageGallery } from "@/components/image-gallery";
+import { getImagesByCategory } from "@/data/images";
+
+export function BiographySection() {
+  const { t } = useTranslation();
+
+  return (
+    <section id="biography" className="py-20 bg-card">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-card-foreground mb-6 font-serif"
+              data-testid="text-biography-title"
+            >
+              {t("biography.title")}
+            </h2>
+            <p
+              className="text-xl text-muted-foreground leading-relaxed"
+              data-testid="text-biography-description"
+            >
+              {t("biography.description")}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-6"
+            >
+              <div className="space-y-4">
+                <h3
+                  className="text-2xl font-semibold text-card-foreground"
+                  data-testid="text-early-years-title"
+                >
+                  {t("biography.earlyYearsTitle")}
+                </h3>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  data-testid="text-early-years-description"
+                >
+                  {t("biography.earlyYearsText")}
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h3
+                  className="text-2xl font-semibold text-card-foreground"
+                  data-testid="text-breakthrough-title"
+                >
+                  {t("biography.breakthroughTitle")}
+                </h3>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  data-testid="text-breakthrough-description"
+                >
+                  {t("biography.breakthroughText")}
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              <img
+                src="/13.png"
+                alt="Warsztat stolarski z tradycyjnymi narzędziami i meblami z giętego drewna"
+                className="rounded-lg shadow-lg w-full h-auto"
+                data-testid="img-workshop"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+----------------------------------
+
+import { motion } from "framer-motion";
+import { Zap, CheckCircle, Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Link } from "wouter";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const aiImages = {
+  mainChair: "/2.jpg",
+  revolution: "/6.png",
+  democratization: "/7.png",
+  globalImpact: "/8.png",
+};
+
+export function HeritageSection() {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const heritageItems = [
+    {
+      icon: Zap,
+      titleKey: "heritage.technologicalRevolution.title",
+      descriptionKey: "heritage.technologicalRevolution.description",
+      slug: "technological-revolution",
+      iconColor: "text-white",
+      backgroundImage: aiImages.revolution,
+    },
+    {
+      icon: CheckCircle,
+      titleKey: "heritage.democratization.title",
+      descriptionKey: "heritage.democratization.description",
+      slug: "design-democratization",
+      iconColor: "text-white",
+      backgroundImage: aiImages.democratization,
+    },
+    {
+      icon: Globe,
+      titleKey: "heritage.globalImpact.title",
+      descriptionKey: "heritage.globalImpact.description",
+      slug: "global-impact",
+      iconColor: "text-white",
+      backgroundImage: aiImages.globalImpact,
+    },
+  ];
+
+  const chairStats = [
+    { labelKey: "heritage.chair14.yearIntroduced", value: "1859" },
+    { labelKey: "heritage.chair14.numberProduced", value: "50+ milionów" },
+    { labelKey: "heritage.chair14.numberOfParts", value: "6 elementów" },
+    { labelKey: "heritage.chair14.assemblyTime", value: "30 minut" },
+  ];
+
+  const createLocalizedArticlePath = (articleSlug: string) => {
+    const heritagePath = t("routes.heritage");
+    const translatedSlug = t(`routes.heritage_slugs.${articleSlug}`);
+    return `/${currentLanguage}/${heritagePath}/${translatedSlug}`;
+  };
+
+  return (
+    <section id="heritage" className="py-20 bg-card">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-card-foreground mb-6 font-serif"
+              data-testid="text-heritage-title"
+            >
+              {t("heritage.title")}
+            </h2>
+            <p
+              className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto"
+              data-testid="text-heritage-description"
+            >
+              {t("heritage.description")}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-24">
+            {heritageItems.map((item, index) => (
+              <Link
+                key={index}
+                href={createLocalizedArticlePath(item.slug)}
+                className="focus:outline-none focus:ring-4 focus:ring-ring focus:ring-offset-4 focus:ring-offset-card rounded-lg block h-full"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative rounded-lg overflow-hidden p-8 flex flex-col items-center justify-center text-center space-y-4 bg-cover bg-center text-white min-h-[300px] h-full cursor-pointer transition-transform duration-300 hover:scale-105"
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${item.backgroundImage})`,
+                  }}
+                  data-testid={`heritage-item-${index}`}
+                >
+                  <div
+                    className={`w-16 h-16 bg-white/10 rounded-full flex items-center justify-center`}
+                  >
+                    <item.icon className={`w-8 h-8 ${item.iconColor}`} />
+                  </div>
+                  <h3
+                    className="text-xl font-semibold z-10"
+                    data-testid={`text-heritage-${index}-title`}
+                  >
+                    {t(item.titleKey)}
+                  </h3>
+                  <p
+                    className="text-white/80 z-10"
+                    data-testid={`text-heritage-${index}-description`}
+                  >
+                    {t(item.descriptionKey)}
+                  </p>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="bg-muted rounded-xl"
+            data-testid="chair-14-showcase"
+          >
+            <div className="grid md:grid-cols-2 gap-0 items-center">
+              <div className="p-8">
+                <h3
+                  className="text-2xl font-semibold text-card-foreground mb-4"
+                  data-testid="text-chair-14-title"
+                >
+                  {t("heritage.chair14.title")}
+                </h3>
+                <p
+                  className="text-muted-foreground mb-6"
+                  data-testid="text-chair-14-description"
+                >
+                  {t("heritage.chair14.description")}
+                </p>
+                <div className="space-y-3 text-sm border-t border-border pt-6">
+                  {chairStats.map((stat, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center"
+                      data-testid={`chair-stat-${index}`}
+                    >
+                      <span className="text-muted-foreground">
+                        {t(stat.labelKey)}
+                      </span>
+                      <span className="font-medium text-lg text-card-foreground">
+                        {stat.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="relative w-full h-full min-h-[400px]">
+                <img
+                  src={aiImages.mainChair}
+                  alt={t("heritage.chair14.title")}
+                  className="absolute inset-0 w-full h-full object-cover md:rounded-r-xl"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+----------------------------------
+
+import { useEffect } from "react";
+import { useParams, Redirect, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
+import { FooterSection } from "@/components/footer-section";
+import { SEOHead } from "@/components/seo-head";
+import { ArrowLeft } from "lucide-react";
+import NotFound from "@/pages/not-found";
+
+const articleImages: { [key: string]: string } = {
+  "technological-revolution": "/9.png",
+  "design-democratization": "/10.png",
+  "global-impact": "/11.png",
+};
+
+export default function HeritageArticle() {
+  const params = useParams<{ slug?: string }>();
+  const { t, i18n } = useTranslation();
+  const [, setLocation] = useLocation();
+  const localizedSlug = params.slug;
+  const lang = i18n.language;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleBackToHeritage = () => {
+    setLocation(`/${lang}`);
+    setTimeout(() => {
+      const element = document.getElementById("heritage");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
+  };
+
+  if (!localizedSlug) {
+    return <NotFound />;
+  }
+
+  const allSlugs = t("routes.heritage_slugs", {
+    returnObjects: true,
+  }) as Record<string, string>;
+
+  const articleKey =
+    typeof allSlugs === "object" && allSlugs !== null
+      ? Object.keys(allSlugs).find((key) => allSlugs[key] === localizedSlug)
+      : undefined;
+
+  if (!articleKey || !(articleKey in articleImages)) {
+    return <Redirect to="/404" />;
+  }
+
+  const i18nArticleKey = `heritageArticles.${articleKey}` as const;
+  const articleImageSrc = articleImages[articleKey];
+
+  return (
+    <>
+      <SEOHead
+        title={t(`${i18nArticleKey}.title`)}
+        description={t(`${i18nArticleKey}.p1`)}
+      />
+      <main id="main-content" className="pt-12 pb-20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+          <div className="mb-8">
+            <button
+              onClick={handleBackToHeritage}
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("common.backToHeritage")}
+            </button>
+          </div>
+
+          <article className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-primary">
+            <header className="mb-10">
+              <h1 className="text-4xl lg:text-5xl font-bold font-serif text-primary mb-6">
+                {t(`${i18nArticleKey}.title`)}
+              </h1>
+              {articleImageSrc && (
+                <img
+                  src={articleImageSrc}
+                  alt={t(`${i18nArticleKey}.title`)}
+                  className="w-full h-auto object-cover rounded-lg shadow-lg"
+                />
+              )}
+            </header>
+            <p>{t(`${i18nArticleKey}.p1`)}</p>
+            <p>{t(`${i18nArticleKey}.p2`)}</p>
+            <p>{t(`${i18nArticleKey}.p3`)}</p>
+            <p>{t(`${i18nArticleKey}.p4`)}</p>
+          </article>
+        </div>
+      </main>
+      <FooterSection />
+    </>
+  );
+}
+
+
+----------------------------------
+
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+
+interface SEOHeadProps {
+  title?: string;
+  description?: string;
+  type?: 'WebSite' | 'Person' | 'Product';
+  productData?: {
+    name: string;
+    model: string;
+    image: string;
+  };
+}
+
+export function SEOHead({ title, description, type = 'WebSite', productData }: SEOHeadProps) {
+  const { t, i18n } = useTranslation();
+
+  const defaultTitle = "Cyfrowe Dziedzictwo Thoneta - Michael Thonet Heritage";
+  const defaultDescription = "Odkryj historię i dziedzictwo Michaela Thoneta oraz jego rewolucyjnych mebli giętych. Interaktywna podróż przez świat rzemiosła i innowacji.";
+
+  const pageTitle = title || defaultTitle;
+  const pageDescription = description || defaultDescription;
+
+  const getStructuredData = () => {
+    const baseData = {
+      "@context": "https://schema.org",
+    };
+
+    switch (type) {
+      case 'WebSite':
+        return {
+          ...baseData,
+          "@type": "WebSite",
+          "name": "Cyfrowe Dziedzictwo Thoneta",
+          "url": typeof window !== 'undefined' ? window.location.origin : '',
+          "description": pageDescription,
+          "inLanguage": ["pl", "en", "de"]
+        };
+      
+      case 'Person':
+        return {
+          ...baseData,
+          "@type": "Person",
+          "name": "Michael Thonet",
+          "birthDate": "1796-07-02",
+          "deathDate": "1871-03-03",
+          "description": "Niemiecki stolarz i przemysłowiec, pionier technologii gięcia drewna na parze",
+          "nationality": "Niemiecka",
+          "occupation": "Stolarz, przemysłowiec"
+        };
+      
+      case 'Product':
+        return productData ? {
+          ...baseData,
+          "@type": "Product",
+          "name": productData.name,
+          "model": productData.model,
+          "manufacturer": {
+            "@type": "Organization",
+            "name": "Gebrüder Thonet"
+          },
+          "image": productData.image
+        } : null;
+      
+      default:
+        return baseData;
+    }
+  };
+
+  const structuredData = getStructuredData();
+
+  return (
+    <Helmet>
+      <html lang={i18n.language} />
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      
+      {/* Open Graph */}
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Cyfrowe Dziedzictwo Thoneta" />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={pageDescription} />
+      
+      {/* Structured Data */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
+    </Helmet>
+  );
+}
+
+
+--------------------------------
+
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
+export function TimelineSection() {
+  const { t } = useTranslation();
+
+  const timelineEvents = [
+    {
+      year: "1796",
+      titleKey: "timeline.1796.title",
+      descriptionKey: "timeline.1796.description",
+    },
+    {
+      year: "1819",
+      titleKey: "timeline.1819.title",
+      descriptionKey: "timeline.1819.description",
+    },
+    {
+      year: "1841",
+      titleKey: "timeline.1841.title",
+      descriptionKey: "timeline.1841.description",
+    },
+    {
+      year: "1850",
+      titleKey: "timeline.1850.title",
+      descriptionKey: "timeline.1850.description",
+    },
+    {
+      year: "1859",
+      titleKey: "timeline.1859.title",
+      descriptionKey: "timeline.1859.description",
+    },
+    {
+      year: "1871",
+      titleKey: "timeline.1871.title",
+      descriptionKey: "timeline.1871.description",
+    },
+  ];
+
+  const getEventColor = (index: number) => {
+    const colors = [
+      "bg-primary text-primary-foreground",
+      "bg-secondary text-secondary-foreground",
+      "bg-accent text-accent-foreground",
+      "bg-primary text-primary-foreground",
+      "bg-secondary text-secondary-foreground",
+      "bg-accent text-accent-foreground",
+    ];
+    return colors[index % colors.length];
+  };
+
+  return (
+    <section id="timeline" className="py-20 bg-background">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-foreground mb-6 font-serif"
+              data-testid="text-timeline-title"
+            >
+              {t("timeline.title")}
+            </h2>
+            <p
+              className="text-xl text-muted-foreground leading-relaxed"
+              data-testid="text-timeline-description"
+            >
+              {t("timeline.description")}
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
+
+            <div className="space-y-12">
+              {timelineEvents.map((event, index) => (
+                <motion.div
+                  key={event.year}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="relative flex items-start"
+                  data-testid={`timeline-event-${event.year}`}
+                >
+                  <div
+                    className={`flex-shrink-0 w-16 h-16 ${getEventColor(
+                      index
+                    )} rounded-full flex items-center justify-center font-bold text-sm`}
+                  >
+                    {event.year}
+                  </div>
+                  <div className="ml-8">
+                    <h3
+                      className="text-xl font-semibold text-foreground mb-2"
+                      data-testid={`text-timeline-${event.year}-title`}
+                    >
+                      {t(event.titleKey)}
+                    </h3>
+                    <p
+                      className="text-muted-foreground"
+                      data-testid={`text-timeline-${event.year}-description`}
+                    >
+                      {t(event.descriptionKey)}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+-------------------------------
+
+import { useState } from "react";
+import { Switch, Route } from "wouter";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { AriaLiveProvider } from "@/components/AriaLiveProvider";
+import { ControlHub } from "@/components/control-hub";
+import Home from "@/pages/home";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
+import HeritageArticle from "@/pages/heritage-article";
+import NotFound from "@/pages/not-found";
+import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
+import { useTranslation } from "react-i18next";
+import "./lib/i18n";
+
+function AppContent() {
+  // Ten hook globalnie zarządza językiem na podstawie URL
+  useLanguageFromUrl();
+
+  // Pobieramy funkcję 't' do tłumaczenia naszych ścieżek
+  const { t } = useTranslation();
+
+  return (
+    <Switch>
+      {/* Trasy dla strony głównej z prefiksem języka i bez */}
+      <Route path="/" component={Home} />
+      <Route path="/:lang(pl|en|de)" component={Home} />
+
+      {/* DYNAMICZNE, ZLOKALIZOWANE TRASY */}
+      {/* Budujemy ścieżkę, używając tłumaczenia z pliku JSON */}
+      <Route
+        path={`/:lang(pl|en|de)/${t("routes.privacy")}`}
+        component={Privacy}
+      />
+      <Route path={`/:lang(pl|en|de)/${t("routes.terms")}`} component={Terms} />
+      <Route
+        path={`/:lang(pl|en|de)/${t("routes.heritage")}/:slug`}
+        component={HeritageArticle}
+      />
+
+      {/* Catch-all dla niezdefiniowanych tras */}
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  const [isControlHubOpen, setIsControlHubOpen] = useState(false);
+
+  const toggleControlHub = () => {
+    setIsControlHubOpen(!isControlHubOpen);
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <AriaLiveProvider>
+            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+              <ControlHub
+                isOpen={isControlHubOpen}
+                onToggle={toggleControlHub}
+              />
+              <div
+                className={`transition-transform duration-300 ease-in-out ${
+                  isControlHubOpen ? "lg:ml-80" : "ml-0"
+                }`}
+              >
+                <AppContent />
+              </div>
+              <Toaster />
+            </div>
+          </AriaLiveProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
+
+
+--------------------------------
+
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
+
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <>
+      <SEOHead />
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+      </main>
+      <FooterSection />
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2 text-sm leading-relaxed text-muted-foreground">
+            <p>{t("popup.mainText")}</p>
+            <p className="font-semibold text-foreground">
+              {t("popup.dedication")}
+            </p>
+            <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+-------------------------
+
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+  },
+  in: {
+    opacity: 1,
+  },
+  out: {
+    opacity: 0,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
+
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <SEOHead isHomePage={true} />
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+      </main>
+      <FooterSection />
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2 text-sm leading-relaxed text-muted-foreground">
+            <p>{t("popup.mainText")}</p>
+            <p className="font-semibold text-foreground">
+              {t("popup.dedication")}
+            </p>
+            <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+------------------------------------
+
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { FooterSection } from "@/components/footer-section";
+import { SEOHead } from "@/components/seo-head";
+import { ArrowLeft } from "lucide-react";
+
+export default function Privacy() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <>
+      <SEOHead
+        title={t("privacy.title")}
+        description={t("privacy.description")}
+      />
+      <main id="main-content" className="py-20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+          <div className="mb-8">
+            <a
+              href={`/${lang}/`}
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("common.backToHome")}
+            </a>
+          </div>
+          <header className="mb-12 text-center">
+            <h1 className="text-4xl lg:text-5xl font-bold font-serif text-primary">
+              {t("privacy.title")}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              {t("privacy.lastUpdated")} {new Date().toLocaleDateString(lang)}
+            </p>
+          </header>
+
+          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-primary">
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("privacy.dataCollection.title")}
+              </h2>
+              <p>{t("privacy.dataCollection.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("privacy.cookies.title")}
+              </h2>
+              <p>{t("privacy.cookies.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("privacy.thirdParty.title")}
+              </h2>
+              <p>{t("privacy.thirdParty.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("privacy.rights.title")}
+              </h2>
+              <p>{t("privacy.rights.content")}</p>
+            </section>
+            <section>
+              <h2 className="text-2xl font-semibold">
+                {t("privacy.contact.title")}
+              </h2>
+              <p>{t("privacy.contact.content")}</p>
+            </section>
+          </div>
+        </div>
+      </main>
+      <FooterSection />
+    </>
+  );
+}
+
+------------------------------------
+
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { FooterSection } from "@/components/footer-section";
+import { SEOHead } from "@/components/seo-head";
+import { ArrowLeft } from "lucide-react";
+
+export default function Terms() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <>
+      <SEOHead title={t("terms.title")} description={t("terms.description")} />
+      <main id="main-content" className="py-20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+          <div className="mb-8">
+            <a
+              href={`/${lang}/`}
+              className="inline-flex items-center gap-2 text-primary hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t("common.backToHome")}
+            </a>
+          </div>
+          <header className="mb-12 text-center">
+            <h1 className="text-4xl lg:text-5xl font-bold font-serif text-primary">
+              {t("terms.title")}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              {t("terms.lastUpdated")} {new Date().toLocaleDateString(lang)}
+            </p>
+          </header>
+          <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90 prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-primary">
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("terms.acceptance.title")}
+              </h2>
+              <p>{t("terms.acceptance.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("terms.usage.title")}
+              </h2>
+              <p>{t("terms.usage.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("terms.intellectual.title")}
+              </h2>
+              <p>{t("terms.intellectual.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("terms.disclaimer.title")}
+              </h2>
+              <p>{t("terms.disclaimer.content")}</p>
+            </section>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold">
+                {t("terms.limitation.title")}
+              </h2>
+              <p>{t("terms.limitation.content")}</p>
+            </section>
+            <section>
+              <h2 className="text-2xl font-semibold">
+                {t("terms.changes.title")}
+              </h2>
+              <p>{t("terms.changes.content")}</p>
+            </section>
+          </div>
+        </div>
+      </main>
+      <FooterSection />
+    </>
+  );
+}
+
+
+-----------------------
+
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię",
+    "imageAlt": "Michael Thonet - pionier technologii gięcia drewna na parze",
+    "aiNotice": {
+      "text": "Obraz wygenerowany przez AI na podstawie zdjęcia z Wikipedii.",
+      "sourceTitle": "Oryginalne źródło:",
+      "sourceAttribution": "'Michael Thonet' autorstwa: nieznany"
+    }
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "routes": {
+    "privacy": "polityka-prywatnosci",
+    "terms": "warunki-korzystania",
+    "heritage": "dziedzictwo",
+    "heritage_slugs": {
+      "technological-revolution": "rewolucja-technologiczna",
+      "design-democratization": "demokratyzacja-designu",
+      "global-impact": "globalny-wplyw"
+    }
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Zmień język na niemiecki",
+    "changeLanguageTo": "Zmień język na {{language}}",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli.",
+    "workshopImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "ringLabel": "Obręcz wzmacniająca",
+      "innerArchLabel": "Wewnętrzny łuk oparcia",
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię krzesła Thoneta (schemat ideowy). Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe",
+      "ariaChairExploded": "Krzesło zostało rozłożone na części składowe.",
+      "ariaChairReassembled": "Krzesło zostało złożone z powrotem.",
+      "backFrameLabel": "Stelaż tylny i oparcie",
+      "seatLabel": "Siedzisko z plecionką",
+      "frontLegsLabel": "Nogi przednie"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "aiImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "footer": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "description": "Interaktywny hołd dla historii i dziedzictwa Michaela Thoneta, pioniera nowoczesnego meblarstwa.",
+    "navigation": "Nawigacja",
+    "disclaimer": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym. Nazwa Thonet® jest zarejestrowanym znakiem towarowym firmy Thonet GmbH.",
+    "legal": {
+      "title": "Informacje prawne",
+      "details": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych. Zaprojektowana przez autora-samouka na platformie Replit, przy współudziale Google AI Studio i ChatGPT. {{year}}",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej",
+    "backToHeritage": "Powrót do Dziedzictwa",
+    "scrollToTop": "Przewiń na górę",
+    "disclaimerNotice": "To nieoficjalny, niekomercyjny projekt edukacyjny, stanowiący hołd dla Michaela Thoneta i jego mebli giętych. Marka Thonet® jest własnością Thonet GmbH."
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "dataCollection": {
+      "title": "Zbieranie Danych",
+      "content": "Nasza strona internetowa zbiera minimalne dane niezbędne do funkcjonowania. Nie zbieramy danych osobowych bez Twojej zgody."
+    },
+    "cookies": {
+      "title": "Pliki Cookie",
+      "content": "Używamy plików cookie wyłącznie do zapamiętania Twoich preferencji językowych i motywu strony. Nie używamy cookies do śledzenia."
+    },
+    "thirdParty": {
+      "title": "Usługi Trzecich Stron",
+      "content": "Strona może zawierać linki do zewnętrznych serwisów. Nie ponosimy odpowiedzialności za politykę prywatności tych stron."
+    },
+    "rights": {
+      "title": "Twoje Prawa",
+      "content": "Masz prawo do dostępu, poprawy i usunięcia swoich danych osobowych zgodnie z obowiązującymi przepisami prawa."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących polityki prywatności, skontaktuj się z nami."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystając z tej strony, akceptujesz niniejsze warunki korzystania w całości."
+    },
+    "usage": {
+      "title": "Zasady Korzystania",
+      "content": "Strona przeznaczona jest do celów edukacyjnych i informacyjnych. Zabrania się używania jej w sposób niezgodny z prawem."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie treści na stronie są chronione prawem autorskim. Kopiowanie wymaga zgody właściciela."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Odpowiedzialności",
+      "content": "Informacje na stronie mają charakter informacyjny. Nie gwarantujemy ich kompletności ani aktualności."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Nie ponosimy odpowiedzialności za szkody wynikające z korzystania ze strony."
+    },
+    "changes": {
+      "title": "Zmiany Warunków",
+      "content": "Zastrzegamy sobie prawo do zmiany niniejszych warunków w każdym czasie."
+    }
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Rewolucja Technologiczna: Gięcie Drewna Parą",
+      "p1": "Zanim Michael Thonet wkroczył na scenę, produkcja mebli była domeną rzemieślników, a skomplikowane, krzywoliniowe kształty osiągano poprzez żmudne rzeźbienie i łączenie wielu małych kawałków drewna. Był to proces drogi, czasochłonny i materiałochłonny, co sprawiało, że eleganckie meble były luksusem dostępnym tylko dla nielicznych.",
+      "p2": "Thonet, z wizją i determinacją, zmienił ten paradygmat. Jego genialna innowacja – technologia gięcia litego drewna bukowego za pomocą pary wodnej – była prawdziwym przełomem. Proces ten polegał na poddaniu starannie wyselekjonowanych prętów drewna działaniu gorącej pary, aż stawały się one plastyczne i podatne na formowanie. Następnie, przy użyciu metalowych form i siły ludzkich mięśni, drewno było wyginane w eleganckie, płynne kształty, których wcześniej nie można było osiągnąć bez rzeźbienia.",
+      "p3": "Po nadaniu pożądanego kształtu, elementy były suszone, co sprawiało, że twardniały, zachowując nową formę na stałe. Ta metoda nie tylko drastycznie skróciła czas produkcji, ale także zredukowała zużycie materiału i zwiększyła wytrzymałość mebli, eliminując słabe punkty na łączeniach. To właśnie ta technologia pozwoliła na stworzenie lekkich, a jednocześnie niezwykle trwałych konstrukcji, takich jak legendarne Krzesło Nr 14.",
+      "p4": "Rewolucja Thoneta nie ograniczała się tylko do samego procesu gięcia. Wprowadził on również zasady standaryzacji i produkcji seryjnej. Meble były projektowane jako zestawy kilku powtarzalnych, wymiennych komponentów, które można było masowo produkować, a następnie łatwo składać. To pionierskie podejście do 'płaskich paczek' (flat-pack) pozwoliło na efektywny transport i dystrybucję mebli na niespotykaną dotąd skalę, kładąc podwaliny pod nowoczesny przemysł meblarski."
+    },
+    "design-democratization": {
+      "title": "Demokratyzacja Designu: Piękno dla Wszystkich",
+      "p1": "Największym społecznym osiągnięciem Michaela Thoneta było wyrwanie dobrego wzornictwa z rąk elity. W XIX wieku piękne, dobrze wykonane meble były synonimem bogactwa. Rewolucja przemysłowa Thoneta całkowicie zmieniła tę dynamikę, wprowadzając koncepcję, że estetyka i funkcjonalność nie muszą być drogie.",
+      "p2": "Dzięki technologii gięcia drewna i standaryzacji komponentów, koszty produkcji drastycznie spadły. Krzesło, które wcześniej wymagałoby tygodni pracy rzemieślnika, mogło być teraz wyprodukowane w znacznie krótszym czasie przez fabrycznych pracowników. Ta efektywność przełożyła się bezpośrednio na cenę końową. Nagle, eleganckie krzesła, stoły i wieszaki stały się dostępne dla rosnącej klasy średniej, właścicieli kawiarni, restauracji i biur.",
+      "p3": "Koncepcja 'płaskiej paczki' była kolejnym genialnym posunięciem. Krzesło Nr 14, składające się z zaledwie sześciu elementów, dwóch nakrętek i dziesięciu śrub, mogło być wysłane w rozłożonej formie w kompaktowej skrzyni. W jednym metrze sześciennym mieściło się aż 36 rozmontowanych krzeseł. To zminimalizowało koszty transportu i magazynowania, umożliwiając eksport mebli Thoneta na cały świat w przystępnych cenach.",
+      "p4": "W ten sposób meble Thoneta stały się wszechobecne. Zagościły w słynnych wiedeńskich kawiarniach, paryskich bistro, londyńskich biurach i mieszczańskich domach od Ameryki po Japonię. Michael Thonet udowodnił, że masowa produkcja nie musi oznaczać kompromisu w kwestii jakości czy estetyki. Jego praca była pierwszym krokiem w kierunku idei, która stała się fundamentem nowoczesnego designu: tworzenia dobrze zaprojektowanych przedmiotów, które wzbogacają codzienne życie wszystkich ludzi, a nie tylko uprzywilejowanej mniejszości."
+    },
+    "global-impact": {
+      "title": "Globalny Wpływ: Kształtowanie Nowoczesnego Designu",
+      "p1": "Wpływ Michaela Thoneta wykracza daleko poza XIX wiek i miliony sprzedanych krzeseł. Jego innowacje w produkcji i dystrybucji stały się fundamentem, na którym zbudowano całe nowoczesne wzornictwo przemysłowe. Filozofia Thoneta – tworzenie produktów, które są jednocześnie piękne, funkcjonalne, przystępne cenowo i możliwe do masowej produkcji – stała się świętym Graalem dla przyszłych pokoleń projektantów.",
+      "p2": "Jego praca zainspirowała kluczowe postaci i ruchy w historii designu. Architekci wczesnego modernizmu, tacy jak Le Corbusier, byli zafascynowani czystością formy i przemysłową logiką mebli Thoneta. Le Corbusier często umieszczał Krzesło Nr 14 w swoich projektach wnętrz, chwaląc je za 'szlachetność' i idealne połączenie elegancji z użytecznością. Mówił: 'Nigdy nie stworzono nic bardziej eleganckiego i lepiej wykonanego, bardziej praktycznego i wszechstronnego'.",
+      "p3": "Zasady standaryzacji i modułowości, które Thonet wprowadził, stały się podstawą dla Bauhausu – niemieckiej szkoły designu, która zdefiniowała modernizm. Idea tworzenia prostych, powtarzalnych elementów, które można łatwo zmontować, jest bezpośrednią kontynuacją myśli Thoneta. Jego podejście do materiału – wykorzystanie naturalnych właściwości drewna do maksimum, zamiast walki z nimi – również stało się kluczową zasadą modernistycznego projektowania.",
+      "p4": "Dziedzictwo Thoneta żyje do dziś. Każdy mebel, który kupujemy w płaskim pudełku do samodzielnego montażu, jest echem jego rewolucyjnego systemu dystrybucji. Każdy projektant, który dąży do połączenia estetyki z masową dostępnością, podąża ścieżką wytyczoną przez tego wizjonera z Boppard. Michael Thonet nie tylko sprzedawał meble; sprzedał światu ideę, że dobry design jest uniwersalnym prawem, a nie luksusem dla nielicznych."
+    }
+  },
+  "popup": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "mainText": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym, poświęconym historii i dziedzictwu mebli giętych Michaela Thoneta.",
+    "dedication": "Dedykowana jest radomskiemu hobbyście, kolekcjonerowi i restauratorowi – Pawłowi Michalskiemu.",
+    "disclaimer": "Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Projekt ma charakter wyłącznie dokumentacyjny i pasjonacki."
+  }
+}
+
+-------------------------------------
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+export function ProcessSimulation() {
+  const { t } = useTranslation();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  const steps = [
+    {
+      number: 1,
+      titleKey: 'interactiveModules.processSimulation.step1Title',
+      descriptionKey: 'interactiveModules.processSimulation.step1Description',
+    },
+    {
+      number: 2,
+      titleKey: 'interactiveModules.processSimulation.step2Title',
+      descriptionKey: 'interactiveModules.processSimulation.step2Description',
+    },
+    {
+      number: 3,
+      titleKey: 'interactiveModules.processSimulation.step3Title',
+      descriptionKey: 'interactiveModules.processSimulation.step3Description',
+    },
+    {
+      number: 4,
+      titleKey: 'interactiveModules.processSimulation.step4Title',
+      descriptionKey: 'interactiveModules.processSimulation.step4Description',
+    },
+  ];
+
+  // Auto-play functionality
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isAutoPlaying) {
+      interval = setInterval(() => {
+        setCurrentStep(prev => prev === 4 ? 1 : prev + 1);
+      }, 3000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isAutoPlaying]);
+
+  const announceToScreenReader = (message: string) => {
+    const announcement = document.querySelector('[data-testid="aria-announcements"]');
+    if (announcement) {
+      announcement.textContent = message;
+      setTimeout(() => {
+        announcement.textContent = '';
+      }, 1000);
+    }
+  };
+
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const toggleAutoPlay = () => {
+    const newState = !isAutoPlaying;
+    setIsAutoPlaying(newState);
+    announceToScreenReader(
+      newState ? t('aria.autoplayStarted') : t('aria.autoplayStopped')
+    );
+  };
+
+  // Update screen reader when step changes
+  useEffect(() => {
+    const currentStepData = steps[currentStep - 1];
+    const description = t(currentStepData.descriptionKey);
+    announceToScreenReader(description);
+  }, [currentStep, t]);
+
+  return (
+    <div className="bg-card rounded-xl p-8 shadow-lg" data-testid="module-process-simulation">
+      <h3 className="text-2xl font-semibold text-card-foreground mb-6" data-testid="text-simulation-title">
+        {t('interactiveModules.processSimulation.title')}
+      </h3>
+      <p className="text-muted-foreground mb-8" data-testid="text-simulation-description">
+        {t('interactiveModules.processSimulation.description')}
+      </p>
+
+      <div className="space-y-4 mb-8">
+        {steps.map((step, index) => (
+          <motion.div
+            key={step.number}
+            animate={{
+              opacity: currentStep === step.number ? 1 : 0.3,
+              scale: currentStep === step.number ? 1 : 0.9,
+            }}
+            transition={{
+              duration: 0.5,
+              type: "spring",
+              damping: 20,
+              stiffness: 100,
+            }}
+            className={`flex items-center p-4 bg-muted rounded-lg ${
+              currentStep === step.number ? 'ring-2 ring-primary' : ''
+            }`}
+            data-testid={`process-step-${step.number}`}
+          >
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold mr-4 ${
+              currentStep === step.number
+                ? 'bg-primary text-primary-foreground'
+                : index === 1
+                ? 'bg-secondary text-secondary-foreground'
+                : index === 2
+                ? 'bg-accent text-accent-foreground'
+                : 'bg-primary text-primary-foreground'
+            }`}>
+              {step.number}
+            </div>
+            <div>
+              <h4 className="font-medium text-card-foreground" data-testid={`text-step-${step.number}-title`}>
+                {t(step.titleKey)}
+              </h4>
+              <p className="text-sm text-muted-foreground" data-testid={`text-step-${step.number}-description`}>
+                {t(step.descriptionKey)}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          onClick={prevStep}
+          disabled={currentStep === 1}
+          className="px-4 py-2 border border-border text-foreground rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label={t('interactiveModules.processSimulation.previousStep')}
+          data-testid="button-process-prev"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <button
+          onClick={nextStep}
+          disabled={currentStep === 4}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label={t('interactiveModules.processSimulation.nextStep')}
+          data-testid="button-process-next"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+        <button
+          onClick={toggleAutoPlay}
+          className="px-6 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+          aria-label={isAutoPlaying ? t('interactiveModules.processSimulation.stopAutoplay') : t('interactiveModules.processSimulation.autoplay')}
+          data-testid="button-process-auto"
+        >
+          {isAutoPlaying ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
+          {isAutoPlaying ? 'Stop' : 'Autoplay'}
+        </button>
+      </div>
+
+      <div className="mt-4">
+        <div
+          className="text-sm text-muted-foreground"
+          role="status"
+          aria-live="polite"
+          data-testid="text-process-status"
+        >
+          {t('interactiveModules.processSimulation.stepStatus', {
+            current: currentStep,
+            total: 4,
+            description: t(steps[currentStep - 1].titleKey)
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+------------------------------------
+
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię",
+    "imageAlt": "Michael Thonet - pionier technologii gięcia drewna na parze",
+    "aiNotice": {
+      "text": "Obraz wygenerowany przez AI na podstawie zdjęcia z Wikipedii.",
+      "sourceTitle": "Oryginalne źródło:",
+      "sourceAttribution": "'Michael Thonet' autorstwa: nieznany"
+    }
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "routes": {
+    "privacy": "polityka-prywatnosci",
+    "terms": "warunki-korzystania",
+    "heritage": "dziedzictwo",
+    "heritage_slugs": {
+      "technological-revolution": "rewolucja-technologiczna",
+      "design-democratization": "demokratyzacja-designu",
+      "global-impact": "globalny-wplyw"
+    }
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Zmień język na niemiecki",
+    "changeLanguageTo": "Zmień język na {{language}}",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli.",
+    "workshopImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "ringLabel": "Obręcz wzmacniająca",
+      "innerArchLabel": "Wewnętrzny łuk oparcia",
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię krzesła Thoneta (schemat ideowy). Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe",
+      "ariaChairExploded": "Krzesło zostało rozłożone na części składowe.",
+      "ariaChairReassembled": "Krzesło zostało złożone z powrotem.",
+      "backFrameLabel": "Stelaż tylny i oparcie",
+      "seatLabel": "Siedzisko z plecionką",
+      "frontLegsLabel": "Nogi przednie"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "aiImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "footer": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "description": "Interaktywny hołd dla historii i dziedzictwa Michaela Thoneta, pioniera nowoczesnego meblarstwa.",
+    "navigation": "Nawigacja",
+    "disclaimer": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym. Nazwa Thonet® jest zarejestrowanym znakiem towarowym firmy Thonet GmbH.",
+    "legal": {
+      "title": "Informacje prawne",
+      "details": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych. Zaprojektowana przez autora-samouka na platformie Replit, przy współudziale Google AI Studio i ChatGPT. {{year}}",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej",
+    "backToHeritage": "Powrót do Dziedzictwa",
+    "scrollToTop": "Przewiń na górę",
+    "disclaimerNotice": "To nieoficjalny, niekomercyjny projekt edukacyjny, stanowiący hołd dla Michaela Thoneta i jego mebli giętych. Marka Thonet® jest własnością Thonet GmbH."
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage, opisująca sposób gromadzenia, wykorzystywania i ochrony danych.",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "introduction": {
+      "title": "Wprowadzenie",
+      "content": "Niniejsza Polityka Prywatności opisuje, w jaki sposób gromadzone, wykorzystywane i chronione są dane osobowe użytkowników odwiedzających stronę 'Projekt Thonet: Cyfrowy Hołd'. Strona ma charakter edukacyjny i niekomercyjny, a prywatność naszych gości jest dla nas priorytetem."
+    },
+    "dataAdmin": {
+      "title": "Administrator Danych",
+      "content": "Administratorem danych jest twórca strony, osoba prywatna. Wszelkie zapytania dotyczące danych osobowych prosimy kierować drogą elektroniczną, korzystając z dostępnych form kontaktu."
+    },
+    "dataScope": {
+      "title": "Zakres i Rodzaj Zbieranych Danych",
+      "content": "Zbieramy tylko minimalne dane niezbędne do prawidłowego funkcjonowania strony. Należą do nich: preferencje językowe i motywu (zapisywane w 'localStorage' przeglądarki) oraz informacja o wyświetleniu okna powitalnego (zapisywana w 'sessionStorage'). Nie zbieramy danych osobowych takich jak imię, nazwisko czy adres e-mail."
+    },
+    "dataPurpose": {
+      "title": "Cel Przetwarzania Danych",
+      "content": "Dane są przetwarzane wyłącznie w celu zapewnienia podstawowej funkcjonalności strony, takiej jak zapamiętanie wybranego języka i motywu graficznego, aby poprawić komfort użytkowania. Nie są one wykorzystywane do celów marketingowych ani udostępniane podmiotom trzecim."
+    },
+    "cookies": {
+      "title": "Pliki Cookie i Technologie Przechowywania",
+      "content": "Strona wykorzystuje technologie 'localStorage' i 'sessionStorage' przeglądarki, które działają podobnie do plików cookie, ale dane nie są wysyłane na serwer. Służą one wyłącznie do przechowywania ustawień po stronie użytkownika i nie śledzą jego aktywności."
+    },
+    "dataRetention": {
+      "title": "Okres Przechowywania Danych",
+      "content": "Dane w 'localStorage' (język, motyw) są przechowywane do momentu ich ręcznego usunięcia przez użytkownika w ustawieniach przeglądarki. Dane w 'sessionStorage' (status okna powitalnego) są usuwane automatycznie po zamknięciu karty przeglądarki."
+    },
+    "thirdParty": {
+      "title": "Usługi Zewnętrzne",
+      "content": "Strona jest hostowana na platformie Netlify, która może gromadzić anonimowe, zagregowane dane analityczne (np. liczba odwiedzin, typ przeglądarki) w celach statystycznych i dla zapewnienia bezpieczeństwa usługi. Nie mamy bezpośredniego dostępu do tych danych na poziomie pojedynczego użytkownika."
+    },
+    "userRights": {
+      "title": "Prawa Użytkownika",
+      "content": "Ponieważ nie gromadzimy danych osobowych, tradycyjne prawa (dostęp, sprostowanie, usunięcie) nie mają bezpośredniego zastosowania. Użytkownik ma pełną kontrolę nad danymi przechowywanymi w jego przeglądarce i może je w każdej chwili usunąć za pomocą jej ustawień."
+    },
+    "policyChanges": {
+      "title": "Zmiany w Polityce Prywatności",
+      "content": "Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej Polityce Prywatności. Wszelkie aktualizacje będą publikowane na tej stronie i wchodzą w życie z dniem ich opublikowania."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań lub wątpliwości dotyczących niniejszej polityki, prosimy o kontakt. Szczegóły kontaktowe zostaną udostępnione na życzenie."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage, określające zasady użytkowania strony i jej treści.",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "introduction": {
+      "title": "Definicje i Wprowadzenie",
+      "content": "Niniejsze 'Warunki Korzystania' określają zasady obowiązujące wszystkich 'Użytkowników' strony 'Projekt Thonet: Cyfrowy Hołd' ('Serwis'). Serwis jest niekomercyjnym projektem edukacyjnym stworzonym jako hołd dla Michaela Thoneta."
+    },
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystanie z Serwisu jest równoznaczne z pełną akceptacją niniejszych warunków. Jeśli nie zgadzasz się z którymkolwiek z postanowień, prosimy o opuszczenie strony."
+    },
+    "usage": {
+      "title": "Zasady Użytkowania Serwisu",
+      "content": "Użytkownik zobowiązuje się do korzystania z Serwisu wyłącznie w celach zgodnych z jego przeznaczeniem – edukacyjnym i informacyjnym. Zabronione jest podejmowanie działań, które mogłyby zakłócić działanie Serwisu, naruszyć jego bezpieczeństwo lub prawa innych Użytkowników."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie oryginalne teksty, grafiki, kod źródłowy oraz układ strony są własnością intelektualną autora Serwisu i są chronione prawem autorskim. Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Obrazy generowane przez AI, choć inspirowane, nie roszczą sobie praw do wizerunku historycznego i służą celom ilustracyjnym."
+    },
+    "userContent": {
+      "title": "Treści Użytkownika",
+      "content": "Serwis nie przewiduje możliwości dodawania treści przez Użytkowników. Wszelkie formy interakcji są ograniczone do funkcjonalności udostępnionych w interfejsie strony."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Gwarancji i Odpowiedzialności",
+      "content": "Treści prezentowane w Serwisie mają charakter wyłącznie informacyjny i edukacyjny. Autor dokłada wszelkich starań, aby były one rzetelne, jednak nie ponosi odpowiedzialności za ich stuprocentową dokładność i nie gwarantuje braku błędów. Serwis jest dostarczany 'tak jak jest', bez żadnych gwarancji."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Autor Serwisu nie ponosi odpowiedzialności za jakiekolwiek szkody (bezpośrednie lub pośrednie) wynikające z korzystania lub niemożności korzystania z Serwisu."
+    },
+    "governingLaw": {
+      "title": "Prawo Właściwe",
+      "content": "Wszelkie spory wynikające z niniejszych warunków będą rozstrzygane zgodnie z prawem obowiązującym na terytorium Polski."
+    },
+    "changes": {
+      "title": "Zmiany w Warunkach",
+      "content": "Autor zastrzega sobie prawo do zmiany niniejszych Warunków w dowolnym momencie. Aktualna wersja będzie zawsze dostępna na tej stronie."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących Warunków Korzystania, prosimy o kontakt, którego szczegóły zostaną udostępnione na życzenie."
+    }
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Rewolucja Technologiczna: Gięcie Drewna Parą",
+      "p1": "Zanim Michael Thonet wkroczył na scenę, produkcja mebli była domeną rzemieślników, a skomplikowane, krzywoliniowe kształty osiągano poprzez żmudne rzeźbienie i łączenie wielu małych kawałków drewna. Był to proces drogi, czasochłonny i materiałochłonny, co sprawiało, że eleganckie meble były luksusem dostępnym tylko dla nielicznych.",
+      "p2": "Thonet, z wizją i determinacją, zmienił ten paradygmat. Jego genialna innowacja – technologia gięcia litego drewna bukowego za pomocą pary wodnej – była prawdziwym przełomem. Proces ten polegał na poddaniu starannie wyselekjonowanych prętów drewna działaniu gorącej pary, aż stawały się one plastyczne i podatne na formowanie. Następnie, przy użyciu metalowych form i siły ludzkich mięśni, drewno było wyginane w eleganckie, płynne kształty, których wcześniej nie można było osiągnąć bez rzeźbienia.",
+      "p3": "Po nadaniu pożądanego kształtu, elementy były suszone, co sprawiało, że twardniały, zachowując nową formę na stałe. Ta metoda nie tylko drastycznie skróciła czas produkcji, ale także zredukowała zużycie materiału i zwiększyła wytrzymałość mebli, eliminując słabe punkty na łączeniach. To właśnie ta technologia pozwoliła na stworzenie lekkich, a jednocześnie niezwykle trwałych konstrukcji, takich jak legendarne Krzesło Nr 14.",
+      "p4": "Rewolucja Thoneta nie ograniczała się tylko do samego procesu gięcia. Wprowadził on również zasady standaryzacji i produkcji seryjnej. Meble były projektowane jako zestawy kilku powtarzalnych, wymiennych komponentów, które można było masowo produkować, a następnie łatwo składać. To pionierskie podejście do 'płaskich paczek' (flat-pack) pozwoliło na efektywny transport i dystrybucję mebli na niespotykaną dotąd skalę, kładąc podwaliny pod nowoczesny przemysł meblarski."
+    },
+    "design-democratization": {
+      "title": "Demokratyzacja Designu: Piękno dla Wszystkich",
+      "p1": "Największym społecznym osiągnięciem Michaela Thoneta było wyrwanie dobrego wzornictwa z rąk elity. W XIX wieku piękne, dobrze wykonane meble były synonimem bogactwa. Rewolucja przemysłowa Thoneta całkowicie zmieniła tę dynamikę, wprowadzając koncepcję, że estetyka i funkcjonalność nie muszą być drogie.",
+      "p2": "Dzięki technologii gięcia drewna i standaryzacji komponentów, koszty produkcji drastycznie spadły. Krzesło, które wcześniej wymagałoby tygodni pracy rzemieślnika, mogło być teraz wyprodukowane w znacznie krótszym czasie przez fabrycznych pracowników. Ta efektywność przełożyła się bezpośrednio na cenę końową. Nagle, eleganckie krzesła, stoły i wieszaki stały się dostępne dla rosnącej klasy średniej, właścicieli kawiarni, restauracji i biur.",
+      "p3": "Koncepcja 'płaskiej paczki' była kolejnym genialnym posunięciem. Krzesło Nr 14, składające się z zaledwie sześciu elementów, dwóch nakrętek i dziesięciu śrub, mogło być wysłane w rozłożonej formie w kompaktowej skrzyni. W jednym metrze sześciennym mieściło się aż 36 rozmontowanych krzeseł. To zminimalizowało koszty transportu i magazynowania, umożliwiając eksport mebli Thoneta na cały świat w przystępnych cenach.",
+      "p4": "W ten sposób meble Thoneta stały się wszechobecne. Zagościły w słynnych wiedeńskich kawiarniach, paryskich bistro, londyńskich biurach i mieszczańskich domach od Ameryki po Japonię. Michael Thonet udowodnił, że masowa produkcja nie musi oznaczać kompromisu w kwestii jakości czy estetyki. Jego praca była pierwszym krokiem w kierunku idei, która stała się fundamentem nowoczesnego designu: tworzenia dobrze zaprojektowanych przedmiotów, które wzbogacają codzienne życie wszystkich ludzi, a nie tylko uprzywilejowanej mniejszości."
+    },
+    "global-impact": {
+      "title": "Globalny Wpływ: Kształtowanie Nowoczesnego Designu",
+      "p1": "Wpływ Michaela Thoneta wykracza daleko poza XIX wiek i miliony sprzedanych krzeseł. Jego innowacje w produkcji i dystrybucji stały się fundamentem, na którym zbudowano całe nowoczesne wzornictwo przemysłowe. Filozofia Thoneta – tworzenie produktów, które są jednocześnie piękne, funkcjonalne, przystępne cenowo i możliwe do masowej produkcji – stała się świętym Graalem dla przyszłych pokoleń projektantów.",
+      "p2": "Jego praca zainspirowała kluczowe postaci i ruchy w historii designu. Architekci wczesnego modernizmu, tacy jak Le Corbusier, byli zafascynowani czystością formy i przemysłową logiką mebli Thoneta. Le Corbusier często umieszczał Krzesło Nr 14 w swoich projektach wnętrz, chwaląc je za 'szlachetność' i idealne połączenie elegancji z użytecznością. Mówił: 'Nigdy nie stworzono nic bardziej eleganckiego i lepiej wykonanego, bardziej praktycznego i wszechstronnego'.",
+      "p3": "Zasady standaryzacji i modułowości, które Thonet wprowadził, stały się podstawą dla Bauhausu – niemieckiej szkoły designu, która zdefiniowała modernizm. Idea tworzenia prostych, powtarzalnych elementów, które można łatwo zmontować, jest bezpośrednią kontynuacją myśli Thoneta. Jego podejście do materiału – wykorzystanie naturalnych właściwości drewna do maksimum, zamiast walki z nimi – również stało się kluczową zasadą modernistycznego projektowania.",
+      "p4": "Dziedzictwo Thoneta żyje do dziś. Każdy mebel, który kupujemy w płaskim pudełku do samodzielnego montażu, jest echem jego rewolucyjnego systemu dystrybucji. Każdy projektant, który dąży do połączenia estetyki z masową dostępnością, podąża ścieżką wytyczoną przez tego wizjonera z Boppard. Michael Thonet nie tylko sprzedawał meble; sprzedał światu ideę, że dobry design jest uniwersalnym prawem, a nie luksusem dla nielicznych."
+    }
+  },
+  "popup": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "mainText": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym, poświęconym historii i dziedzictwu mebli giętych Michaela Thoneta.",
+    "dedication": "Dedykowana jest radomskiemu hobbyście, kolekcjonerowi i restauratorowi – Pawłowi Michalskiemu.",
+    "disclaimer": "Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Projekt ma charakter wyłącznie dokumentacyjny i pasjonacki."
+  }
+}
+
+------------------------------
+
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+  },
+  in: {
+    opacity: 1,
+  },
+  out: {
+    opacity: 0,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
+
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <SEOHead isHomePage={true} />
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+      </main>
+      <FooterSection />
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2 text-sm leading-relaxed text-muted-foreground">
+            <p>{t("popup.mainText")}</p>
+            <p className="font-semibold text-foreground">
+              {t("popup.dedication")}
+            </p>
+            <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+---------------------------------
+
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię",
+    "imageAlt": "Michael Thonet - pionier technologii gięcia drewna na parze",
+    "aiNotice": {
+      "text": "Obraz wygenerowany przez AI na podstawie zdjęcia z Wikipedii.",
+      "sourceTitle": "Oryginalne źródło:",
+      "sourceAttribution": "'Michael Thonet' autorstwa: nieznany"
+    }
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "routes": {
+    "privacy": "polityka-prywatnosci",
+    "terms": "warunki-korzystania",
+    "heritage": "dziedzictwo",
+    "heritage_slugs": {
+      "technological-revolution": "rewolucja-technologiczna",
+      "design-democratization": "demokratyzacja-designu",
+      "global-impact": "globalny-wplyw"
+    }
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Zmień język na niemiecki",
+    "changeLanguageTo": "Zmień język na {{language}}",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli.",
+    "workshopImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "ringLabel": "Obręcz wzmacniająca",
+      "innerArchLabel": "Wewnętrzny łuk oparcia",
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię krzesła Thoneta (schemat ideowy). Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe",
+      "ariaChairExploded": "Krzesło zostało rozłożone na części składowe.",
+      "ariaChairReassembled": "Krzesło zostało złożone z powrotem.",
+      "backFrameLabel": "Stelaż tylny i oparcie",
+      "seatLabel": "Siedzisko z plecionką",
+      "frontLegsLabel": "Nogi przednie"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "aiImageNotice": "Obraz wygenerowany przez AI. Inspiracja stylem Michaela Thoneta. Projekt ma charakter edukacyjny, niekomercyjny i nie jest powiązany z marką Thonet GmbH.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "collection_section": {
+    "title": "Wirtualna Galeria Kolekcji",
+    "description": "Odkryj wybrane eksponaty z prywatnej kolekcji Pawła Michalskiego. Każdy mebel to historia rzemiosła i pasji do renowacji.",
+    "button_text": "Zobacz szczegóły",
+    "modal_year": "Rok projektu",
+    "modal_notes": "Notatki renowatora"
+  },
+  "collection": {
+    "chair_no_14": {
+      "title": "Krzesło Nr 14",
+      "description": "Ikona designu, znana jako 'krzesło kawiarniane'. Składa się z zaledwie sześciu ręcznie giętych bukowych elementów. Lekkie, tanie i wytrzymałe, zrewolucjonizowało przemysł meblarski.",
+      "year": "ok. 1859",
+      "notes": "Renowacja tego egzemplarza wymagała wzmocnienia połączeń śrubowych oraz odtworzenia oryginalnej, ręcznie tkanej plecionki na siedzisku."
+    },
+    "rocking_chair_no_10": {
+      "title": "Fotel bujany Nr 10",
+      "description": "Jeden z najbardziej eleganckich i organicznych projektów Thoneta. Płynne linie i innowacyjna konstrukcja sprawiły, że był to ulubiony mebel wielu artystów, w tym Pabla Picassa.",
+      "year": "ok. 1885",
+      "notes": "Kluczowym wyzwaniem było odtworzenie idealnej krzywizny płóz, które uległy deformacji przez lata. Zastosowano tradycyjne metody gięcia parowego."
+    },
+    "a_811_armchair": {
+      "title": "Fotel A 811",
+      "description": "Projekt przypisywany Josefowi Hoffmannowi z lat 20. XX wieku. Charakteryzuje się prostą, geometryczną formą i ręcznie wyplatanym oparciem oraz siedziskiem, co było cechą charakterystyczną projektów dla Thoneta z tego okresu.",
+      "year": "ok. 1925",
+      "notes": "Najwięcej pracy wymagało pieczołowite odtworzenie plecionki wiedeńskiej na oparciu, z zachowaniem oryginalnego wzoru i napięcia."
+    }
+  },
+  "footer": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "description": "Interaktywny hołd dla historii i dziedzictwa Michaela Thoneta, pioniera nowoczesnego meblarstwa.",
+    "navigation": "Nawigacja",
+    "disclaimer": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym. Nazwa Thonet® jest zarejestrowanym znakiem towarowym firmy Thonet GmbH.",
+    "legal": {
+      "title": "Informacje prawne",
+      "details": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych. Zaprojektowana przez autora-samouka na platformie Replit, przy współudziale Google AI Studio i ChatGPT. {{year}}",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej",
+    "backToHeritage": "Powrót do Dziedzictwa",
+    "scrollToTop": "Przewiń na górę",
+    "disclaimerNotice": "To nieoficjalny, niekomercyjny projekt edukacyjny, stanowiący hołd dla Michaela Thoneta i jego mebli giętych. Marka Thonet® jest własnością Thonet GmbH."
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage, opisująca sposób gromadzenia, wykorzystywania i ochrony danych.",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "introduction": {
+      "title": "Wprowadzenie",
+      "content": "Niniejsza Polityka Prywatności opisuje, w jaki sposób gromadzone, wykorzystywane i chronione są dane osobowe użytkowników odwiedzających stronę 'Projekt Thonet: Cyfrowy Hołd'. Strona ma charakter edukacyjny i niekomercyjny, a prywatność naszych gości jest dla nas priorytetem."
+    },
+    "dataAdmin": {
+      "title": "Administrator Danych",
+      "content": "Administratorem danych jest twórca strony, osoba prywatna. Wszelkie zapytania dotyczące danych osobowych prosimy kierować drogą elektroniczną, korzystając z dostępnych form kontaktu."
+    },
+    "dataScope": {
+      "title": "Zakres i Rodzaj Zbieranych Danych",
+      "content": "Zbieramy tylko minimalne dane niezbędne do prawidłowego funkcjonowania strony. Należą do nich: preferencje językowe i motywu (zapisywane w 'localStorage' przeglądarki) oraz informacja o wyświetleniu okna powitalnego (zapisywana w 'sessionStorage'). Nie zbieramy danych osobowych takich jak imię, nazwisko czy adres e-mail."
+    },
+    "dataPurpose": {
+      "title": "Cel Przetwarzania Danych",
+      "content": "Dane są przetwarzane wyłącznie w celu zapewnienia podstawowej funkcjonalności strony, takiej jak zapamiętanie wybranego języka i motywu graficznego, aby poprawić komfort użytkowania. Nie są one wykorzystywane do celów marketingowych ani udostępniane podmiotom trzecim."
+    },
+    "cookies": {
+      "title": "Pliki Cookie i Technologie Przechowywania",
+      "content": "Strona wykorzystuje technologie 'localStorage' i 'sessionStorage' przeglądarki, które działają podobnie do plików cookie, ale dane nie są wysyłane na serwer. Służą one wyłącznie do przechowywania ustawień po stronie użytkownika i nie śledzą jego aktywności."
+    },
+    "dataRetention": {
+      "title": "Okres Przechowywania Danych",
+      "content": "Dane w 'localStorage' (język, motyw) są przechowywane do momentu ich ręcznego usunięcia przez użytkownika w ustawieniach przeglądarki. Dane w 'sessionStorage' (status okna powitalnego) są usuwane automatycznie po zamknięciu karty przeglądarki."
+    },
+    "thirdParty": {
+      "title": "Usługi Zewnętrzne",
+      "content": "Strona jest hostowana na platformie Netlify, która może gromadzić anonimowe, zagregowane dane analityczne (np. liczba odwiedzin, typ przeglądarki) w celach statystycznych i dla zapewnienia bezpieczeństwa usługi. Nie mamy bezpośredniego dostępu do tych danych na poziomie pojedynczego użytkownika."
+    },
+    "userRights": {
+      "title": "Prawa Użytkownika",
+      "content": "Ponieważ nie gromadzimy danych osobowych, tradycyjne prawa (dostęp, sprostowanie, usunięcie) nie mają bezpośredniego zastosowania. Użytkownik ma pełną kontrolę nad danymi przechowywanymi w jego przeglądarce i może je w każdej chwili usunąć za pomocą jej ustawień."
+    },
+    "policyChanges": {
+      "title": "Zmiany w Polityce Prywatności",
+      "content": "Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej Polityce Prywatności. Wszelkie aktualizacje będą publikowane na tej stronie i wchodzą w życie z dniem ich opublikowania."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań lub wątpliwości dotyczących niniejszej polityki, prosimy o kontakt. Szczegóły kontaktowe zostaną udostępnione na życzenie."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage, określające zasady użytkowania strony i jej treści.",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "introduction": {
+      "title": "Definicje i Wprowadzenie",
+      "content": "Niniejsze 'Warunki Korzystania' określają zasady obowiązujące wszystkich 'Użytkowników' strony 'Projekt Thonet: Cyfrowy Hołd' ('Serwis'). Serwis jest niekomercyjnym projektem edukacyjnym stworzonym jako hołd dla Michaela Thoneta."
+    },
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystanie z Serwisu jest równoznaczne z pełną akceptacją niniejszych warunków. Jeśli nie zgadzasz się z którymkolwiek z postanowień, prosimy o opuszczenie strony."
+    },
+    "usage": {
+      "title": "Zasady Użytkowania Serwisu",
+      "content": "Użytkownik zobowiązuje się do korzystania z Serwisu wyłącznie w celach zgodnych z jego przeznaczeniem – edukacyjnym i informacyjnym. Zabronione jest podejmowanie działań, które mogłyby zakłócić działanie Serwisu, naruszyć jego bezpieczeństwo lub prawa innych Użytkowników."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie oryginalne teksty, grafiki, kod źródłowy oraz układ strony są własnością intelektualną autora Serwisu i są chronione prawem autorskim. Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Obrazy generowane przez AI, choć inspirowane, nie roszczą sobie praw do wizerunku historycznego i służą celom ilustracyjnym."
+    },
+    "userContent": {
+      "title": "Treści Użytkownika",
+      "content": "Serwis nie przewiduje możliwości dodawania treści przez Użytkowników. Wszelkie formy interakcji są ograniczone do funkcjonalności udostępnionych w interfejsie strony."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Gwarancji i Odpowiedzialności",
+      "content": "Treści prezentowane w Serwisie mają charakter wyłącznie informacyjny i edukacyjny. Autor dokłada wszelkich starań, aby były one rzetelne, jednak nie ponosi odpowiedzialności za ich stuprocentową dokładność i nie gwarantuje braku błędów. Serwis jest dostarczany 'tak jak jest', bez żadnych gwarancji."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Autor Serwisu nie ponosi odpowiedzialności za jakiekolwiek szkody (bezpośrednie lub pośrednie) wynikające z korzystania lub niemożności korzystania z Serwisu."
+    },
+    "governingLaw": {
+      "title": "Prawo Właściwe",
+      "content": "Wszelkie spory wynikające z niniejszych warunków będą rozstrzygane zgodnie z prawem obowiązującym na terytorium Polski."
+    },
+    "changes": {
+      "title": "Zmiany w Warunkach",
+      "content": "Autor zastrzega sobie prawo do zmiany niniejszych Warunków w dowolnym momencie. Aktualna wersja będzie zawsze dostępna na tej stronie."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących Warunków Korzystania, prosimy o kontakt, którego szczegóły zostaną udostępnione na życzenie."
+    }
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Rewolucja Technologiczna: Gięcie Drewna Parą",
+      "p1": "Zanim Michael Thonet wkroczył na scenę, produkcja mebli była domeną rzemieślników, a skomplikowane, krzywoliniowe kształty osiągano poprzez żmudne rzeźbienie i łączenie wielu małych kawałków drewna. Był to proces drogi, czasochłonny i materiałochłonny, co sprawiało, że eleganckie meble były luksusem dostępnym tylko dla nielicznych.",
+      "p2": "Thonet, z wizją i determinacją, zmienił ten paradygmat. Jego genialna innowacja – technologia gięcia litego drewna bukowego za pomocą pary wodnej – była prawdziwym przełomem. Proces ten polegał na poddaniu starannie wyselekjonowanych prętów drewna działaniu gorącej pary, aż stawały się one plastyczne i podatne na formowanie. Następnie, przy użyciu metalowych form i siły ludzkich mięśni, drewno było wyginane w eleganckie, płynne kształty, których wcześniej nie można było osiągnąć bez rzeźbienia.",
+      "p3": "Po nadaniu pożądanego kształtu, elementy były suszone, co sprawiało, że twardniały, zachowując nową formę na stałe. Ta metoda nie tylko drastycznie skróciła czas produkcji, ale także zredukowała zużycie materiału i zwiększyła wytrzymałość mebli, eliminując słabe punkty na łączeniach. To właśnie ta technologia pozwoliła na stworzenie lekkich, a jednocześnie niezwykle trwałych konstrukcji, takich jak legendarne Krzesło Nr 14.",
+      "p4": "Rewolucja Thoneta nie ograniczała się tylko do samego procesu gięcia. Wprowadził on również zasady standaryzacji i produkcji seryjnej. Meble były projektowane jako zestawy kilku powtarzalnych, wymiennych komponentów, które można było masowo produkować, a następnie łatwo składać. To pionierskie podejście do 'płaskich paczek' (flat-pack) pozwoliło na efektywny transport i dystrybucję mebli na niespotykaną dotąd skalę, kładąc podwaliny pod nowoczesny przemysł meblarski."
+    },
+    "design-democratization": {
+      "title": "Demokratyzacja Designu: Piękno dla Wszystkich",
+      "p1": "Największym społecznym osiągnięciem Michaela Thoneta było wyrwanie dobrego wzornictwa z rąk elity. W XIX wieku piękne, dobrze wykonane meble były synonimem bogactwa. Rewolucja przemysłowa Thoneta całkowicie zmieniła tę dynamikę, wprowadzając koncepcję, że estetyka i funkcjonalność nie muszą być drogie.",
+      "p2": "Dzięki technologii gięcia drewna i standaryzacji komponentów, koszty produkcji drastycznie spadły. Krzesło, które wcześniej wymagałoby tygodni pracy rzemieślnika, mogło być teraz wyprodukowane w znacznie krótszym czasie przez fabrycznych pracowników. Ta efektywność przełożyła się bezpośrednio na cenę końową. Nagle, eleganckie krzesła, stoły i wieszaki stały się dostępne dla rosnącej klasy średniej, właścicieli kawiarni, restauracji i biur.",
+      "p3": "Koncepcja 'płaskiej paczki' była kolejnym genialnym posunięciem. Krzesło Nr 14, składające się z zaledwie sześciu elementów, dwóch nakrętek i dziesięciu śrub, mogło być wysłane w rozłożonej formie w kompaktowej skrzyni. W jednym metrze sześciennym mieściło się aż 36 rozmontowanych krzeseł. To zminimalizowało koszty transportu i magazynowania, umożliwiając eksport mebli Thoneta na cały świat w przystępnych cenach.",
+      "p4": "W ten sposób meble Thoneta stały się wszechobecne. Zagościły w słynnych wiedeńskich kawiarniach, paryskich bistro, londyńskich biurach i mieszczańskich domach od Ameryki po Japonię. Michael Thonet udowodnił, że masowa produkcja nie musi oznaczać kompromisu w kwestii jakości czy estetyki. Jego praca była pierwszym krokiem w kierunku idei, która stała się fundamentem nowoczesnego designu: tworzenia dobrze zaprojektowanych przedmiotów, które wzbogacają codzienne życie wszystkich ludzi, a nie tylko uprzywilejowanej mniejszości."
+    },
+    "global-impact": {
+      "title": "Globalny Wpływ: Kształtowanie Nowoczesnego Designu",
+      "p1": "Wpływ Michaela Thoneta wykracza daleko poza XIX wiek i miliony sprzedanych krzeseł. Jego innowacje w produkcji i dystrybucji stały się fundamentem, na którym zbudowano całe nowoczesne wzornictwo przemysłowe. Filozofia Thoneta – tworzenie produktów, które są jednocześnie piękne, funkcjonalne, przystępne cenowo i możliwe do masowej produkcji – stała się świętym Graalem dla przyszłych pokoleń projektantów.",
+      "p2": "Jego praca zainspirowała kluczowe postaci i ruchy w historii designu. Architekci wczesnego modernizmu, tacy jak Le Corbusier, byli zafascynowani czystością formy i przemysłową logiką mebli Thoneta. Le Corbusier często umieszczał Krzesło Nr 14 w swoich projektach wnętrz, chwaląc je za 'szlachetność' i idealne połączenie elegancji z użytecznością. Mówił: 'Nigdy nie stworzono nic bardziej eleganckiego i lepiej wykonanego, bardziej praktycznego i wszechstronnego'.",
+      "p3": "Zasady standaryzacji i modułowości, które Thonet wprowadził, stały się podstawą dla Bauhausu – niemieckiej szkoły designu, która zdefiniowała modernizm. Idea tworzenia prostych, powtarzalnych elementów, które można łatwo zmontować, jest bezpośrednią kontynuacją myśli Thoneta. Jego podejście do materiału – wykorzystanie naturalnych właściwości drewna do maksimum, zamiast walki z nimi – również stało się kluczową zasadą modernistycznego projektowania.",
+      "p4": "Dziedzictwo Thoneta żyje do dziś. Każdy mebel, który kupujemy w płaskim pudełku do samodzielnego montażu, jest echem jego rewolucyjnego systemu dystrybucji. Każdy projektant, który dąży do połączenia estetyki z masową dostępnością, podąża ścieżką wytyczoną przez tego wizjonera z Boppard. Michael Thonet nie tylko sprzedawał meble; sprzedał światu ideę, że dobry design jest uniwersalnym prawem, a nie luksusem dla nielicznych."
+    }
+  },
+  "popup": {
+    "title": "Projekt Thonet: Cyfrowy Hołd",
+    "mainText": "Ta strona jest nieoficjalnym, niekomercyjnym projektem edukacyjnym, poświęconym historii i dziedzictwu mebli giętych Michaela Thoneta.",
+    "dedication": "Dedykowana jest radomskiemu hobbyście, kolekcjonerowi i restauratorowi – Pawłowi Michalskiemu.",
+    "disclaimer": "Nazwa Thonet® jest zastrzeżonym znakiem towarowym firmy Thonet GmbH. Projekt ma charakter wyłącznie dokumentacyjny i pasjonacki."
+  }
+}
+
+------------------------------------
+
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { CollectionSection } from "@/components/collection-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+  },
+  in: {
+    opacity: 1,
+  },
+  out: {
+    opacity: 0,
+  },
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5,
+};
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const robustScrollToHash = (hash: string) => {
+      if (!hash) return;
+      const id = hash.replace("#", "");
+      let attempts = 0;
+      const interval = setInterval(() => {
+        const element = document.getElementById(id);
+        attempts++;
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          clearInterval(interval);
+        } else if (attempts > 20) {
+          clearInterval(interval);
+        }
+      }, 100);
+    };
+
+    const handleHashAction = () => {
+      robustScrollToHash(window.location.hash);
+    };
+
+    handleHashAction();
+    window.addEventListener("hashchange", handleHashAction);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashAction);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <SEOHead isHomePage={true} />
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <CollectionSection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+      </main>
+      <FooterSection />
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2 text-sm leading-relaxed text-muted-foreground">
+            <p>{t("popup.mainText")}</p>
+            <p className="font-semibold text-foreground">
+              {t("popup.dedication")}
+            </p>
+            <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+---------------------------
+
+{
+  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
+    "noEmit": true,
+    "module": "ESNext",
+    "strict": true,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": ["./client/src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  }
+}
+
+--------------------------------
+
+{
+  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
+    "noEmit": true,
+    "module": "ESNext",
+    "strict": true,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": ["./client/src/*"],
+      "@shared/*": ["./shared/*"]
+    }
+  }
+}
+
+--------------------------------
+
+"scripts": {
+    "dev": "vite",
+    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "start": "NODE_ENV=production node dist/index.js",
+    "check": "tsc",
+    "db:push": "drizzle-kit push"
+  },
+
+-----------------------------------
+
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+
+export default defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...(process.env.NODE_ENV !== "production" &&
+    process.env.REPL_ID !== undefined
+      ? [
+          await import("@replit/vite-plugin-cartographer").then((m) =>
+            m.cartographer(),
+          ),
+        ]
+      : []),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+    },
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true,
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
+    },
+  },
+});

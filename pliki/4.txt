@@ -1,0 +1,1644 @@
+import { useTranslation } from "react-i18next";
+
+export function FooterSection() {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const navigationLinks = [
+    { href: "#hero", labelKey: "navigation.home" },
+    { href: "#biography", labelKey: "navigation.biography" },
+    { href: "#interactive-modules", labelKey: "navigation.interactiveModules" },
+    { href: "#heritage", labelKey: "navigation.heritage" },
+  ];
+
+  const scrollToSection = (href: string) => {
+    const sectionId = href.replace("#", "");
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  return (
+    <footer
+      className="bg-card border-t border-border py-12"
+      data-testid="footer"
+    >
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div>
+            <h3
+              className="text-lg font-semibold text-card-foreground mb-4 font-serif"
+              data-testid="text-footer-title"
+            >
+              {t("footer.title")}
+            </h3>
+            <p
+              className="text-muted-foreground mb-4"
+              data-testid="text-footer-description"
+            >
+              {t("footer.description")}
+            </p>
+            <p
+              className="text-sm text-muted-foreground"
+              data-testid="text-footer-copyright"
+            >
+              {t("footer.copyright")}
+            </p>
+          </div>
+
+          <div>
+            <h4
+              className="text-md font-medium text-card-foreground mb-4"
+              data-testid="text-footer-navigation"
+            >
+              {t("footer.navigation")}
+            </h4>
+            <ul className="space-y-2 text-muted-foreground">
+              {navigationLinks.map((link, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => scrollToSection(link.href)}
+                    className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded text-left"
+                    data-testid={`link-footer-${link.href.replace("#", "")}`}
+                  >
+                    {t(link.labelKey)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold mb-4 font-serif">
+              {t("footer.legal.title")}
+            </h4>
+            <div className="space-y-2">
+              <a
+                href={`/${currentLanguage}/privacy`}
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t("footer.legal.privacy")}
+              </a>
+              <a
+                href={`/${currentLanguage}/terms`}
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t("footer.legal.terms")}
+              </a>
+            </div>
+            <p className="text-muted-foreground mt-4 text-sm">
+              {t("footer.legal.content")}
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+-----------------------------------
+
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  X,
+  Menu,
+  Sun,
+  Moon,
+  Contrast,
+  Home,
+  User,
+  Cpu,
+  Award,
+  Clock,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslationSetup } from "@/hooks/use-translation";
+import { useLocation } from "wouter";
+
+interface ControlHubProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
+  const { t, i18n } = useTranslation();
+  const { theme, setTheme, isHighContrast, toggleHighContrast } = useTheme();
+  const { changeLanguage, currentLanguage } = useTranslationSetup();
+  const hubRef = useRef<HTMLDivElement>(null);
+  const [announceMessage, setAnnounceMessage] = useState("");
+  const [location, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (isOpen && hubRef.current) {
+      const focusableElements = hubRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement;
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Tab") {
+          if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement?.focus();
+            }
+          } else {
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement?.focus();
+            }
+          }
+        }
+        if (e.key === "Escape") {
+          onToggle();
+        }
+      };
+
+      document.addEventListener("keydown", handleKeyDown);
+      firstElement?.focus();
+
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isOpen, onToggle]);
+
+  const announceToScreenReader = (message: string) => {
+    setAnnounceMessage(message);
+    setTimeout(() => setAnnounceMessage(""), 1000);
+  };
+
+  const handleThemeChange = (newTheme: "light" | "dark") => {
+    setTheme(newTheme);
+    announceToScreenReader(
+      t("aria.themeChanged", {
+        theme:
+          newTheme === "dark"
+            ? t("controlHub.darkTheme")
+            : t("controlHub.lightTheme"),
+      })
+    );
+    setTimeout(() => {
+      onToggle();
+    }, 200);
+  };
+
+  const handleHighContrastToggle = () => {
+    toggleHighContrast();
+    announceToScreenReader(
+      isHighContrast
+        ? t("aria.highContrastDisabled")
+        : t("aria.highContrastEnabled")
+    );
+    setTimeout(() => {
+      onToggle();
+    }, 200);
+  };
+
+  const handleLanguageChange = (newLang: string) => {
+    if (currentLanguage === newLang) {
+      onToggle();
+      return;
+    }
+
+    const langRegex = /^\/(pl|en|de)/;
+    let newPath;
+
+    if (langRegex.test(location)) {
+      newPath = location.replace(langRegex, `/${newLang}`);
+    } else {
+      newPath = location === "/" ? `/${newLang}` : `/${newLang}${location}`;
+    }
+
+    setLocation(newPath, { replace: true });
+    onToggle();
+  };
+
+  const handleSectionNavigation = (sectionId: string) => {
+    const isHomePage = location === "/" || /^\/(pl|en|de)$/.test(location);
+    onToggle();
+
+    if (isHomePage) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 300);
+      }
+    } else {
+      const lang = i18n.language;
+      setLocation(`/${lang}/#${sectionId}`);
+    }
+  };
+
+  const navigationItems = [
+    { id: "hero", icon: Home, labelKey: "navigation.home" },
+    { id: "biography", icon: User, labelKey: "navigation.biography" },
+    {
+      id: "interactive-modules",
+      icon: Cpu,
+      labelKey: "navigation.interactiveModules",
+    },
+    { id: "heritage", icon: Award, labelKey: "navigation.heritage" },
+    { id: "timeline", icon: Clock, labelKey: "navigation.timeline" },
+  ];
+
+  const languages = [
+    { code: "pl", name: "Polski", flag: "flag-pl" },
+    { code: "en", name: "English", flag: "flag-en" },
+    { code: "de", name: "Deutsch", flag: "flag-de" },
+  ];
+
+  return (
+    <>
+      <button
+        onClick={onToggle}
+        className="fixed left-4 top-4 z-40 p-3 bg-primary text-primary-foreground rounded-md shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+        aria-label={isOpen ? t("controlHub.close") : t("controlHub.open")}
+        aria-expanded={isOpen}
+        aria-controls="control-hub"
+        data-testid="button-toggle-hub"
+      >
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onToggle}
+            className="fixed inset-0 bg-black/50 z-40"
+            data-testid="backdrop-control-hub"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.aside
+            ref={hubRef}
+            id="control-hub"
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed left-0 top-0 h-full w-80 bg-card border-r border-border z-50 shadow-xl overflow-y-auto scrollbar-hide"
+            aria-label={t("controlHub.title")}
+            data-testid="panel-control-hub"
+          >
+            <div className="p-6 space-y-8">
+              <div className="flex justify-between items-center">
+                <h2
+                  className="text-lg font-semibold text-card-foreground font-serif"
+                  data-testid="text-hub-title"
+                >
+                  {t("controlHub.title")}
+                </h2>
+                <button
+                  onClick={onToggle}
+                  className="p-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
+                  aria-label={t("controlHub.close")}
+                  data-testid="button-close-hub"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <nav role="navigation" aria-label={t("controlHub.sections")}>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+                  {t("controlHub.sections")}
+                </h3>
+                <ul className="space-y-2">
+                  {navigationItems.map(({ id, icon: Icon, labelKey }) => (
+                    <li key={id}>
+                      <button
+                        onClick={() => handleSectionNavigation(id)}
+                        className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left"
+                        data-testid={`link-${id}`}
+                      >
+                        <Icon className="w-4 h-4 mr-3" />
+                        {t(labelKey)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              <div>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+                  {t("controlHub.language")}
+                </h3>
+                <div
+                  className="space-y-2"
+                  role="group"
+                  aria-label={t("controlHub.language")}
+                >
+                  {languages.map(({ code, name, flag }) => (
+                    <button
+                      key={code}
+                      onClick={() => handleLanguageChange(code)}
+                      className={`w-full flex items-center px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-colors ${
+                        currentLanguage === code
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted"
+                      }`}
+                      aria-current={currentLanguage === code ? "true" : "false"}
+                      aria-label={
+                        currentLanguage === code
+                          ? t("controlHub.currentLanguage")
+                          : `Change language to ${name}`
+                      }
+                      data-testid={`button-language-${code}`}
+                    >
+                      <span className={`language-flag ${flag}`}></span>
+                      {name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+                  {t("controlHub.theme")}
+                </h3>
+                <div className="space-y-2">
+                  <button
+                    onClick={() => handleThemeChange("light")}
+                    className={`w-full flex items-center px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-colors ${
+                      theme === "light"
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-muted"
+                    }`}
+                    aria-current={theme === "light" ? "true" : "false"}
+                    aria-label={
+                      theme === "light"
+                        ? t("controlHub.currentThemeLight")
+                        : t("controlHub.switchToLight")
+                    }
+                    data-testid="button-theme-light"
+                  >
+                    <Sun className="w-4 h-4 mr-3" />
+                    {t("controlHub.lightTheme")}
+                  </button>
+                  <button
+                    onClick={() => handleThemeChange("dark")}
+                    className={`w-full flex items-center px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-ring transition-colors ${
+                      theme === "dark"
+                        ? "bg-primary text-primary-foreground"
+                        : "hover:bg-muted"
+                    }`}
+                    aria-current={theme === "dark" ? "true" : "false"}
+                    aria-label={
+                      theme === "dark"
+                        ? t("controlHub.currentThemeDark")
+                        : t("controlHub.switchToDark")
+                    }
+                    data-testid="button-theme-dark"
+                  >
+                    <Moon className="w-4 h-4 mr-3" />
+                    {t("controlHub.darkTheme")}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+                  {t("controlHub.accessibility")}
+                </h3>
+                <button
+                  onClick={handleHighContrastToggle}
+                  className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors"
+                  aria-label={
+                    isHighContrast
+                      ? t("controlHub.disableHighContrast")
+                      : t("controlHub.enableHighContrast")
+                  }
+                  aria-pressed={isHighContrast}
+                  data-testid="button-high-contrast"
+                >
+                  <Contrast className="w-4 h-4 mr-3" />
+                  {t("controlHub.highContrast")}
+                </button>
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      <div
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      >
+        {announceMessage}
+      </div>
+    </>
+  );
+}
+
+------------------------------
+
+import { useState } from "react";
+import { Switch, Route } from "wouter";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { AriaLiveProvider } from "@/components/AriaLiveProvider";
+import { ControlHub } from "@/components/control-hub";
+import Home from "@/pages/home";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
+import HeritageArticle from "@/pages/heritage-article";
+import NotFound from "@/pages/not-found";
+import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
+import "./lib/i18n";
+
+function AppContent() {
+  // Ten hook będzie teraz globalnie zarządzał językiem na podstawie URL
+  useLanguageFromUrl();
+
+  return (
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/pl" component={Home} />
+      <Route path="/en" component={Home} />
+      <Route path="/de" component={Home} />
+
+      <Route path="/:lang(pl|en|de)/privacy" component={Privacy} />
+      <Route path="/:lang(pl|en|de)/terms" component={Terms} />
+      <Route
+        path="/:lang(pl|en|de)/heritage/:slug"
+        component={HeritageArticle}
+      />
+
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  const [isControlHubOpen, setIsControlHubOpen] = useState(false);
+
+  const toggleControlHub = () => {
+    setIsControlHubOpen(!isControlHubOpen);
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <AriaLiveProvider>
+            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+              <ControlHub
+                isOpen={isControlHubOpen}
+                onToggle={toggleControlHub}
+              />
+              <div
+                className={`transition-transform duration-300 ease-in-out ${
+                  isControlHubOpen ? "lg:ml-80" : "ml-0"
+                }`}
+              >
+                <AppContent />
+              </div>
+              <Toaster />
+            </div>
+          </AriaLiveProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
+
+--------------------------------
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./i18n";
+import "./index.css";
+
+const container = document.getElementById("root");
+const root = createRoot(container!);
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+-----------------------------
+
+{
+  "hero": {
+    "subtitle": "Cyfrowe Dziedzictwo",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier Designu",
+    "description": "Odkryj rewolucyjną historię człowieka, który na zawsze zmienił świat meblarstwa. Zanurz się w interaktywnej podróży przez życie, dzieła i niezwykłe dziedzictwo Michaela Thoneta.",
+    "exploreButton": "Rozpocznij Eksplorację",
+    "biographyButton": "Poznaj Biografię",
+    "imageAlt": "Michael Thonet - pionier technologii gięcia drewna na parze",
+    "aiNotice": {
+      "text": "Obraz wygenerowany przez AI na podstawie zdjęcia z Wikipedii.",
+      "sourceTitle": "Oryginalne źródło:",
+      "sourceAttribution": "'Michael Thonet' autorstwa: nieznany"
+    }
+  },
+  "navigation": {
+    "home": "Strona główna",
+    "biography": "Biografia",
+    "interactiveModules": "Moduły Interaktywne",
+    "heritage": "Dziedzictwo",
+    "timeline": "Chronologia",
+    "skipToContent": "Przejdź do treści głównej"
+  },
+  "controlHub": {
+    "title": "Centrum Sterowania",
+    "close": "Zamknij panel nawigacji",
+    "open": "Otwórz panel nawigacji",
+    "sections": "Sekcje",
+    "language": "Język",
+    "theme": "Motyw",
+    "accessibility": "Dostępność",
+    "currentLanguage": "Aktualny język: Polski",
+    "changeToEnglish": "Zmień język na angielski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Jasny",
+    "darkTheme": "Ciemny",
+    "currentThemeLight": "Aktualny motyw: Jasny",
+    "currentThemeDark": "Aktualny motyw: Ciemny",
+    "switchToLight": "Przełącz na motyw jasny",
+    "switchToDark": "Przełącz na motyw ciemny",
+    "highContrast": "Wysoki Kontrast",
+    "enableHighContrast": "Włącz tryb wysokiego kontrastu",
+    "disableHighContrast": "Wyłącz tryb wysokiego kontrastu"
+  },
+  "biography": {
+    "title": "Biografia Mistrza",
+    "description": "Michael Thonet (1796-1871) to niemiecki stolarz i przemysłowiec, który zrewolucjonizował produkcję mebli wprowadzając innowacyjną technologię gięcia drewna na parze.",
+    "earlyYearsTitle": "Wczesne Lata",
+    "earlyYearsText": "Urodzony w Boppard nad Renem, Michael Thonet rozpoczął swoją karierę jako stolarz. Już w młodym wieku fascynowały go możliwości nadania drewnu nowych kształtów.",
+    "breakthroughTitle": "Przełomowe Odkrycie",
+    "breakthroughText": "W latach 30. XIX wieku Thonet opracował rewolucyjną metodę gięcia drewna bukowego za pomocą pary wodnej, co pozwoliło na masową produkcję eleganckich mebli."
+  },
+  "interactiveModules": {
+    "title": "Interaktywne Moduły Edukacyjne",
+    "description": "Poznaj tajniki rzemiosła Thoneta dzięki innowacyjnym, interaktywnym komponentom. Każdy moduł został zaprojektowany, aby przybliżyć Ci fascynujący świat technologii gięcia drewna.",
+    "productDeconstruction": {
+      "ringLabel": "Obręcz wzmacniająca",
+      "innerArchLabel": "Wewnętrzny łuk oparcia",
+      "title": "Dekonstrukcja Produktu",
+      "description": "Poznaj anatomię krzesła Thoneta (schemat ideowy). Kliknij przycisk, aby zobaczyć jak krzesło rozkłada się na komponenty.",
+      "startButton": "Rozpocznij Dekonstrukcję",
+      "reassembleButton": "Składanie z Powrotem",
+      "helpText": "Kliknij przycisk, aby uruchomić animację rozkładu krzesła na części składowe",
+      "ariaChairExploded": "Krzesło zostało rozłożone na części składowe.",
+      "ariaChairReassembled": "Krzesło zostało złożone z powrotem.",
+      "backFrameLabel": "Stelaż tylny i oparcie",
+      "seatLabel": "Siedzisko z plecionką",
+      "frontLegsLabel": "Nogi przednie"
+    },
+    "processSimulation": {
+      "title": "Symulacja Procesu",
+      "description": "Prześledź krok po kroku rewolucyjny proces gięcia drewna na parze. Każdy etap produkcji zostanie zaprezentowany z dokładnymi objaśnieniami.",
+      "step1Title": "Przygotowanie Drewna",
+      "step1Description": "Wybór odpowiedniego drewna bukowego o odpowiedniej wilgotności",
+      "step2Title": "Obróbka Parą",
+      "step2Description": "Ogrzewanie drewna parą wodną w temperaturze 100°C przez 2-6 godzin",
+      "step3Title": "Gięcie w Formie",
+      "step3Description": "Umieszczenie zmiękczonego drewna w metalowej formie i nadanie kształtu",
+      "step4Title": "Suszenie i Wykończenie",
+      "step4Description": "Naturalne suszenie i końcowa obróbka powierzchni",
+      "previousStep": "Poprzedni krok procesu",
+      "nextStep": "Następny krok procesu",
+      "autoplay": "Automatyczne odtwarzanie procesu",
+      "stopAutoplay": "Zatrzymaj automatyczne odtwarzanie",
+      "stepStatus": "Krok {{current}} z {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Dziedzictwo i Wpływ na Współczesność",
+    "description": "Innowacje Michaela Thoneta wykroczyły daleko poza jego epokę, kształtując nowoczesny design i produkcję mebli aż do dziś.",
+    "technologicalRevolution": {
+      "title": "Rewolucja Technologiczna",
+      "description": "Wprowadzenie masowej produkcji mebli dzięki standaryzacji i mechanizacji procesów."
+    },
+    "democratization": {
+      "title": "Demokratyzacja Designu",
+      "description": "Udostępnienie pięknych, funkcjonalnych mebli szerszej grupie społecznej dzięki niższym kosztom produkcji."
+    },
+    "globalImpact": {
+      "title": "Globalne Oddziaływanie",
+      "description": "Wpływ na rozwój współczesnego designu przemysłowego i filozofii funkcjonalności."
+    },
+    "chair14": {
+      "title": "Krzesło No. 14 - Ikona Designu",
+      "description": "Wyprodukowane w ponad 50 milionach egzemplarzy, krzesło No. 14 zostało uznane za jedno z najważniejszych dzieł designu przemysłowego w historii.",
+      "yearIntroduced": "Rok wprowadzenia:",
+      "numberProduced": "Liczba wyprodukowanych:",
+      "numberOfParts": "Liczba części:",
+      "assemblyTime": "Czas montażu:"
+    }
+  },
+  "timeline": {
+    "title": "Chronologia Życia i Dzieł",
+    "description": "Kluczowe wydarzenia w życiu Michaela Thoneta i rozwoju jego przedsiębiorstwa.",
+    "1796": {
+      "title": "Narodziny w Boppard",
+      "description": "Michael Thonet przychodzi na świat w małym miasteczku nad Renem, w rodzinie o tradycjach stolarskich."
+    },
+    "1819": {
+      "title": "Rozpoczęcie Działalności",
+      "description": "Założenie własnego warsztatu stolarskiego i pierwsze eksperymenty z technikami obróbki drewna."
+    },
+    "1841": {
+      "title": "Przeprowadzka do Wiednia",
+      "description": "Na zaproszenie księcia Metternicha Thonet przenosi swoją działalność do Wiednia, gdzie otrzymuje lepsze warunki rozwoju."
+    },
+    "1850": {
+      "title": "Założenie Fabryki",
+      "description": "Utworzenie firmy \"Gebrüder Thonet\" i rozpoczęcie masowej produkcji mebli z giętego drewna."
+    },
+    "1859": {
+      "title": "Krzesło No. 14",
+      "description": "Wprowadzenie na rynek słynnego krzesła No. 14, które stanie się ikoną designu przemysłowego."
+    },
+    "1871": {
+      "title": "Śmierć Mistrza",
+      "description": "Michael Thonet umiera w Wiedniu, pozostawiając po sobie przemysłowe imperium i rewolucyjne dziedzictwo."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Interaktywna strona poświęcona historii i dziedzictwu Michaela Thoneta oraz jego rewolucyjnych technik meblarskich.",
+    "navigation": "Nawigacja",
+    "accessibility": "Dostępność",
+    "technologies": "Technologie",
+    "copyright": "© 2024 Thonet Digital Heritage. Wszystkie prawa zastrzeżone.",
+    "dedication": "Dedykowane kolekcjonerowi mebli giętych Pawłowi Michalskiemu",
+    "legal": {
+      "title": "Informacje prawne",
+      "content": "Ta strona została stworzona w celach edukacyjnych i prezentacyjnych.",
+      "privacy": "Polityka Prywatności",
+      "terms": "Warunki Korzystania"
+    }
+  },
+  "common": {
+    "backToHome": "Powrót do strony głównej",
+    "backToHeritage": "Powrót do Dziedzictwa",
+    "scrollToTop": "Przewiń na górę"
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "description": "Polityka prywatności serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "dataCollection": {
+      "title": "Zbieranie Danych",
+      "content": "Nasza strona internetowa zbiera minimalne dane niezbędne do funkcjonowania. Nie zbieramy danych osobowych bez Twojej zgody."
+    },
+    "cookies": {
+      "title": "Pliki Cookie",
+      "content": "Używamy plików cookie wyłącznie do zapamiętania Twoich preferencji językowych i motywu strony. Nie używamy cookies do śledzenia."
+    },
+    "thirdParty": {
+      "title": "Usługi Trzecich Stron",
+      "content": "Strona może zawierać linki do zewnętrznych serwisów. Nie ponosimy odpowiedzialności za politykę prywatności tych stron."
+    },
+    "rights": {
+      "title": "Twoje Prawa",
+      "content": "Masz prawo do dostępu, poprawy i usunięcia swoich danych osobowych zgodnie z obowiązującymi przepisami prawa."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "W przypadku pytań dotyczących polityki prywatności, skontaktuj się z nami."
+    }
+  },
+  "terms": {
+    "title": "Warunki Korzystania",
+    "description": "Warunki korzystania z serwisu Thonet Digital Heritage",
+    "lastUpdated": "Ostatnia aktualizacja:",
+    "acceptance": {
+      "title": "Akceptacja Warunków",
+      "content": "Korzystając z tej strony, akceptujesz niniejsze warunki korzystania w całości."
+    },
+    "usage": {
+      "title": "Zasady Korzystania",
+      "content": "Strona przeznaczona jest do celów edukacyjnych i informacyjnych. Zabrania się używania jej w sposób niezgodny z prawem."
+    },
+    "intellectual": {
+      "title": "Własność Intelektualna",
+      "content": "Wszystkie treści na stronie są chronione prawem autorskim. Kopiowanie wymaga zgody właściciela."
+    },
+    "disclaimer": {
+      "title": "Wyłączenie Odpowiedzialności",
+      "content": "Informacje na stronie mają charakter informacyjny. Nie gwarantujemy ich kompletności ani aktualności."
+    },
+    "limitation": {
+      "title": "Ograniczenie Odpowiedzialności",
+      "content": "Nie ponosimy odpowiedzialności za szkody wynikające z korzystania ze strony."
+    },
+    "changes": {
+      "title": "Zmiany Warunków",
+      "content": "Zastrzegamy sobie prawo do zmiany niniejszych warunków w każdym czasie."
+    }
+  },
+  "aria": {
+    "themeChanged": "Zmieniono motyw na {{theme}}",
+    "highContrastEnabled": "Włączono tryb wysokiego kontrastu",
+    "highContrastDisabled": "Wyłączono tryb wysokiego kontrastu",
+    "chairExploded": "Krzesło zostało rozłożone na części składowe. Widoczne są etykiety komponentów.",
+    "chairReassembled": "Krzesło zostało złożone z powrotem.",
+    "autoplayStarted": "Rozpoczęto automatyczne odtwarzanie procesu",
+    "autoplayStopped": "Zatrzymano automatyczne odtwarzanie procesu"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Rewolucja Technologiczna: Gięcie Drewna Parą",
+      "p1": "Zanim Michael Thonet wkroczył na scenę, produkcja mebli była domeną rzemieślników, a skomplikowane, krzywoliniowe kształty osiągano poprzez żmudne rzeźbienie i łączenie wielu małych kawałków drewna. Był to proces drogi, czasochłonny i materiałochłonny, co sprawiało, że eleganckie meble były luksusem dostępnym tylko dla nielicznych.",
+      "p2": "Thonet, z wizją i determinacją, zmienił ten paradygmat. Jego genialna innowacja – technologia gięcia litego drewna bukowego za pomocą pary wodnej – była prawdziwym przełomem. Proces ten polegał na poddaniu starannie wyselekjonowanych prętów drewna działaniu gorącej pary, aż stawały się one plastyczne i podatne na formowanie. Następnie, przy użyciu metalowych form i siły ludzkich mięśni, drewno było wyginane w eleganckie, płynne kształty, których wcześniej nie można było osiągnąć bez rzeźbienia.",
+      "p3": "Po nadaniu pożądanego kształtu, elementy były suszone, co sprawiało, że twardniały, zachowując nową formę na stałe. Ta metoda nie tylko drastycznie skróciła czas produkcji, ale także zredukowała zużycie materiału i zwiększyła wytrzymałość mebli, eliminując słabe punkty na łączeniach. To właśnie ta technologia pozwoliła na stworzenie lekkich, a jednocześnie niezwykle trwałych konstrukcji, takich jak legendarne Krzesło Nr 14.",
+      "p4": "Rewolucja Thoneta nie ograniczała się tylko do samego procesu gięcia. Wprowadził on również zasady standaryzacji i produkcji seryjnej. Meble były projektowane jako zestawy kilku powtarzalnych, wymiennych komponentów, które można było masowo produkować, a następnie łatwo składać. To pionierskie podejście do 'płaskich paczek' (flat-pack) pozwoliło na efektywny transport i dystrybucję mebli na niespotykaną dotąd skalę, kładąc podwaliny pod nowoczesny przemysł meblarski."
+    },
+    "design-democratization": {
+      "title": "Demokratyzacja Designu: Piękno dla Wszystkich",
+      "p1": "Największym społecznym osiągnięciem Michaela Thoneta było wyrwanie dobrego wzornictwa z rąk elity. W XIX wieku piękne, dobrze wykonane meble były synonimem bogactwa. Rewolucja przemysłowa Thoneta całkowicie zmieniła tę dynamikę, wprowadzając koncepcję, że estetyka i funkcjonalność nie muszą być drogie.",
+      "p2": "Dzięki technologii gięcia drewna i standaryzacji komponentów, koszty produkcji drastycznie spadły. Krzesło, które wcześniej wymagałoby tygodni pracy rzemieślnika, mogło być teraz wyprodukowane w znacznie krótszym czasie przez fabrycznych pracowników. Ta efektywność przełożyła się bezpośrednio na cenę końową. Nagle, eleganckie krzesła, stoły i wieszaki stały się dostępne dla rosnącej klasy średniej, właścicieli kawiarni, restauracji i biur.",
+      "p3": "Koncepcja 'płaskiej paczki' była kolejnym genialnym posunięciem. Krzesło Nr 14, składające się z zaledwie sześciu elementów, dwóch nakrętek i dziesięciu śrub, mogło być wysłane w rozłożonej formie w kompaktowej skrzyni. W jednym metrze sześciennym mieściło się aż 36 rozmontowanych krzeseł. To zminimalizowało koszty transportu i magazynowania, umożliwiając eksport mebli Thoneta na cały świat w przystępnych cenach.",
+      "p4": "W ten sposób meble Thoneta stały się wszechobecne. Zagościły w słynnych wiedeńskich kawiarniach, paryskich bistro, londyńskich biurach i mieszczańskich domach od Ameryki po Japonię. Michael Thonet udowodnił, że masowa produkcja nie musi oznaczać kompromisu w kwestii jakości czy estetyki. Jego praca była pierwszym krokiem w kierunku idei, która stała się fundamentem nowoczesnego designu: tworzenia dobrze zaprojektowanych przedmiotów, które wzbogacają codzienne życie wszystkich ludzi, a nie tylko uprzywilejowanej mniejszości."
+    },
+    "global-impact": {
+      "title": "Globalny Wpływ: Kształtowanie Nowoczesnego Designu",
+      "p1": "Wpływ Michaela Thoneta wykracza daleko poza XIX wiek i miliony sprzedanych krzeseł. Jego innowacje w produkcji i dystrybucji stały się fundamentem, na którym zbudowano całe nowoczesne wzornictwo przemysłowe. Filozofia Thoneta – tworzenie produktów, które są jednocześnie piękne, funkcjonalne, przystępne cenowo i możliwe do masowej produkcji – stała się świętym Graalem dla przyszłych pokoleń projektantów.",
+      "p2": "Jego praca zainspirowała kluczowe postaci i ruchy w historii designu. Architekci wczesnego modernizmu, tacy jak Le Corbusier, byli zafascynowani czystością formy i przemysłową logiką mebli Thoneta. Le Corbusier często umieszczał Krzesło Nr 14 w swoich projektach wnętrz, chwaląc je za 'szlachetność' i idealne połączenie elegancji z użytecznością. Mówił: 'Nigdy nie stworzono nic bardziej eleganckiego i lepiej wykonanego, bardziej praktycznego i wszechstronnego'.",
+      "p3": "Zasady standaryzacji i modułowości, które Thonet wprowadził, stały się podstawą dla Bauhausu – niemieckiej szkoły designu, która zdefiniowała modernizm. Idea tworzenia prostych, powtarzalnych elementów, które można łatwo zmontować, jest bezpośrednią kontynuacją myśli Thoneta. Jego podejście do materiału – wykorzystanie naturalnych właściwości drewna do maksimum, zamiast walki z nimi – również stało się kluczową zasadą modernistycznego projektowania.",
+      "p4": "Dziedzictwo Thoneta żyje do dziś. Każdy mebel, który kupujemy w płaskim pudełku do samodzielnego montażu, jest echem jego rewolucyjnego systemu dystrybucji. Każdy projektant, który dąży do połączenia estetyki z masową dostępnością, podąża ścieżką wytyczoną przez tego wizjonera z Boppard. Michael Thonet nie tylko sprzedawał meble; sprzedał światu ideę, że dobry design jest uniwersalnym prawem, a nie luksusem dla nielicznych."
+    }
+  },
+  "popup": {
+    "title": "Thonet Digital Heritage",
+    "dedicationLine1": "Strona ta dedykowana jest kolekcjonerowi i restauratorowi nie tylko mebli giętych",
+    "dedicationLine2": "Pawłowi Michalskiemu"
+  }
+}
+
+
+----------------------------------------
+
+{
+  "hero": {
+    "subtitle": "Digital Heritage",
+    "title": "Michael Thonet",
+    "titleAccent": "Pioneer of Design",
+    "description": "Discover the revolutionary story of the man who forever changed the world of furniture making. Immerse yourself in an interactive journey through the life, works and extraordinary heritage of Michael Thonet.",
+    "exploreButton": "Start Exploration",
+    "biographyButton": "Learn Biography",
+    "imageAlt": "Michael Thonet - pioneer of steam-bent wood technology",
+    "aiNotice": {
+      "text": "Image AI-generated based on a photograph from Wikipedia.",
+      "sourceTitle": "Original source:",
+      "sourceAttribution": "'Michael Thonet' by: unknown"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "biography": "Biography",
+    "interactiveModules": "Interactive Modules",
+    "heritage": "Heritage",
+    "timeline": "Timeline",
+    "skipToContent": "Skip to main content"
+  },
+  "controlHub": {
+    "title": "Control Center",
+    "close": "Close navigation panel",
+    "open": "Open navigation panel",
+    "sections": "Sections",
+    "language": "Language",
+    "theme": "Theme",
+    "accessibility": "Accessibility",
+    "currentLanguage": "Current language: English",
+    "changeToPolish": "Zmień język na polski",
+    "changeToGerman": "Sprache auf Deutsch ändern",
+    "lightTheme": "Light",
+    "darkTheme": "Dark",
+    "currentThemeLight": "Current theme: Light",
+    "currentThemeDark": "Current theme: Dark",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme",
+    "highContrast": "High Contrast",
+    "enableHighContrast": "Enable high contrast mode",
+    "disableHighContrast": "Disable high contrast mode"
+  },
+  "biography": {
+    "title": "Biography of the Master",
+    "description": "Michael Thonet (1796-1871) was a German carpenter and industrialist who revolutionized furniture production by introducing innovative steam-bending wood technology.",
+    "earlyYearsTitle": "Early Years",
+    "earlyYearsText": "Born in Boppard on the Rhine, Michael Thonet began his career as a carpenter. From a young age, he was fascinated by the possibilities of giving wood new shapes.",
+    "breakthroughTitle": "Breakthrough Discovery",
+    "breakthroughText": "In the 1830s, Thonet developed a revolutionary method of bending beech wood using steam, which enabled mass production of elegant furniture."
+  },
+  "interactiveModules": {
+    "title": "Interactive Educational Modules",
+    "description": "Learn the secrets of Thonet's craft through innovative, interactive components. Each module is designed to bring you closer to the fascinating world of wood bending technology.",
+    "productDeconstruction": {
+      "ringLabel": "Support Ring",
+      "innerArchLabel": "Inner Backrest Arch",
+      "title": "Product Deconstruction",
+      "description": "Learn the anatomy of the famous Chair No. 14 - Thonet's most famous work. Click the button to see how the chair breaks down into components.",
+      "startButton": "Start Deconstruction",
+      "reassembleButton": "Reassemble",
+      "helpText": "Click the button to start the animation of the chair breaking down into components",
+      "ariaChairExploded": "Chair has been deconstructed into components.",
+      "ariaChairReassembled": "Chair has been reassembled.",
+      "backFrameLabel": "Back frame and backrest",
+      "seatLabel": "Seat with caning",
+      "frontLegsLabel": "Front legs"
+    },
+    "processSimulation": {
+      "title": "Process Simulation",
+      "description": "Follow step by step the revolutionary process of steam bending wood. Each stage of production will be presented with detailed explanations.",
+      "step1Title": "Wood Preparation",
+      "step1Description": "Selection of appropriate beech wood with suitable moisture content",
+      "step2Title": "Steam Treatment",
+      "step2Description": "Heating wood with steam at 100°C for 2-6 hours",
+      "step3Title": "Bending in Form",
+      "step3Description": "Placing softened wood in metal form and shaping",
+      "step4Title": "Drying and Finishing",
+      "step4Description": "Natural drying and final surface treatment",
+      "previousStep": "Previous process step",
+      "nextStep": "Next process step",
+      "autoplay": "Automatic process playback",
+      "stopAutoplay": "Stop automatic playback",
+      "stepStatus": "Step {{current}} of {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Heritage and Impact on Modernity",
+    "description": "Michael Thonet's innovations went far beyond his era, shaping modern design and furniture production to this day.",
+    "technologicalRevolution": {
+      "title": "Technological Revolution",
+      "description": "Introduction of mass furniture production through standardization and mechanization of processes."
+    },
+    "democratization": {
+      "title": "Design Democratization",
+      "description": "Making beautiful, functional furniture available to a wider social group through lower production costs."
+    },
+    "globalImpact": {
+      "title": "Global Impact",
+      "description": "Influence on the development of contemporary industrial design and philosophy of functionality."
+    },
+    "chair14": {
+      "title": "Chair No. 14 - Design Icon",
+      "description": "Produced in over 50 million copies, Chair No. 14 has been recognized as one of the most important works of industrial design in history.",
+      "yearIntroduced": "Year introduced:",
+      "numberProduced": "Number produced:",
+      "numberOfParts": "Number of parts:",
+      "assemblyTime": "Assembly time:"
+    }
+  },
+  "timeline": {
+    "title": "Life and Works Timeline",
+    "description": "Key events in Michael Thonet's life and the development of his enterprise.",
+    "1796": {
+      "title": "Birth in Boppard",
+      "description": "Michael Thonet comes into the world in a small town on the Rhine, in a family with carpentry traditions."
+    },
+    "1819": {
+      "title": "Beginning of Activity",
+      "description": "Establishment of his own carpentry workshop and first experiments with wood processing techniques."
+    },
+    "1841": {
+      "title": "Move to Vienna",
+      "description": "At the invitation of Prince Metternich, Thonet moves his business to Vienna, where he receives better development conditions."
+    },
+    "1850": {
+      "title": "Factory Establishment",
+      "description": "Creation of the company \"Gebrüder Thonet\" and beginning of mass production of bent wood furniture."
+    },
+    "1859": {
+      "title": "Chair No. 14",
+      "description": "Introduction to the market of the famous Chair No. 14, which will become an icon of industrial design."
+    },
+    "1871": {
+      "title": "Death of the Master",
+      "description": "Michael Thonet dies in Vienna, leaving behind an industrial empire and revolutionary heritage."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "An interactive site dedicated to the history and heritage of Michael Thonet and his revolutionary furniture techniques.",
+    "navigation": "Navigation",
+    "accessibility": "Accessibility",
+    "technologies": "Technologies",
+    "copyright": "© 2024 Thonet Digital Heritage. All rights reserved.",
+    "dedication": "Dedicated to bent furniture collector Paweł Michalski",
+    "legal": {
+      "title": "Legal Information",
+      "content": "This site was created for educational and presentation purposes.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  },
+  "common": {
+    "backToHome": "Back to Home",
+    "backToHeritage": "Back to Heritage",
+    "scrollToTop": "Scroll to top"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Privacy policy of Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "dataCollection": {
+      "title": "Data Collection",
+      "content": "Our website collects minimal data necessary for functionality. We do not collect personal data without your consent."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "We use cookies only to remember your language preferences and site theme. We do not use cookies for tracking."
+    },
+    "thirdParty": {
+      "title": "Third Party Services",
+      "content": "The site may contain links to external services. We are not responsible for the privacy policies of these sites."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "content": "You have the right to access, correct and delete your personal data in accordance with applicable law."
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "If you have questions about the privacy policy, please contact us."
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "Terms of service for Thonet Digital Heritage website",
+    "lastUpdated": "Last updated:",
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "content": "By using this website, you accept these terms of use in their entirety."
+    },
+    "usage": {
+      "title": "Usage Guidelines",
+      "content": "The site is intended for educational and informational purposes. Using it in an unlawful manner is prohibited."
+    },
+    "intellectual": {
+      "title": "Intellectual Property",
+      "content": "All content on the site is protected by copyright. Copying requires permission from the owner."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content": "Information on the site is for informational purposes. We do not guarantee its completeness or accuracy."
+    },
+    "limitation": {
+      "title": "Limitation of Liability",
+      "content": "We are not liable for damages resulting from the use of the site."
+    },
+    "changes": {
+      "title": "Changes to Terms",
+      "content": "We reserve the right to change these terms at any time."
+    }
+  },
+  "aria": {
+    "themeChanged": "Theme changed to {{theme}}",
+    "highContrastEnabled": "High contrast mode enabled",
+    "highContrastDisabled": "High contrast mode disabled",
+    "chairExploded": "Chair has been broken down into components. Component labels are visible.",
+    "chairReassembled": "Chair has been reassembled.",
+    "autoplayStarted": "Automatic process playback started",
+    "autoplayStopped": "Automatic process playback stopped"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "The Technological Revolution: Steam-Bending Wood",
+      "p1": "Before Michael Thonet entered the scene, furniture production was the domain of artisans, and complex, curvilinear shapes were achieved through tedious carving and joining many small pieces of wood. It was an expensive, time-consuming, and material-intensive process, making elegant furniture a luxury available only to a few.",
+      "p2": "Thonet, with his vision and determination, changed this paradigm. His brilliant innovation—the technology of bending solid beech wood using steam—was a true breakthrough. The process involved subjecting carefully selected wooden rods to hot steam until they became plastic and malleable. Then, using metal forms and human muscle power, the wood was bent into elegant, fluid shapes that were previously unattainable without carving.",
+      "p3": "After being given the desired shape, the components were dried, causing them to harden and permanently retain their new form. This method not only drastically reduced production time but also minimized material waste and increased the furniture's strength by eliminating weak points at the joints. It was this technology that allowed for the creation of lightweight yet incredibly durable structures, such as the legendary Chair No. 14.",
+      "p4": "Thonet's revolution was not limited to the bending process itself. He also introduced the principles of standardization and mass production. Furniture was designed as a set of a few repeatable, interchangeable components that could be mass-produced and then easily assembled. This pioneering 'flat-pack' approach allowed for efficient transportation and distribution of furniture on an unprecedented scale, laying the foundations for the modern furniture industry."
+    },
+    "design-democratization": {
+      "title": "Design Democratization: Beauty for All",
+      "p1": "Michael Thonet's greatest social achievement was wresting good design from the hands of the elite. In the 19th century, beautiful, well-made furniture was synonymous with wealth. Thonet's industrial revolution completely changed this dynamic, introducing the concept that aesthetics and functionality need not be expensive.",
+      "p2": "Thanks to wood-bending technology and the standardization of components, production costs dropped dramatically. A chair that would have previously required weeks of an artisan's labor could now be produced in a much shorter time by factory workers. This efficiency translated directly into the final price. Suddenly, elegant chairs, tables, and coat racks became accessible to the growing middle class, café owners, restaurants, and offices.",
+      "p3": "The 'flat-pack' concept was another stroke of genius. Chair No. 14, consisting of just six components, two nuts, and ten screws, could be shipped disassembled in a compact crate. A single cubic meter could hold as many as 36 disassembled chairs. This minimized transportation and storage costs, enabling the export of Thonet's furniture worldwide at affordable prices.",
+      "p4": "Thus, Thonet furniture became ubiquitous. It graced famous Viennese cafés, Parisian bistros, London offices, and middle-class homes from America to Japan. Michael Thonet proved that mass production did not have to mean compromising on quality or aesthetics. His work was the first step toward an idea that would become a cornerstone of modern design: creating well-designed objects that enrich the daily lives of all people, not just a privileged few."
+    },
+    "global-impact": {
+      "title": "Global Impact: Shaping Modern Design",
+      "p1": "Michael Thonet's influence extends far beyond the 19th century and the millions of chairs sold. His innovations in production and distribution became the bedrock upon which modern industrial design was built. Thonet's philosophy—creating products that are beautiful, functional, affordable, and mass-producible—became the holy grail for future generations of designers.",
+      "p2": "His work inspired key figures and movements in design history. Early modernist architects like Le Corbusier were fascinated by the purity of form and industrial logic of Thonet's furniture. Le Corbusier frequently featured Chair No. 14 in his interior designs, praising it for its 'nobility' and its perfect blend of elegance and utility. He famously said, 'Never was a better and more elegant design and a more precisely crafted and practical item created.'",
+      "p3": "The principles of standardization and modularity that Thonet introduced became foundational to the Bauhaus, the German design school that defined modernism. The idea of creating simple, repeatable elements that could be easily assembled is a direct continuation of Thonet's thinking. His approach to materials—harnessing the natural properties of wood to their fullest potential rather than fighting them—also became a key tenet of modernist design.",
+      "p4": "Thonet's legacy is alive today. Every piece of flat-pack furniture we assemble is an echo of his revolutionary distribution system. Every designer who strives to merge aesthetics with mass accessibility is following the path forged by this visionary from Boppard. Michael Thonet didn't just sell furniture; he sold the world on the idea that good design is a universal right, not a luxury for the few."
+    }
+  },
+  "popup": {
+    "title": "Thonet Digital Heritage",
+    "dedicationLine1": "This site is dedicated to the collector and restorer of bentwood furniture and more",
+    "dedicationLine2": "Paweł Michalski"
+  }
+}
+
+---------------------------------
+
+{
+  "hero": {
+    "subtitle": "Digitales Erbe",
+    "title": "Michael Thonet",
+    "titleAccent": "Pionier des Designs",
+    "description": "Entdecken Sie die revolutionäre Geschichte des Mannes, der die Welt der Möbelherstellung für immer veränderte. Tauchen Sie ein in eine interaktive Reise durch Leben, Werke und außergewöhnliches Erbe von Michael Thonet.",
+    "exploreButton": "Erkundung Beginnen",
+    "biographyButton": "Biographie Kennenlernen",
+    "imageAlt": "Michael Thonet - Pionier der Bugholztechnologie",
+    "aiNotice": {
+      "text": "Bild KI-generiert auf Basis eines Fotos von Wikipedia.",
+      "sourceTitle": "Originalquelle:",
+      "sourceAttribution": "'Michael Thonet' von: unbekannt"
+    }
+  },
+  "navigation": {
+    "home": "Startseite",
+    "biography": "Biographie",
+    "interactiveModules": "Interaktive Module",
+    "heritage": "Erbe",
+    "timeline": "Zeitlinie",
+    "skipToContent": "Zum Hauptinhalt springen"
+  },
+  "controlHub": {
+    "title": "Steuerzentrum",
+    "close": "Navigationspanel schließen",
+    "open": "Navigationspanel öffnen",
+    "sections": "Bereiche",
+    "language": "Sprache",
+    "theme": "Design",
+    "accessibility": "Barrierefreiheit",
+    "currentLanguage": "Aktuelle Sprache: Deutsch",
+    "changeToPolish": "Zmień język na polski",
+    "changeToEnglish": "Change language to English",
+    "lightTheme": "Hell",
+    "darkTheme": "Dunkel",
+    "currentThemeLight": "Aktuelles Design: Hell",
+    "currentThemeDark": "Aktuelles Design: Dunkel",
+    "switchToLight": "Zu hellem Design wechseln",
+    "switchToDark": "Zu dunklem Design wechseln",
+    "highContrast": "Hoher Kontrast",
+    "enableHighContrast": "Hohen Kontrast aktivieren",
+    "disableHighContrast": "Hohen Kontrast deaktivieren"
+  },
+  "biography": {
+    "title": "Biographie des Meisters",
+    "description": "Michael Thonet (1796-1871) war ein deutscher Tischler und Industrieller, der die Möbelproduktion revolutionierte, indem er innovative Dampfbiegetechnik für Holz einführte.",
+    "earlyYearsTitle": "Frühe Jahre",
+    "earlyYearsText": "Geboren in Boppard am Rhein, begann Michael Thonet seine Laufbahn als Tischler. Schon in jungen Jahren faszinierten ihn die Möglichkeiten, Holz neue Formen zu geben.",
+    "breakthroughTitle": "Bahnbrechende Entdeckung",
+    "breakthroughText": "In den 1830er Jahren entwickelte Thonet eine revolutionäre Methode des Biegens von Buchenholz mit Dampf, was die Massenproduktion eleganter Möbel ermöglichte."
+  },
+  "interactiveModules": {
+    "title": "Interaktive Bildungsmodule",
+    "description": "Lernen Sie die Geheimnisse von Thonets Handwerk durch innovative, interaktive Komponenten kennen. Jedes Modul wurde entwickelt, um Sie der faszinierenden Welt der Holzbiegetechnik näher zu bringen.",
+    "productDeconstruction": {
+      "ringLabel": "Stützring",
+      "innerArchLabel": "Innerer Lehnenbügel",
+      "title": "Produktzerlegung",
+      "description": "Lernen Sie die Anatomie des berühmten Stuhls Nr. 14 kennen - Thonets bekanntestes Werk. Klicken Sie auf die Schaltfläche, um zu sehen, wie sich der Stuhl in Komponenten zerlegt.",
+      "startButton": "Zerlegung Beginnen",
+      "reassembleButton": "Wieder Zusammenbauen",
+      "helpText": "Klicken Sie auf die Schaltfläche, um die Animation der Stuhlzerlegung in Komponenten zu starten",
+      "ariaChairExploded": "Stuhl wurde in Komponenten zerlegt.",
+      "ariaChairReassembled": "Stuhl wurde wieder zusammengebaut.",
+      "backFrameLabel": "Hintergestell und Rückenlehne",
+      "seatLabel": "Sitz mit Geflecht",
+      "frontLegsLabel": "Vorderbeine"
+    },
+    "processSimulation": {
+      "title": "Prozesssimulation",
+      "description": "Verfolgen Sie Schritt für Schritt den revolutionären Prozess des Dampfbiegens von Holz. Jede Produktionsstufe wird mit detaillierten Erklärungen präsentiert.",
+      "step1Title": "Holzvorbereitung",
+      "step1Description": "Auswahl geeigneten Buchenholzes mit entsprechendem Feuchtigkeitsgehalt",
+      "step2Title": "Dampfbehandlung",
+      "step2Description": "Erhitzung des Holzes mit Dampf bei 100°C für 2-6 Stunden",
+      "step3Title": "Biegen in Form",
+      "step3Description": "Platzierung des erweichten Holzes in Metallform und Formgebung",
+      "step4Title": "Trocknung und Veredelung",
+      "step4Description": "Natürliche Trocknung und abschließende Oberflächenbehandlung",
+      "previousStep": "Vorheriger Prozessschritt",
+      "nextStep": "Nächster Prozessschritt",
+      "autoplay": "Automatische Prozesswiedergabe",
+      "stopAutoplay": "Automatische Wiedergabe stoppen",
+      "stepStatus": "Schritt {{current}} von {{total}}: {{description}}"
+    }
+  },
+  "heritage": {
+    "title": "Erbe und Einfluss auf die Moderne",
+    "description": "Michael Thonets Innovationen gingen weit über seine Zeit hinaus und prägten bis heute modernes Design und Möbelproduktion.",
+    "technologicalRevolution": {
+      "title": "Technologische Revolution",
+      "description": "Einführung der Massenmöbelproduktion durch Standardisierung und Mechanisierung der Prozesse."
+    },
+    "democratization": {
+      "title": "Demokratisierung des Designs",
+      "description": "Bereitstellung schöner, funktionaler Möbel für eine breitere gesellschaftliche Gruppe durch niedrigere Produktionskosten."
+    },
+    "globalImpact": {
+      "title": "Globaler Einfluss",
+      "description": "Einfluss auf die Entwicklung zeitgenössischen Industriedesigns und Philosophie der Funktionalität."
+    },
+    "chair14": {
+      "title": "Stuhl Nr. 14 - Design-Ikone",
+      "description": "In über 50 Millionen Exemplaren produziert, wurde Stuhl Nr. 14 als eines der wichtigsten Werke des Industriedesigns in der Geschichte anerkannt.",
+      "yearIntroduced": "Einführungsjahr:",
+      "numberProduced": "Anzahl produziert:",
+      "numberOfParts": "Anzahl Teile:",
+      "assemblyTime": "Montagezeit:"
+    }
+  },
+  "timeline": {
+    "title": "Lebens- und Werkzeitleiste",
+    "description": "Wichtige Ereignisse in Michael Thonets Leben und der Entwicklung seines Unternehmens.",
+    "1796": {
+      "title": "Geburt in Boppard",
+      "description": "Michael Thonet kommt in einer kleinen Stadt am Rhein zur Welt, in einer Familie mit Tischlertradition."
+    },
+    "1819": {
+      "title": "Beginn der Tätigkeit",
+      "description": "Gründung seiner eigenen Tischlerwerkstatt und erste Experimente mit Holzbearbeitungstechniken."
+    },
+    "1841": {
+      "title": "Umzug nach Wien",
+      "description": "Auf Einladung von Fürst Metternich verlegt Thonet sein Geschäft nach Wien, wo er bessere Entwicklungsbedingungen erhält."
+    },
+    "1850": {
+      "title": "Fabrikgründung",
+      "description": "Gründung der Firma \"Gebrüder Thonet\" und Beginn der Massenproduktion von Bugholzmöbeln."
+    },
+    "1859": {
+      "title": "Stuhl Nr. 14",
+      "description": "Markteinführung des berühmten Stuhls Nr. 14, der zu einer Ikone des Industriedesigns wird."
+    },
+    "1871": {
+      "title": "Tod des Meisters",
+      "description": "Michael Thonet stirbt in Wien und hinterlässt ein Industrieimperium und revolutionäres Erbe."
+    }
+  },
+  "footer": {
+    "title": "Thonet Digital Heritage",
+    "description": "Eine interaktive Webseite, die der Geschichte und dem Erbe von Michael Thonet und seinen revolutionären Möbeltechniken gewidmet ist.",
+    "navigation": "Navigation",
+    "accessibility": "Barrierefreiheit",
+    "technologies": "Technologien",
+    "copyright": "© 2024 Thonet Digital Heritage. Alle Rechte vorbehalten.",
+    "dedication": "Gewidmet dem Sammler von Bugholzmöbeln Paweł Michalski",
+    "legal": {
+      "title": "Rechtliche Informationen",
+      "content": "Diese Seite wurde für Bildungs- und Präsentationszwecke erstellt.",
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen"
+    }
+  },
+  "common": {
+    "backToHome": "Zurück zur Startseite",
+    "backToHeritage": "Zurück zum Erbe",
+    "scrollToTop": "Nach oben scrollen"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "description": "Datenschutzerklärung der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "dataCollection": {
+      "title": "Datensammlung",
+      "content": "Unsere Website sammelt minimale Daten, die für die Funktionalität erforderlich sind. Wir sammeln keine persönlichen Daten ohne Ihre Zustimmung."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Wir verwenden Cookies nur, um Ihre Spracheinstellungen und das Website-Design zu speichern. Wir verwenden keine Cookies für Tracking."
+    },
+    "thirdParty": {
+      "title": "Drittanbieter-Services",
+      "content": "Die Website kann Links zu externen Services enthalten. Wir sind nicht verantwortlich für die Datenschutzrichtlinien dieser Websites."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "content": "Sie haben das Recht auf Zugang, Berichtigung und Löschung Ihrer persönlichen Daten gemäß geltendem Recht."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "content": "Bei Fragen zur Datenschutzerklärung kontaktieren Sie uns bitte."
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "description": "Nutzungsbedingungen der Thonet Digital Heritage Website",
+    "lastUpdated": "Letzte Aktualisierung:",
+    "acceptance": {
+      "title": "Annahme der Bedingungen",
+      "content": "Durch die Nutzung dieser Website akzeptieren Sie diese Nutzungsbedingungen vollständig."
+    },
+    "usage": {
+      "title": "Nutzungsrichtlinien",
+      "content": "Die Website ist für Bildungs- und Informationszwecke bestimmt. Eine rechtswidrige Nutzung ist untersagt."
+    },
+    "intellectual": {
+      "title": "Geistiges Eigentum",
+      "content": "Alle Inhalte der Website sind urheberrechtlich geschützt. Das Kopieren erfordert die Erlaubnis des Eigentümers."
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "content": "Informationen auf der Website dienen nur zu Informationszwecken. Wir garantieren nicht deren Vollständigkeit oder Richtigkeit."
+    },
+    "limitation": {
+      "title": "Haftungsbeschränkung",
+      "content": "Wir haften nicht für Schäden, die durch die Nutzung der Website entstehen."
+    },
+    "changes": {
+      "title": "Änderungen der Bedingungen",
+      "content": "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern."
+    }
+  },
+  "aria": {
+    "themeChanged": "Design geändert zu {{theme}}",
+    "highContrastEnabled": "Hoher Kontrast aktiviert",
+    "highContrastDisabled": "Hoher Kontrast deaktiviert",
+    "chairExploded": "Stuhl wurde in Komponenten zerlegt. Komponentenbeschriftungen sind sichtbar.",
+    "chairReassembled": "Stuhl wurde wieder zusammengebaut.",
+    "autoplayStarted": "Automatische Prozesswiedergabe gestartet",
+    "autoplayStopped": "Automatische Prozesswiedergabe gestoppt"
+  },
+  "heritageArticles": {
+    "technological-revolution": {
+      "title": "Die technologische Revolution: das Dampfbiegen von Holz",
+      "p1": "Bevor Michael Thonet die Bühne betrat, war die Möbelherstellung die Domäne von Handwerkern. Komplexe, geschwungene Formen wurden durch mühsames Schnitzen und das Verbinden vieler kleiner Holzteile erreicht. Dies war ein teurer, zeit- und materialaufwändiger Prozess, der elegante Möbel zu einem Luxus für wenige machte.",
+      "p2": "Thonet, mit seiner Vision und Entschlossenheit, änderte dieses Paradigma. Seine geniale Innovation – die Technologie des Biegens von massivem Buchenholz mithilfe von Dampf – war ein echter Durchbruch. Der Prozess bestand darin, sorgfältig ausgewählte Holzstäbe heißem Dampf auszusetzen, bis sie plastisch und formbar wurden. Anschließend wurde das Holz mithilfe von Metallformen und menschlicher Muskelkraft in elegante, fließende Formen gebogen, die zuvor ohne Schnitzen unerreichbar waren.",
+      "p3": "Nachdem sie die gewünschte Form erhalten hatten, wurden die Komponenten getrocknet, wodurch sie aushärteten und ihre neue Form dauerhaft beibehielten. Diese Methode verkürzte nicht nur die Produktionszeit drastisch, sondern minimierte auch den Materialabfall und erhöhte die Festigkeit der Möbel, indem schwache Verbindungsstellen eliminiert wurden. Genau diese Technologie ermöglichte die Schaffung leichter und dennoch unglaublich haltbarer Strukturen wie des legendären Stuhls Nr. 14.",
+      "p4": "Thonets Revolution beschränkte sich nicht nur auf den Biegeprozess. Er führte auch die Prinzipien der Standardisierung und Serienproduktion ein. Die Möbel wurden als Sätze aus wenigen, wiederholbaren und austauschbaren Komponenten entworfen, die in Massenproduktion hergestellt und dann einfach montiert werden konnten. Dieser wegweisende „Flat-Pack“-Ansatz ermöglichte einen effizienten Transport und Vertrieb von Möbeln in einem noch nie dagewesenen Ausmaß und legte den Grundstein für die moderne Möbelindustrie."
+    },
+    "design-democratization": {
+      "title": "Demokratisierung des Designs: Schönheit für alle",
+      "p1": "Michael Thonets größte gesellschaftliche Leistung bestand darin, gutes Design aus den Händen der Elite zu befreien. Im 19. Jahrhundert war schönes, gut gemachtes Mobiliar ein Synonym für Reichtum. Thonets industrielle Revolution veränderte diese Dynamik vollständig und führte das Konzept ein, dass Ästhetik und Funktionalität nicht teuer sein müssen.",
+      "p2": "Dank der Holzbiegetechnologie und der Standardisierung der Komponenten sanken die Produktionskosten drastisch. Ein Stuhl, der zuvor wochenlange Arbeit eines Handwerkers erfordert hätte, konnte nun in wesentlich kürzerer Zeit von Fabrikarbeitern hergestellt werden. Diese Effizienz schlug sich direkt im Endpreis nieder. Plötzlich wurden elegante Stühle, Tische und Garderobenständer für die wachsende Mittelschicht, Cafébesitzer, Restaurants und Büros erschwinglich.",
+      "p3": "Das „Flat-Pack“-Konzept war ein weiterer Geniestreich. Der Stuhl Nr. 14, der aus nur sechs Komponenten, zwei Muttern und zehn Schrauben bestand, konnte zerlegt in einer kompakten Kiste versandt werden. In einem einzigen Kubikmeter konnten bis zu 36 zerlegte Stühle untergebracht werden. Dies minimierte die Transport- und Lagerkosten und ermöglichte den weltweiten Export von Thonets Möbeln zu erschwinglichen Preisen.",
+      "p4": "So wurden Thonet-Möbel allgegenwärtig. Sie schmückten berühmte Wiener Kaffeehäuser, Pariser Bistros, Londoner Büros und bürgerliche Heime von Amerika bis Japan. Michael Thonet bewies, dass Massenproduktion keine Kompromisse bei Qualität oder Ästhetik bedeuten muss. Seine Arbeit war der erste Schritt zu einer Idee, die zu einem Eckpfeiler des modernen Designs werden sollte: gut gestaltete Objekte zu schaffen, die das tägliche Leben aller Menschen bereichern, nicht nur das einer privilegierten Minderheit."
+    },
+    "global-impact": {
+      "title": "Globaler Einfluss: Die Gestaltung des modernen Designs",
+      "p1": "Der Einfluss von Michael Thonet reicht weit über das 19. Jahrhundert und die Millionen verkaufter Stühle hinaus. Seine Innovationen in Produktion und Vertrieb bildeten das Fundament, auf dem das gesamte moderne Industriedesign aufbaute. Thonets Philosophie – Produkte zu schaffen, die schön, funktional, erschwinglich und in Serie herstellbar sind – wurde zum heiligen Gral für zukünftige Generationen von Designern.",
+      "p2": "Seine Arbeit inspirierte Schlüsselfiguren und -bewegungen der Designgeschichte. Frühe modernistische Architekten wie Le Corbusier waren fasziniert von der Formreinheit und der industriellen Logik von Thonets Möbeln. Le Corbusier setzte den Stuhl Nr. 14 häufig in seinen Inneneinrichtungen ein und lobte ihn für seine ‚Adel‘ und seine perfekte Verbindung von Eleganz und Nützlichkeit. Er sagte bekanntlich: ‚Niemals wurde ein besseres und eleganteres Design und ein präziser gefertigter und praktischerer Gegenstand geschaffen.‘",
+      "p3": "Die Prinzipien der Standardisierung und Modularität, die Thonet einführte, wurden zur Grundlage für das Bauhaus, die deutsche Designschule, die die Moderne definierte. Die Idee, einfache, wiederholbare Elemente zu schaffen, die leicht montiert werden können, ist eine direkte Fortsetzung von Thonets Denken. Sein Umgang mit dem Material – die natürlichen Eigenschaften des Holzes voll auszuschöpfen, anstatt gegen sie anzukämpfen – wurde ebenfalls zu einem zentralen Grundsatz des modernistischen Designs.",
+      "p4": "Thonets Erbe ist heute lebendig. Jedes Möbelstück, das wir in einem flachen Karton zur Selbstmontage kaufen, ist ein Echo seines revolutionären Vertriebssystems. Jeder Designer, der danach strebt, Ästhetik mit Massenverfügbarkeit zu verbinden, folgt dem Weg, den dieser Visionär aus Boppard geebnet hat. Michael Thonet verkaufte nicht nur Möbel; er verkaufte der Welt die Idee, dass gutes Design ein universelles Recht ist und kein Luxus für wenige."
+    }
+  },
+  "popup": {
+    "title": "Thonet Digital Heritage",
+    "dedicationLine1": "Diese Seite ist dem Sammler und Restaurator von Bugholzmöbeln und mehr gewidmet",
+    "dedicationLine2": "Paweł Michalski"
+  }
+}
+
+
+-----------------------------
+
+import { motion } from "framer-motion";
+import { Zap, CheckCircle, Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Link } from "wouter";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const aiImages = {
+  mainChair: "/2.jpg",
+  revolution: "/6.png",
+  democratization: "/7.png",
+  globalImpact: "/8.png",
+};
+
+export function HeritageSection() {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const heritageItems = [
+    {
+      icon: Zap,
+      titleKey: "heritage.technologicalRevolution.title",
+      descriptionKey: "heritage.technologicalRevolution.description",
+      slug: "technological-revolution",
+      iconColor: "text-white",
+      backgroundImage: aiImages.revolution,
+    },
+    {
+      icon: CheckCircle,
+      titleKey: "heritage.democratization.title",
+      descriptionKey: "heritage.democratization.description",
+      slug: "design-democratization",
+      iconColor: "text-white",
+      backgroundImage: aiImages.democratization,
+    },
+    {
+      icon: Globe,
+      titleKey: "heritage.globalImpact.title",
+      descriptionKey: "heritage.globalImpact.description",
+      slug: "global-impact",
+      iconColor: "text-white",
+      backgroundImage: aiImages.globalImpact,
+    },
+  ];
+
+  const chairStats = [
+    { labelKey: "heritage.chair14.yearIntroduced", value: "1859" },
+    { labelKey: "heritage.chair14.numberProduced", value: "50+ milionów" },
+    { labelKey: "heritage.chair14.numberOfParts", value: "6 elementów" },
+    { labelKey: "heritage.chair14.assemblyTime", value: "30 minut" },
+  ];
+
+  return (
+    <section id="heritage" className="py-20 bg-card">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-card-foreground mb-6 font-serif"
+              data-testid="text-heritage-title"
+            >
+              {t("heritage.title")}
+            </h2>
+            <p
+              className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto"
+              data-testid="text-heritage-description"
+            >
+              {t("heritage.description")}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-24">
+            {heritageItems.map((item, index) => (
+              <Link
+                key={index}
+                href={`/${currentLanguage}/heritage/${item.slug}`}
+                className="focus:outline-none focus:ring-4 focus:ring-ring focus:ring-offset-4 focus:ring-offset-card rounded-lg"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className="relative rounded-lg overflow-hidden p-8 flex flex-col items-center justify-center text-center space-y-4 bg-cover bg-center text-white min-h-[300px] h-full cursor-pointer transition-transform duration-300 hover:scale-105"
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${item.backgroundImage})`,
+                  }}
+                  data-testid={`heritage-item-${index}`}
+                >
+                  <div
+                    className={`w-16 h-16 bg-white/10 rounded-full flex items-center justify-center`}
+                  >
+                    <item.icon className={`w-8 h-8 ${item.iconColor}`} />
+                  </div>
+                  <h3
+                    className="text-xl font-semibold z-10"
+                    data-testid={`text-heritage-${index}-title`}
+                  >
+                    {t(item.titleKey)}
+                  </h3>
+                  <p
+                    className="text-white/80 z-10"
+                    data-testid={`text-heritage-${index}-description`}
+                  >
+                    {t(item.descriptionKey)}
+                  </p>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="bg-muted rounded-xl"
+            data-testid="chair-14-showcase"
+          >
+            <div className="grid md:grid-cols-2 gap-0 items-center">
+              <div className="p-8">
+                <h3
+                  className="text-2xl font-semibold text-card-foreground mb-4"
+                  data-testid="text-chair-14-title"
+                >
+                  {t("heritage.chair14.title")}
+                </h3>
+                <p
+                  className="text-muted-foreground mb-6"
+                  data-testid="text-chair-14-description"
+                >
+                  {t("heritage.chair14.description")}
+                </p>
+                <div className="space-y-3 text-sm border-t border-border pt-6">
+                  {chairStats.map((stat, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center"
+                      data-testid={`chair-stat-${index}`}
+                    >
+                      <span className="text-muted-foreground">
+                        {t(stat.labelKey)}
+                      </span>
+                      <span className="font-medium text-lg text-card-foreground">
+                        {stat.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="relative w-full h-full min-h-[400px]">
+                <img
+                  src={aiImages.mainChair}
+                  alt={t("heritage.chair14.title")}
+                  className="absolute inset-0 w-full h-full object-cover md:rounded-r-xl"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+----------------------------------
+
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+
+export function useTranslationSetup() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    // Update document lang attribute when language changes
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return { changeLanguage, currentLanguage: i18n.language };
+}
+
+----------------------------
+
+import { SEOHead } from "@/components/seo-head";
+import { HeroSection } from "@/components/hero-section";
+import { BiographySection } from "@/components/biography-section";
+import { InteractiveModulesSection } from "@/components/interactive-modules-section";
+import { HeritageSection } from "@/components/heritage-section";
+import { TimelineSection } from "@/components/timeline-section";
+import { FooterSection } from "@/components/footer-section";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { useLocation } from "wouter";
+
+export default function Home() {
+  const { t } = useTranslation();
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+  const [location] = useLocation();
+
+  const toggleScrollTopVisibility = () => {
+    if (window.scrollY > 300) {
+      setScrollTopVisible(true);
+    } else {
+      setScrollTopVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    // Ta funkcja sprawdza, czy w URL jest hash (np. #biography) i przewija do niego.
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        // Czekamy chwilę, aby dać DOM czas na pełne wyrenderowanie
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, [location]); // Uruchamiamy ten efekt za każdym razem, gdy zmienia się adres URL
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleScrollTopVisibility);
+
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", toggleScrollTopVisibility);
+    };
+  }, []);
+
+  return (
+    <>
+      <SEOHead />
+
+      <a
+        href="#main-content"
+        className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
+        data-testid="link-skip-content"
+      >
+        {t("navigation.skipToContent")}
+      </a>
+
+      <main id="main-content" className="transition-all duration-300">
+        <HeroSection />
+        <BiographySection />
+        <InteractiveModulesSection />
+        <HeritageSection />
+        <TimelineSection />
+        <FooterSection />
+      </main>
+
+      <div
+        id="aria-announcements"
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="aria-announcements"
+      ></div>
+
+      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl font-bold text-primary font-serif">
+              {t("popup.title")}
+            </DialogTitle>
+            <DialogDescription className="text-center pt-4 text-base leading-relaxed">
+              {t("popup.dedicationLine1")}
+              <br />
+              <strong className="text-primary">
+                {t("popup.dedicationLine2")}
+              </strong>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <AnimatePresence>
+        {isScrollTopVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label={t("common.scrollToTop")}
+            data-testid="button-scroll-top"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
