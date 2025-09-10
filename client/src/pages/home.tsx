@@ -131,11 +131,11 @@ export default function Home() {
       </a>
       <main id="main-content" className="transition-all duration-300">
         <HeroSection />
-        <Suspense fallback={<SectionLoader />}>
-          {homeSections.map(({ id, component: Component }: SectionConfig) => (
-            <Component key={id} />
-          ))}
-        </Suspense>
+        {homeSections.map(({ id, component: Component }: SectionConfig) => (
+          <Suspense key={id} fallback={<SectionLoader />}>
+            <Component />
+          </Suspense>
+        ))}
       </main>
       <Suspense fallback={null}>
         <FooterSection />
