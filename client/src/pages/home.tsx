@@ -12,6 +12,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { homeSections, SectionConfig } from "@/config/sections";
+import { InView } from "react-intersection-observer";
 
 const FooterSection = lazy(() =>
   import("@/components/footer-section").then((module) => ({
@@ -132,9 +133,19 @@ export default function Home() {
       <main id="main-content" className="transition-all duration-300">
         <HeroSection />
         {homeSections.map(({ id, component: Component }: SectionConfig) => (
-          <Suspense key={id} fallback={<SectionLoader />}>
-            <Component />
-          </Suspense>
+          <InView key={id} triggerOnce={true} rootMargin="200px">
+            {({ inView, ref }) => (
+              <div ref={ref}>
+                {inView ? (
+                  <Suspense fallback={<SectionLoader />}>
+                    <Component />
+                  </Suspense>
+                ) : (
+                  <SectionLoader />
+                )}
+              </div>
+            )}
+          </InView>
         ))}
       </main>
       <Suspense fallback={null}>
