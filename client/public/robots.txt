@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://inter-akademia.netlify.app/sitemap.xml
+Sitemap: https://wizjoner.netlify.app/sitemap.xml
