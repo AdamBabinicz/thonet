@@ -260,3 +260,6 @@
     transform: rotate(360deg);
   }
 }
+#cookiescript_injected {
+  z-index: 2147483647 !important;
+}

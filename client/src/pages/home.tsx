@@ -136,16 +136,42 @@ export default function Home() {
     window.addEventListener("scroll", toggleScrollTopVisibility);
 
     const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    let popupTimer: NodeJS.Timeout | null = null;
+    let checkInterval: NodeJS.Timeout | null = null;
+
     if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
+      const showPopup = () => {
         setShowWelcomePopup(true);
         sessionStorage.setItem("welcomePopupSeen", "true");
+      };
+
+      const isCookieBannerActive = () => {
+        const banner = document.getElementById("cookiescript_injected");
+        // Poprawiony warunek: sprawdza, czy element istnieje ORAZ czy jest widoczny na stronie.
+        // `offsetParent` ma wartość `null` dla elementów ukrytych przez `display: none`.
+        return banner !== null && banner.offsetParent !== null;
+      };
+
+      popupTimer = setTimeout(() => {
+        if (isCookieBannerActive()) {
+          checkInterval = setInterval(() => {
+            if (!isCookieBannerActive()) {
+              if (checkInterval) clearInterval(checkInterval);
+              showPopup();
+            }
+          }, 500);
+        } else {
+          showPopup();
+        }
       }, 500);
-      return () => clearTimeout(timer);
     }
 
+    // Poprawiona funkcja czyszcząca: jest jedna i obsługuje zarówno scroll, jak i timery.
+    // Uruchomi się zawsze, gdy komponent będzie odmontowywany.
     return () => {
       window.removeEventListener("scroll", toggleScrollTopVisibility);
+      if (popupTimer) clearTimeout(popupTimer);
+      if (checkInterval) clearInterval(checkInterval);
     };
   }, []);
 
