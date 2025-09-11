@@ -57,54 +57,54 @@ export function HeritageSection() {
   return (
     <section
       id="heritage"
-      className="py-20 bg-card"
+      className="bg-card py-20"
       aria-labelledby="heritage-title"
     >
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="mb-16 text-center"
           >
             <h2
               id="heritage-title"
-              className="text-3xl lg:text-4xl font-bold text-card-foreground mb-6 font-serif"
+              className="font-serif text-3xl font-bold text-card-foreground mb-6 lg:text-4xl"
               data-testid="text-heritage-title"
             >
               {t("heritage.title")}
             </h2>
             <p
-              className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto"
+              className="mx-auto max-w-3xl text-xl leading-relaxed text-muted-foreground"
               data-testid="text-heritage-description"
             >
               {t("heritage.description")}
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-24">
+          <div className="mb-24 grid gap-8 md:grid-cols-3">
             {heritageItems.map((item, index) => (
               <Link
                 key={index}
                 href={createLocalizedArticlePath(item.slug)}
-                className="focus:outline-none focus:ring-4 focus:ring-ring focus:ring-offset-4 focus:ring-offset-card rounded-lg block h-full group"
+                className="group block h-full focus:outline-none focus:ring-4 focus:ring-ring focus:ring-offset-4 focus:ring-offset-card rounded-lg"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="relative rounded-lg overflow-hidden p-8 flex flex-col items-center justify-center text-center space-y-4 bg-cover bg-center text-white min-h-[300px] h-full cursor-pointer transition-transform duration-300 group-hover:scale-105"
+                  className="relative flex h-full min-h-[300px] cursor-pointer flex-col items-center justify-center space-y-4 rounded-lg bg-cover bg-center p-8 text-center text-white transition-transform duration-300 group-hover:scale-105"
                   style={{
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${item.backgroundImage})`,
                   }}
                   data-testid={`heritage-item-${index}`}
                 >
-                  <div className="absolute inset-0 p-4 bg-black/50 flex flex-col items-center justify-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                    <div className="text-white max-w-xs">
-                      <Info className="w-8 h-8 mx-auto mb-3" />
+                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-black/50">
+                    <div className="max-w-xs text-white">
+                      <Info className="mx-auto mb-3 h-8 w-8" />
                       <p className="text-sm font-semibold">
                         {t("heritage.aiImageNotice")}
                       </p>
@@ -112,9 +112,9 @@ export function HeritageSection() {
                   </div>
                   <div className="relative z-10 flex flex-col items-center justify-center space-y-4 transition-opacity duration-300 group-hover:opacity-0">
                     <div
-                      className={`w-16 h-16 bg-white/10 rounded-full flex items-center justify-center`}
+                      className={`flex h-16 w-16 items-center justify-center rounded-full bg-white/10`}
                     >
-                      <item.icon className={`w-8 h-8 ${item.iconColor}`} />
+                      <item.icon className={`h-8 w-8 ${item.iconColor}`} />
                     </div>
                     <h3
                       className="text-xl font-semibold"
@@ -139,50 +139,50 @@ export function HeritageSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-muted rounded-xl"
+            className="rounded-xl bg-muted"
             data-testid="chair-14-showcase"
           >
-            <div className="grid md:grid-cols-2 gap-0 items-center">
+            <div className="grid items-center gap-0 md:grid-cols-2">
               <div className="p-8">
                 <h3
-                  className="text-2xl font-semibold text-card-foreground mb-4"
+                  className="mb-4 text-2xl font-semibold text-card-foreground"
                   data-testid="text-chair-14-title"
                 >
                   {t("heritage.chair14.title")}
                 </h3>
                 <p
-                  className="text-muted-foreground mb-6"
+                  className="mb-6 text-muted-foreground"
                   data-testid="text-chair-14-description"
                 >
                   {t("heritage.chair14.description")}
                 </p>
-                <div className="space-y-3 text-sm border-t border-border pt-6">
+                <div className="space-y-3 border-t border-border pt-6 text-sm">
                   {chairStats.map((stat, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center"
+                      className="flex items-center justify-between"
                       data-testid={`chair-stat-${index}`}
                     >
                       <span className="text-muted-foreground">
                         {t(stat.labelKey)}
                       </span>
-                      <span className="font-medium text-lg text-card-foreground">
+                      <span className="text-lg font-medium text-card-foreground">
                         {stat.value}
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="relative w-full h-full min-h-[400px] group">
+              <div className="group relative h-full w-full min-h-[400px]">
                 <img
                   src={aiImages.mainChair}
                   alt={t("heritage.chair14.title")}
-                  className="absolute inset-0 w-full h-full object-cover md:rounded-r-xl"
+                  className="absolute inset-0 h-full w-full object-cover md:rounded-r-xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                <div className="absolute inset-0 p-4 bg-black/50 flex flex-col items-center justify-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="text-white max-w-xs">
-                    <Info className="w-8 h-8 mx-auto mb-3" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-black/50">
+                  <div className="max-w-xs text-white">
+                    <Info className="mx-auto mb-3 h-8 w-8" />
                     <p className="text-sm font-semibold">
                       {t("heritage.aiImageNotice")}
                     </p>

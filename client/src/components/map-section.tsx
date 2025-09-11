@@ -35,22 +35,22 @@ export function MapSection() {
   );
 
   return (
-    <section id="map" className="py-20 bg-card" aria-labelledby="map-title">
+    <section id="map" className="bg-card py-20" aria-labelledby="map-title">
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="mx-auto mb-16 max-w-3xl text-center">
           <h2
             id="map-title"
-            className="text-3xl lg:text-4xl font-bold text-card-foreground mb-6 font-serif"
+            className="font-serif text-3xl font-bold text-card-foreground mb-6 lg:text-4xl"
           >
             {t("map_section.title")}
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-xl leading-relaxed text-muted-foreground">
             {t("map_section.description")}
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          <div className="lg:col-span-1 space-y-4">
+        <div className="grid items-start gap-8 lg:grid-cols-3">
+          <div className="space-y-4 lg:col-span-1">
             {locationsData.map((location) => (
               <div
                 key={location.id}
@@ -61,13 +61,13 @@ export function MapSection() {
                 role="button"
                 tabIndex={0}
                 aria-pressed={activeLocation.id === location.id}
-                className={`p-4 rounded-lg cursor-pointer border-2 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                className={`cursor-pointer rounded-lg border-2 p-4 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                   activeLocation.id === location.id
-                    ? "bg-muted border-primary"
-                    : "bg-background border-transparent hover:border-muted"
+                    ? "border-primary bg-muted"
+                    : "border-transparent bg-background hover:border-muted"
                 }`}
               >
-                <h3 className="font-semibold text-lg text-card-foreground">
+                <h3 className="text-lg font-semibold text-card-foreground">
                   {t(location.titleKey)}
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -77,13 +77,12 @@ export function MapSection() {
             ))}
           </div>
 
-          <div className="lg:col-span-2 rounded-lg overflow-hidden shadow-lg h-[500px] w-full">
+          <div className="h-[500px] w-full overflow-hidden rounded-lg shadow-lg lg:col-span-2">
             <MapContainer
               center={activeLocation.coords}
               zoom={6}
               scrollWheelZoom={false}
               className="h-full w-full"
-              style={{ height: "500px" }}
             >
               <MapController center={activeLocation.coords} />
               <TileLayer

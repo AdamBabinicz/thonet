@@ -27,11 +27,11 @@ export function ProductDeconstruction() {
     }
 
     const transforms: Record<ChairPart, string> = {
-      backLegsAndFrame: "translate3d(-150px, -180px, 0) rotate(-15deg)",
-      seat: "translate3d(250px, -250px, 0) rotate(15deg)",
-      innerArch: "translate3d(0px, 165px, 0) rotate(0deg)", // Obniżony o 50%
-      supportRing: "translate3d(-150px, 200px, 0) rotate(10deg)",
-      frontLegs: "translate3d(150px, 200px, 0) rotate(10deg)",
+      backLegsAndFrame: "translate3d(-150px, -260px, 0) rotate(-15deg)",
+      seat: "translate3d(250px, -330px, 0) rotate(15deg)",
+      innerArch: "translate3d(0px, 85px, 0) rotate(0deg)",
+      supportRing: "translate3d(-150px, 120px, 0) rotate(10deg)",
+      frontLegs: "translate3d(150px, 120px, 0) rotate(10deg)",
     };
     return {
       transform: transforms[part],
@@ -41,24 +41,23 @@ export function ProductDeconstruction() {
 
   return (
     <div
-      className="bg-white rounded-xl p-6 sm:p-8 shadow-lg flex flex-col border h-full"
+      className="flex h-full flex-col rounded-xl border bg-white p-6 shadow-lg sm:p-8"
       aria-labelledby="deconstruction-title"
     >
       <h3
         id="deconstruction-title"
-        className="text-2xl font-semibold text-gray-900 mb-4"
+        className="mb-4 text-2xl font-semibold text-gray-900"
       >
         {t("interactiveModules.productDeconstruction.title")}
       </h3>
-      <p className="text-gray-600 mb-6">
+      <p className="mb-6 text-gray-600">
         {t("interactiveModules.productDeconstruction.description")}
       </p>
 
-      <div className="relative bg-gray-100 rounded-lg p-4 sm:p-8 mb-6 flex-grow min-h-[400px] sm:min-h-[500px] flex items-center justify-center overflow-hidden">
+      <div className="relative mb-6 flex flex-grow items-center justify-center overflow-hidden rounded-lg bg-gray-100 p-4 min-h-[400px] sm:p-8 sm:min-h-[500px]">
         <svg
-          viewBox="-400 -450 800 900"
-          className="w-full h-full max-w-[450px] max-h-[450px]"
-          style={{ overflow: "visible" }}
+          viewBox="-350 -400 700 800"
+          className="h-full w-full max-h-[450px] max-w-[450px] overflow-visible"
         >
           <defs>
             <linearGradient
@@ -205,30 +204,30 @@ export function ProductDeconstruction() {
                 transition: { delay: 0.8, duration: 0.5 },
               }}
               exit={{ opacity: 0, transition: { duration: 0.3 } }}
-              className="absolute inset-0 pointer-events-none"
+              className="pointer-events-none absolute inset-0"
             >
               <div className="absolute top-[9%] left-[10%] text-center">
-                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                <div className="whitespace-nowrap rounded-md border border-amber-200 bg-amber-100/95 px-2 py-1 text-xs font-medium text-amber-900 shadow-lg md:px-3 md:py-2 sm:text-sm">
                   {t("interactiveModules.productDeconstruction.backFrameLabel")}
                 </div>
               </div>
-              <div className="absolute top-[15%] right-[10%] text-center">
-                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+              <div className="absolute top-[25%] right-[10%] text-center">
+                <div className="whitespace-nowrap rounded-md border border-amber-200 bg-amber-100/95 px-2 py-1 text-xs font-medium text-amber-900 shadow-lg md:px-3 md:py-2 sm:text-sm">
                   {t("interactiveModules.productDeconstruction.seatLabel")}
                 </div>
               </div>
-              <div className="absolute top-[60%] left-1/2 -translate-x-1/2 text-center">
-                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+              <div className="absolute top-[55%] left-1/2 -translate-x-1/2 text-center">
+                <div className="whitespace-nowrap rounded-md border border-amber-200 bg-amber-100/95 px-2 py-1 text-xs font-medium text-amber-900 shadow-lg md:px-3 md:py-2 sm:text-sm">
                   {t("interactiveModules.productDeconstruction.innerArchLabel")}
                 </div>
               </div>
               <div className="absolute bottom-[10%] left-[10%] text-center">
-                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                <div className="whitespace-nowrap rounded-md border border-amber-200 bg-amber-100/95 px-2 py-1 text-xs font-medium text-amber-900 shadow-lg md:px-3 md:py-2 sm:text-sm">
                   {t("interactiveModules.productDeconstruction.ringLabel")}
                 </div>
               </div>
               <div className="absolute bottom-[5%] right-[10%] text-center">
-                <div className="bg-amber-100/95 text-amber-900 px-2 py-1 md:px-3 md:py-2 rounded-md text-xs sm:text-sm shadow-lg border border-amber-200 font-medium whitespace-nowrap">
+                <div className="whitespace-nowrap rounded-md border border-amber-200 bg-amber-100/95 px-2 py-1 text-xs font-medium text-amber-900 shadow-lg md:px-3 md:py-2 sm:text-sm">
                   {t("interactiveModules.productDeconstruction.frontLegsLabel")}
                 </div>
               </div>
@@ -237,16 +236,16 @@ export function ProductDeconstruction() {
         </AnimatePresence>
       </div>
 
-      <div className="text-center mt-auto pt-4">
+      <div className="mt-auto pt-4 text-center">
         <button
           onClick={toggleDeconstruction}
-          className="px-8 py-3 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-all transform hover:scale-105 active:scale-95"
+          className="transform-all rounded-lg bg-amber-700 px-8 py-3 font-semibold text-white transition-all hover:scale-105 hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 active:scale-95"
         >
           {isExploded
             ? t("interactiveModules.productDeconstruction.reassembleButton")
             : t("interactiveModules.productDeconstruction.startButton")}
         </button>
-        <p className="text-sm text-gray-600 mt-3 px-4">
+        <p className="mt-3 px-4 text-sm text-gray-600">
           {t("interactiveModules.productDeconstruction.helpText")}
         </p>
       </div>
