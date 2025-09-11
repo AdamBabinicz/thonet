@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero-section";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 import { ArrowUp } from "lucide-react";
 import {
   Dialog,
@@ -12,7 +13,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { homeSections, SectionConfig } from "@/config/sections";
-import { InView } from "react-intersection-observer";
 
 const FooterSection = lazy(() =>
   import("@/components/footer-section").then((module) => ({
@@ -23,25 +23,17 @@ const FooterSection = lazy(() =>
 const SectionLoader = () => (
   <div className="w-full h-96 flex items-center justify-center bg-background">
     <div
-      className="text-muted-foreground"
+      className="spinner text-muted-foreground"
       role="status"
       aria-label="Ładowanie sekcji"
-    >
-      Ładowanie...
-    </div>
+    ></div>
   </div>
 );
 
 const pageVariants = {
-  initial: {
-    opacity: 0,
-  },
-  in: {
-    opacity: 1,
-  },
-  out: {
-    opacity: 0,
-  },
+  initial: { opacity: 0 },
+  in: { opacity: 1 },
+  out: { opacity: 0 },
 };
 
 const pageTransition = {
@@ -54,53 +46,31 @@ export default function Home() {
   const { t } = useTranslation();
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const [isScrollTopVisible, setScrollTopVisible] = useState(false);
+  const [location] = useLocation();
 
   const toggleScrollTopVisibility = () => {
-    if (window.scrollY > 300) {
-      setScrollTopVisible(true);
-    } else {
-      setScrollTopVisible(false);
-    }
+    setScrollTopVisible(window.scrollY > 300);
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    const robustScrollToHash = (hash: string) => {
-      if (!hash) return;
-      const id = hash.replace("#", "");
-      let attempts = 0;
-      const interval = setInterval(() => {
-        const element = document.getElementById(id);
-        attempts++;
+    const hash = location.split("#")[1];
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash);
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
-          clearInterval(interval);
-        } else if (attempts > 20) {
-          clearInterval(interval);
         }
-      }, 100);
-    };
-
-    const handleHashAction = () => {
-      robustScrollToHash(window.location.hash);
-    };
-
-    handleHashAction();
-    window.addEventListener("hashchange", handleHashAction);
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashAction);
-    };
-  }, []);
+      }, 150);
+    }
+  }, [location]);
 
   useEffect(() => {
     window.addEventListener("scroll", toggleScrollTopVisibility);
+
     const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
@@ -109,6 +79,7 @@ export default function Home() {
       }, 500);
       return () => clearTimeout(timer);
     }
+
     return () => {
       window.removeEventListener("scroll", toggleScrollTopVisibility);
     };
@@ -131,22 +102,19 @@ export default function Home() {
         {t("navigation.skipToContent")}
       </a>
       <main id="main-content" className="transition-all duration-300">
-        <HeroSection />
+        <section id="hero" aria-labelledby="hero-title">
+          <HeroSection />
+        </section>
+
+        {/* --- OSTATECZNA POPRAWKA: USUNIĘCIE <InView> --- */}
         {homeSections.map(({ id, component: Component }: SectionConfig) => (
-          <InView key={id} triggerOnce={true} rootMargin="200px">
-            {({ inView, ref }) => (
-              <div ref={ref}>
-                {inView ? (
-                  <Suspense fallback={<SectionLoader />}>
-                    <Component />
-                  </Suspense>
-                ) : (
-                  <SectionLoader />
-                )}
-              </div>
-            )}
-          </InView>
+          <section key={id} id={id} aria-labelledby={`${id}-title`}>
+            <Suspense fallback={<SectionLoader />}>
+              <Component />
+            </Suspense>
+          </section>
         ))}
+        {/* ------------------------------------------- */}
       </main>
       <Suspense fallback={null}>
         <FooterSection />

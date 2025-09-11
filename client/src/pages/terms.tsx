@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "wouter";
 import { FooterSection } from "@/components/footer-section";
 import { SEOHead } from "@/components/seo-head";
 import { ArrowLeft } from "lucide-react";
@@ -50,13 +51,13 @@ export default function Terms() {
       <main id="main-content" className="py-20">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div className="mb-8">
-            <a
+            <Link
               href={`/${lang}/`}
               className="inline-flex items-center gap-2 text-primary hover:underline"
             >
               <ArrowLeft className="w-4 h-4" />
               {t("common.backToHome")}
-            </a>
+            </Link>
           </div>
           <header className="mb-12 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold font-serif text-primary">

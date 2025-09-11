@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -9,11 +9,14 @@ import {
   Home,
   Github,
   Facebook,
+  FileText,
+  ShieldCheck,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/hooks/use-theme";
 import { useTranslationSetup } from "@/hooks/use-translation";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
+import { ActiveSectionContext } from "@/contexts/ActiveSectionContext";
 import { homeSections } from "@/config/sections";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -34,12 +37,13 @@ interface ControlHubProps {
 }
 
 export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { theme, setTheme, isHighContrast, toggleHighContrast } = useTheme();
   const { changeLanguage, currentLanguage } = useTranslationSetup();
   const hubRef = useRef<HTMLDivElement>(null);
   const [announceMessage, setAnnounceMessage] = useState("");
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
+  const { activeSection, setActiveSection } = useContext(ActiveSectionContext);
 
   useEffect(() => {
     if (isOpen && hubRef.current) {
@@ -126,8 +130,35 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
   };
 
   const handleSectionNavigation = (sectionId: string) => {
-    setLocation(`/${currentLanguage}/#${sectionId}`);
+    setActiveSection(sectionId);
     onToggle();
+
+    const pathWithoutHash = location.split("#")[0];
+    const isHomePage =
+      pathWithoutHash === "/" || /^\/(pl|en|de)$/.test(pathWithoutHash);
+
+    const scrollToAction = () => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    if (isHomePage) {
+      scrollToAction();
+    } else {
+      setLocation(`/${currentLanguage}/`);
+      setTimeout(scrollToAction, 150);
+    }
+  };
+
+  const createLocalizedPath = (routeKey: string) => {
+    const slug = i18n.getResource(
+      currentLanguage,
+      "translation",
+      `routes.${routeKey}`
+    );
+    return `/${currentLanguage}/${slug || routeKey}`;
   };
 
   const languages = [
@@ -215,7 +246,11 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
                   <li>
                     <button
                       onClick={() => handleSectionNavigation("hero")}
-                      className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left"
+                      className={`w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left ${
+                        activeSection === "hero"
+                          ? "bg-primary text-primary-foreground"
+                          : ""
+                      }`}
                       data-testid="link-hero"
                     >
                       <Home className="w-4 h-4 mr-3" />
@@ -226,7 +261,11 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
                     <li key={id}>
                       <button
                         onClick={() => handleSectionNavigation(id)}
-                        className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left"
+                        className={`w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left ${
+                          activeSection === id
+                            ? "bg-primary text-primary-foreground"
+                            : ""
+                        }`}
                         data-testid={`link-${id}`}
                       >
                         <Icon className="w-4 h-4 mr-3" />
@@ -234,6 +273,36 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
                       </button>
                     </li>
                   ))}
+                </ul>
+              </nav>
+
+              <nav role="navigation" aria-label={t("footer.legal.title")}>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wide">
+                  {t("footer.legal.title")}
+                </h3>
+                <ul className="space-y-2">
+                  <li>
+                    <Link
+                      href={createLocalizedPath("privacy")}
+                      onClick={onToggle}
+                      className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left"
+                      data-testid="link-privacy"
+                    >
+                      <ShieldCheck className="w-4 h-4 mr-3" />
+                      {t("footer.legal.privacy")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={createLocalizedPath("terms")}
+                      onClick={onToggle}
+                      className="w-full flex items-center px-3 py-2 rounded-md hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-left"
+                      data-testid="link-terms"
+                    >
+                      <FileText className="w-4 h-4 mr-3" />
+                      {t("footer.legal.terms")}
+                    </Link>
+                  </li>
                 </ul>
               </nav>
 

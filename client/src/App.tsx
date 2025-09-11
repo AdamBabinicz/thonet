@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, useLocation } from "wouter"; // <--- IMPORTUJ useLocation
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,42 +13,62 @@ import Terms from "@/pages/terms";
 import HeritageArticle from "@/pages/heritage-article";
 import NotFound from "@/pages/not-found";
 import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
-import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import "./lib/i18n";
 
-function AppRoutes() {
-  useLanguageFromUrl();
-  const [location] = useLocation();
+// Statyczne mapowanie ścieżek dla wszystkich języków
+const ROUTES = {
+  privacy: { pl: "polityka-prywatnosci", en: "privacy", de: "datenschutz" },
+  terms: { pl: "warunki-korzystania", en: "terms", de: "nutzungsbedingungen" },
+  heritage: { pl: "dziedzictwo", en: "heritage", de: "erbe" },
+};
 
-  // UWAGA: Celowo NIE używamy tutaj `useTranslation`, aby uniknąć problemów z timingiem.
-  // Trasy są statyczne, a logika językowa jest w komponentach.
+function AppContent() {
+  useLanguageFromUrl();
+  const [location] = useLocation(); // <--- POBIERZ AKTUALNĄ LOKALIZACJĘ
 
   return (
     <AnimatePresence mode="wait">
+      {/* UŻYJ LOKALIZACJI JAKO KLUCZA DO WYMUSZENIA RE-RENDEROWANIA */}
       <Switch key={location}>
-        <Route path="/:lang(pl|en|de)?" component={Home} />
+        {/* Strona główna */}
+        <Route path="/" component={Home} />
+        <Route path="/:lang(pl|en|de)" component={Home} />
 
+        {/* Privacy */}
         <Route
-          path="/:lang(pl|en|de)/polityka-prywatnosci"
+          path={`/:lang(pl|en|de)/${ROUTES.privacy.pl}`}
           component={Privacy}
         />
-        <Route path="/:lang(pl|en|de)/privacy" component={Privacy} />
-        <Route path="/:lang(pl|en|de)/datenschutz" component={Privacy} />
-
-        <Route path="/:lang(pl|en|de)/warunki-korzystania" component={Terms} />
-        <Route path="/:lang(pl|en|de)/terms" component={Terms} />
-        <Route path="/:lang(pl|en|de)/nutzungsbedingungen" component={Terms} />
-
         <Route
-          path="/:lang(pl|en|de)/heritage/:slug"
+          path={`/:lang(pl|en|de)/${ROUTES.privacy.en}`}
+          component={Privacy}
+        />
+        <Route
+          path={`/:lang(pl|en|de)/${ROUTES.privacy.de}`}
+          component={Privacy}
+        />
+
+        {/* Terms */}
+        <Route path={`/:lang(pl|en|de)/${ROUTES.terms.pl}`} component={Terms} />
+        <Route path={`/:lang(pl|en|de)/${ROUTES.terms.en}`} component={Terms} />
+        <Route path={`/:lang(pl|en|de)/${ROUTES.terms.de}`} component={Terms} />
+
+        {/* Heritage Article */}
+        <Route
+          path={`/:lang(pl|en|de)/${ROUTES.heritage.pl}/:slug`}
           component={HeritageArticle}
         />
         <Route
-          path="/:lang(pl|en|de)/dziedzictwo/:slug"
+          path={`/:lang(pl|en|de)/${ROUTES.heritage.en}/:slug`}
           component={HeritageArticle}
         />
-        <Route path="/:lang(pl|en|de)/erbe/:slug" component={HeritageArticle} />
+        <Route
+          path={`/:lang(pl|en|de)/${ROUTES.heritage.de}/:slug`}
+          component={HeritageArticle}
+        />
 
+        {/* 404 */}
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
@@ -67,22 +87,20 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <AriaLiveProvider>
-            <LazyMotion features={domAnimation}>
-              <div className="min-h-screen bg-background text-foreground font-sans antialiased">
-                <ControlHub
-                  isOpen={isControlHubOpen}
-                  onToggle={toggleControlHub}
-                />
-                <div
-                  className={`transition-transform duration-300 ease-in-out ${
-                    isControlHubOpen ? "lg:ml-80" : "ml-0"
-                  }`}
-                >
-                  <AppRoutes />
-                </div>
-                <Toaster />
+            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+              <ControlHub
+                isOpen={isControlHubOpen}
+                onToggle={toggleControlHub}
+              />
+              <div
+                className={`transition-transform duration-300 ease-in-out ${
+                  isControlHubOpen ? "lg:ml-80" : "ml-0"
+                }`}
+              >
+                <AppContent />
               </div>
-            </LazyMotion>
+              <Toaster />
+            </div>
           </AriaLiveProvider>
         </TooltipProvider>
       </ThemeProvider>

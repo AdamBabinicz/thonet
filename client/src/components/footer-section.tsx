@@ -36,14 +36,29 @@ export function FooterSection() {
   };
 
   const createLocalizedPath = (routeKey: string) => {
-    const translatedSlug = t(`routes.${routeKey}`);
-    return `/${currentLanguage}/${translatedSlug}`;
+    const slug = i18n.getResource(
+      currentLanguage,
+      "translation",
+      `routes.${routeKey}`
+    );
+    return `/${currentLanguage}/${slug || routeKey}`;
+  };
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    path: string
+  ) => {
+    e.preventDefault();
+    setLocation(path);
   };
 
   const startYear = 2025;
   const currentYear = new Date().getFullYear();
   const yearDisplay =
     currentYear > startYear ? `${startYear} - ${currentYear}` : startYear;
+
+  const privacyPath = createLocalizedPath("privacy");
+  const termsPath = createLocalizedPath("terms");
 
   return (
     <footer
@@ -100,18 +115,20 @@ export function FooterSection() {
               {t("footer.legal.title")}
             </h4>
             <div className="space-y-2">
-              <Link
-                href={createLocalizedPath("privacy")}
+              {/* <Link
+                href={privacyPath}
+                onClick={(e) => handleLinkClick(e, privacyPath)}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 {t("footer.legal.privacy")}
               </Link>
               <Link
-                href={createLocalizedPath("terms")}
+                href={termsPath}
+                onClick={(e) => handleLinkClick(e, termsPath)}
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 {t("footer.legal.terms")}
-              </Link>
+              </Link> */}
             </div>
             <p className="text-muted-foreground mt-4 text-sm">
               {t("footer.legal.details", { year: yearDisplay })}
