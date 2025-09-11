@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Switch, Route, useLocation } from "wouter"; // <--- IMPORTUJ useLocation
+import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,8 +15,8 @@ import NotFound from "@/pages/not-found";
 import { useLanguageFromUrl } from "@/hooks/useLanguageFromUrl";
 import { AnimatePresence } from "framer-motion";
 import "./lib/i18n";
+import { ActiveSectionProvider } from "@/contexts/ActiveSectionContext";
 
-// Statyczne mapowanie ścieżek dla wszystkich języków
 const ROUTES = {
   privacy: { pl: "polityka-prywatnosci", en: "privacy", de: "datenschutz" },
   terms: { pl: "warunki-korzystania", en: "terms", de: "nutzungsbedingungen" },
@@ -25,17 +25,13 @@ const ROUTES = {
 
 function AppContent() {
   useLanguageFromUrl();
-  const [location] = useLocation(); // <--- POBIERZ AKTUALNĄ LOKALIZACJĘ
+  const [location] = useLocation();
 
   return (
     <AnimatePresence mode="wait">
-      {/* UŻYJ LOKALIZACJI JAKO KLUCZA DO WYMUSZENIA RE-RENDEROWANIA */}
       <Switch key={location}>
-        {/* Strona główna */}
         <Route path="/" component={Home} />
         <Route path="/:lang(pl|en|de)" component={Home} />
-
-        {/* Privacy */}
         <Route
           path={`/:lang(pl|en|de)/${ROUTES.privacy.pl}`}
           component={Privacy}
@@ -48,13 +44,9 @@ function AppContent() {
           path={`/:lang(pl|en|de)/${ROUTES.privacy.de}`}
           component={Privacy}
         />
-
-        {/* Terms */}
         <Route path={`/:lang(pl|en|de)/${ROUTES.terms.pl}`} component={Terms} />
         <Route path={`/:lang(pl|en|de)/${ROUTES.terms.en}`} component={Terms} />
         <Route path={`/:lang(pl|en|de)/${ROUTES.terms.de}`} component={Terms} />
-
-        {/* Heritage Article */}
         <Route
           path={`/:lang(pl|en|de)/${ROUTES.heritage.pl}/:slug`}
           component={HeritageArticle}
@@ -67,8 +59,6 @@ function AppContent() {
           path={`/:lang(pl|en|de)/${ROUTES.heritage.de}/:slug`}
           component={HeritageArticle}
         />
-
-        {/* 404 */}
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
@@ -87,20 +77,22 @@ function App() {
       <ThemeProvider>
         <TooltipProvider>
           <AriaLiveProvider>
-            <div className="min-h-screen bg-background text-foreground font-sans antialiased">
-              <ControlHub
-                isOpen={isControlHubOpen}
-                onToggle={toggleControlHub}
-              />
-              <div
-                className={`transition-transform duration-300 ease-in-out ${
-                  isControlHubOpen ? "lg:ml-80" : "ml-0"
-                }`}
-              >
-                <AppContent />
+            <ActiveSectionProvider>
+              <div className="min-h-screen bg-background text-foreground font-sans antialiased">
+                <ControlHub
+                  isOpen={isControlHubOpen}
+                  onToggle={toggleControlHub}
+                />
+                <div
+                  className={`transition-transform duration-300 ease-in-out ${
+                    isControlHubOpen ? "lg:ml-80" : "ml-0"
+                  }`}
+                >
+                  <AppContent />
+                </div>
+                <Toaster />
               </div>
-              <Toaster />
-            </div>
+            </ActiveSectionProvider>
           </AriaLiveProvider>
         </TooltipProvider>
       </ThemeProvider>

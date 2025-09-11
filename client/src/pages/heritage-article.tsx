@@ -103,7 +103,7 @@ export default function HeritageArticle() {
         titleKey={`${i18nArticleKey}.title`}
         descriptionKey={`${i18nArticleKey}.p1`}
         image={articleImageSrc}
-        schemaData={{ type: "Article", data: articleSchema }}
+        schemaData={[{ type: "Article", data: articleSchema }]}
       />
       <main id="main-content" className="pt-12 pb-20">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">

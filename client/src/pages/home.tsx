@@ -1,7 +1,7 @@
 import { SEOHead } from "@/components/seo-head";
 import { HeroSection } from "@/components/hero-section";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense, useContext, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { ArrowUp } from "lucide-react";
@@ -13,6 +13,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { homeSections, SectionConfig } from "@/config/sections";
+import { ActiveSectionContext } from "@/contexts/ActiveSectionContext";
 
 const FooterSection = lazy(() =>
   import("@/components/footer-section").then((module) => ({
@@ -47,6 +48,9 @@ export default function Home() {
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const [isScrollTopVisible, setScrollTopVisible] = useState(false);
   const [location] = useLocation();
+  const { setActiveSection, isScrollTrackingEnabled } =
+    useContext(ActiveSectionContext);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   const personSchema = {
     name: "Michael Thonet",
@@ -81,6 +85,32 @@ export default function Home() {
     productionDate: "1859",
     category: "Krzesła",
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!isScrollTrackingEnabled) return;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -70% 0px" }
+    );
+
+    const currentRefs = sectionRefs.current;
+    currentRefs.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      currentRefs.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, [setActiveSection, isScrollTrackingEnabled]);
 
   const toggleScrollTopVisibility = () => {
     setScrollTopVisible(window.scrollY > 300);
@@ -144,17 +174,28 @@ export default function Home() {
         {t("navigation.skipToContent")}
       </a>
       <main id="main-content" className="transition-all duration-300">
-        <section id="hero" aria-labelledby="hero-title">
+        <section
+          id="hero"
+          aria-labelledby="hero-title"
+          ref={(el) => (sectionRefs.current[0] = el)}
+        >
           <HeroSection />
         </section>
 
-        {homeSections.map(({ id, component: Component }: SectionConfig) => (
-          <section key={id} id={id} aria-labelledby={`${id}-title`}>
-            <Suspense fallback={<SectionLoader />}>
-              <Component />
-            </Suspense>
-          </section>
-        ))}
+        {homeSections.map(
+          ({ id, component: Component }: SectionConfig, index) => (
+            <section
+              key={id}
+              id={id}
+              aria-labelledby={`${id}-title`}
+              ref={(el) => (sectionRefs.current[index + 1] = el)}
+            >
+              <Suspense fallback={<SectionLoader />}>
+                <Component />
+              </Suspense>
+            </section>
+          )
+        )}
       </main>
       <Suspense fallback={null}>
         <FooterSection />

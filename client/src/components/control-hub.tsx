@@ -43,7 +43,12 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
   const hubRef = useRef<HTMLDivElement>(null);
   const [announceMessage, setAnnounceMessage] = useState("");
   const [location, setLocation] = useLocation();
-  const { activeSection, setActiveSection } = useContext(ActiveSectionContext);
+  const {
+    activeSection,
+    setActiveSection,
+    disableScrollTracking,
+    enableScrollTracking,
+  } = useContext(ActiveSectionContext);
 
   useEffect(() => {
     if (isOpen && hubRef.current) {
@@ -130,6 +135,7 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
   };
 
   const handleSectionNavigation = (sectionId: string) => {
+    disableScrollTracking();
     setActiveSection(sectionId);
     onToggle();
 
@@ -150,6 +156,10 @@ export function ControlHub({ isOpen, onToggle }: ControlHubProps) {
       setLocation(`/${currentLanguage}/`);
       setTimeout(scrollToAction, 150);
     }
+
+    setTimeout(() => {
+      enableScrollTracking();
+    }, 1000);
   };
 
   const createLocalizedPath = (routeKey: string) => {
