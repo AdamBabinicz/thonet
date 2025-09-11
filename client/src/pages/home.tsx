@@ -90,6 +90,7 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (!isScrollTrackingEnabled) return;
+
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
@@ -98,10 +99,12 @@ export default function Home() {
       },
       { rootMargin: "-30% 0px -70% 0px" }
     );
+
     const currentRefs = sectionRefs.current;
     currentRefs.forEach((section) => {
       if (section) observer.observe(section);
     });
+
     return () => {
       currentRefs.forEach((section) => {
         if (section) observer.unobserve(section);
@@ -133,57 +136,16 @@ export default function Home() {
     window.addEventListener("scroll", toggleScrollTopVisibility);
 
     const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
-    let observer: MutationObserver | null = null;
-
     if (!hasSeenPopup) {
-      const showPopup = () => {
-        if (!sessionStorage.getItem("welcomePopupSeen")) {
-          setShowWelcomePopup(true);
-          sessionStorage.setItem("welcomePopupSeen", "true");
-        }
-      };
-
-      const cookieBannerNode = document.getElementById("cookiescript_injected");
-
-      const isBannerVisible = (node: HTMLElement | null) => {
-        return node !== null && node.offsetParent !== null;
-      };
-
-      // Czekamy chwilę, aby dać czas zewnętrznemu skryptowi na wstrzyknięcie banera
-      const initialCheckTimer = setTimeout(() => {
-        const currentBanner = document.getElementById("cookiescript_injected");
-
-        if (!isBannerVisible(currentBanner)) {
-          showPopup();
-          return;
-        }
-
-        // Jeśli baner jest widoczny, obserwujemy zmiany
-        observer = new MutationObserver(() => {
-          const bannerAfterChange = document.getElementById(
-            "cookiescript_injected"
-          );
-          if (!isBannerVisible(bannerAfterChange)) {
-            showPopup();
-            if (observer) observer.disconnect();
-          }
-        });
-
-        // Obserwuj zmiany atrybutów (np. style="display: none;") na banerze
-        // oraz zmiany w `body` na wypadek, gdyby baner został całkowicie usunięty
-        if (currentBanner) {
-          observer.observe(currentBanner, {
-            attributes: true,
-            attributeFilter: ["style"],
-          });
-        }
-        observer.observe(document.body, { childList: true });
-      }, 500); // Małe opóźnienie na start
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
+      return () => clearTimeout(timer);
     }
 
     return () => {
       window.removeEventListener("scroll", toggleScrollTopVisibility);
-      if (observer) observer.disconnect();
     };
   }, []);
 
