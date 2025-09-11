@@ -2,15 +2,17 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 
+interface SchemaObject {
+  type: "Person" | "Product" | "Article";
+  data: any;
+}
+
 interface SEOHeadProps {
   titleKey?: string;
   descriptionKey?: string;
   image?: string;
   isHomePage?: boolean;
-  schemaData?: {
-    type: "Person" | "Product";
-    data: any;
-  };
+  schemaData?: SchemaObject[];
 }
 
 const siteUrl = "https://wizjoner.netlify.app";
@@ -64,27 +66,36 @@ export function SEOHead({
       inLanguage: i18n.language,
     });
 
-    if (schemaData) {
-      const { type, data } = schemaData;
-      let specificSchema: any = null;
+    if (schemaData && schemaData.length > 0) {
+      schemaData.forEach((schemaItem) => {
+        const { type, data } = schemaItem;
+        let specificSchema: any = null;
 
-      switch (type) {
-        case "Person":
-          specificSchema = {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            ...data,
-          };
-          break;
-        case "Product":
-          specificSchema = {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            ...data,
-          };
-          break;
-      }
-      if (specificSchema) schemas.push(specificSchema);
+        switch (type) {
+          case "Person":
+            specificSchema = {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              ...data,
+            };
+            break;
+          case "Product":
+            specificSchema = {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              ...data,
+            };
+            break;
+          case "Article":
+            specificSchema = {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              ...data,
+            };
+            break;
+        }
+        if (specificSchema) schemas.push(specificSchema);
+      });
     }
 
     return JSON.stringify(schemas, null, 2);

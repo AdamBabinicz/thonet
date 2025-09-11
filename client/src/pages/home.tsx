@@ -48,6 +48,40 @@ export default function Home() {
   const [isScrollTopVisible, setScrollTopVisible] = useState(false);
   const [location] = useLocation();
 
+  const personSchema = {
+    name: "Michael Thonet",
+    birthDate: "1796-07-02",
+    deathDate: "1871-03-03",
+    jobTitle: t("hero.imageAlt"),
+    description: t("biography.description"),
+    birthPlace: {
+      "@type": "Place",
+      name: t("locations.boppard.title"),
+    },
+    deathPlace: {
+      "@type": "Place",
+      name: t("locations.vienna.title"),
+    },
+    url: "https://wizjoner.netlify.app/pl",
+    image: "https://wizjoner.netlify.app/15.png",
+  };
+
+  const productSchema = {
+    name: t("heritage.chair14.title"),
+    description: t("heritage.chair14.description"),
+    image: "https://wizjoner.netlify.app/2.avif",
+    brand: {
+      "@type": "Brand",
+      name: "Thonet",
+    },
+    manufacturer: {
+      "@type": "Person",
+      name: "Michael Thonet",
+    },
+    productionDate: "1859",
+    category: "Krzesła",
+  };
+
   const toggleScrollTopVisibility = () => {
     setScrollTopVisible(window.scrollY > 300);
   };
@@ -93,7 +127,15 @@ export default function Home() {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <SEOHead isHomePage={true} />
+      <SEOHead
+        isHomePage={true}
+        titleKey="seo.defaultDescription"
+        descriptionKey="seo.defaultDescription"
+        schemaData={[
+          { type: "Person", data: personSchema },
+          { type: "Product", data: productSchema },
+        ]}
+      />
       <a
         href="#main-content"
         className="skip-link focus:outline-none focus:ring-2 focus:ring-ring"
@@ -106,7 +148,6 @@ export default function Home() {
           <HeroSection />
         </section>
 
-        {/* --- OSTATECZNA POPRAWKA: USUNIĘCIE <InView> --- */}
         {homeSections.map(({ id, component: Component }: SectionConfig) => (
           <section key={id} id={id} aria-labelledby={`${id}-title`}>
             <Suspense fallback={<SectionLoader />}>
@@ -114,7 +155,6 @@ export default function Home() {
             </Suspense>
           </section>
         ))}
-        {/* ------------------------------------------- */}
       </main>
       <Suspense fallback={null}>
         <FooterSection />

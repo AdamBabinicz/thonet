@@ -72,6 +72,25 @@ export default function HeritageArticle() {
   const i18nArticleKey = `heritageArticles.${articleKey}` as const;
   const articleImageSrc = articleImages[articleKey];
 
+  const articleSchema = {
+    headline: t(`${i18nArticleKey}.title`),
+    description: t(`${i18nArticleKey}.p1`),
+    image: `https://wizjoner.netlify.app${articleImageSrc}`,
+    author: {
+      "@type": "Person",
+      name: "Adam Babinicz",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: t("seo.siteName"),
+      logo: {
+        "@type": "ImageObject",
+        url: "https://wizjoner.netlify.app/favicon.svg",
+      },
+    },
+    datePublished: "2024-09-10",
+  };
+
   return (
     <motion.div
       initial="initial"
@@ -84,6 +103,7 @@ export default function HeritageArticle() {
         titleKey={`${i18nArticleKey}.title`}
         descriptionKey={`${i18nArticleKey}.p1`}
         image={articleImageSrc}
+        schemaData={{ type: "Article", data: articleSchema }}
       />
       <main id="main-content" className="pt-12 pb-20">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
