@@ -90,7 +90,6 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (!isScrollTrackingEnabled) return;
-
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
@@ -99,12 +98,10 @@ export default function Home() {
       },
       { rootMargin: "-30% 0px -70% 0px" }
     );
-
     const currentRefs = sectionRefs.current;
     currentRefs.forEach((section) => {
       if (section) observer.observe(section);
     });
-
     return () => {
       currentRefs.forEach((section) => {
         if (section) observer.unobserve(section);
@@ -136,42 +133,57 @@ export default function Home() {
     window.addEventListener("scroll", toggleScrollTopVisibility);
 
     const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
-    let popupTimer: NodeJS.Timeout | null = null;
-    let checkInterval: NodeJS.Timeout | null = null;
+    let observer: MutationObserver | null = null;
 
     if (!hasSeenPopup) {
       const showPopup = () => {
-        setShowWelcomePopup(true);
-        sessionStorage.setItem("welcomePopupSeen", "true");
-      };
-
-      const isCookieBannerActive = () => {
-        const banner = document.getElementById("cookiescript_injected");
-        // Poprawiony warunek: sprawdza, czy element istnieje ORAZ czy jest widoczny na stronie.
-        // `offsetParent` ma wartość `null` dla elementów ukrytych przez `display: none`.
-        return banner !== null && banner.offsetParent !== null;
-      };
-
-      popupTimer = setTimeout(() => {
-        if (isCookieBannerActive()) {
-          checkInterval = setInterval(() => {
-            if (!isCookieBannerActive()) {
-              if (checkInterval) clearInterval(checkInterval);
-              showPopup();
-            }
-          }, 500);
-        } else {
-          showPopup();
+        if (!sessionStorage.getItem("welcomePopupSeen")) {
+          setShowWelcomePopup(true);
+          sessionStorage.setItem("welcomePopupSeen", "true");
         }
-      }, 500);
+      };
+
+      const cookieBannerNode = document.getElementById("cookiescript_injected");
+
+      const isBannerVisible = (node: HTMLElement | null) => {
+        return node !== null && node.offsetParent !== null;
+      };
+
+      // Czekamy chwilę, aby dać czas zewnętrznemu skryptowi na wstrzyknięcie banera
+      const initialCheckTimer = setTimeout(() => {
+        const currentBanner = document.getElementById("cookiescript_injected");
+
+        if (!isBannerVisible(currentBanner)) {
+          showPopup();
+          return;
+        }
+
+        // Jeśli baner jest widoczny, obserwujemy zmiany
+        observer = new MutationObserver(() => {
+          const bannerAfterChange = document.getElementById(
+            "cookiescript_injected"
+          );
+          if (!isBannerVisible(bannerAfterChange)) {
+            showPopup();
+            if (observer) observer.disconnect();
+          }
+        });
+
+        // Obserwuj zmiany atrybutów (np. style="display: none;") na banerze
+        // oraz zmiany w `body` na wypadek, gdyby baner został całkowicie usunięty
+        if (currentBanner) {
+          observer.observe(currentBanner, {
+            attributes: true,
+            attributeFilter: ["style"],
+          });
+        }
+        observer.observe(document.body, { childList: true });
+      }, 500); // Małe opóźnienie na start
     }
 
-    // Poprawiona funkcja czyszcząca: jest jedna i obsługuje zarówno scroll, jak i timery.
-    // Uruchomi się zawsze, gdy komponent będzie odmontowywany.
     return () => {
       window.removeEventListener("scroll", toggleScrollTopVisibility);
-      if (popupTimer) clearTimeout(popupTimer);
-      if (checkInterval) clearInterval(checkInterval);
+      if (observer) observer.disconnect();
     };
   }, []);
 
