@@ -147,7 +147,9 @@ export default function Home() {
 
     const cookieBannerCheckInterval = setInterval(() => {
       const cookieBanner = document.getElementById("cookiescript_injected");
-      if (!cookieBanner) {
+
+      // Sprawdź, czy baner nie istnieje LUB jest ukryty
+      if (!cookieBanner || cookieBanner.style.display === "none") {
         setShowWelcomePopup(true);
         sessionStorage.setItem("welcomePopupSeen", "true");
         clearInterval(cookieBannerCheckInterval);
