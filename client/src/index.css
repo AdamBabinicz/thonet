@@ -260,7 +260,6 @@
     transform: rotate(360deg);
   }
 }
-/* Główny kontener – zostaje tylko na dole */
 #cookiescript_injected {
   position: fixed !important;
   bottom: 0 !important;
@@ -269,16 +268,4 @@
   width: 100% !important;
   height: auto !important;
   z-index: 2147483647 !important;
-  pointer-events: none !important; /* domyślnie nie blokuje niczego */
-}
-
-/* Tylko faktyczne elementy interaktywne bannera mogą być klikane */
-#cookiescript_injected * {
-  pointer-events: auto !important;
-}
-
-/* Jeśli CookieScript dokleja overlay jako pełnoekranowy DIV wewnątrz */
-#cookiescript_injected div[style*="position: fixed"],
-#cookiescript_injected div[style*="inset: 0"] {
-  display: none !important; /* usuń niewidzialny overlay */
 }
