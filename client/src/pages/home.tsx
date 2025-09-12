@@ -134,38 +134,27 @@ export default function Home() {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleScrollTopVisibility);
-
-    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setShowWelcomePopup(true);
-        sessionStorage.setItem("welcomePopupSeen", "true");
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-
     return () => {
       window.removeEventListener("scroll", toggleScrollTopVisibility);
     };
   }, []);
 
   useEffect(() => {
-    const removeCookieOverlay = () => {
-      const overlays = document.querySelectorAll(
-        '#cookiescript_injected div[style*="position: fixed"], ' +
-          '#cookiescript_injected div[style*="inset: 0"]'
-      );
-      overlays.forEach((el) => {
-        (el as HTMLElement).style.display = "none";
-      });
-    };
+    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
+    if (hasSeenPopup) {
+      return;
+    }
 
-    removeCookieOverlay();
+    const cookieBannerCheckInterval = setInterval(() => {
+      const cookieBanner = document.getElementById("cookiescript_injected");
+      if (!cookieBanner) {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+        clearInterval(cookieBannerCheckInterval);
+      }
+    }, 500);
 
-    const observer = new MutationObserver(removeCookieOverlay);
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
+    return () => clearInterval(cookieBannerCheckInterval);
   }, []);
 
   return (
