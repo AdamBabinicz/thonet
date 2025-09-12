@@ -176,7 +176,9 @@ export function CollectionSection() {
                   onKeyDown={(e) => e.key === "Enter" && setSelectedItem(item)}
                   tabIndex={0}
                   role="button"
-                  aria-label={`Zobacz szczegóły: ${t(item.titleKey)}`}
+                  aria-label={`${t("collection_section.button_text")} ${t(
+                    item.titleKey
+                  )}`}
                 >
                   <img
                     src={item.images[0].src}
