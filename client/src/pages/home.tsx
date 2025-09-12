@@ -145,29 +145,21 @@ export default function Home() {
       return;
     }
 
-    const showPopup = () => {
-      if (!sessionStorage.getItem("welcomePopupSeen")) {
-        setShowWelcomePopup(true);
-        sessionStorage.setItem("welcomePopupSeen", "true");
-        return true;
-      }
-      return false;
+    const showThePopup = () => {
+      setShowWelcomePopup(true);
+      sessionStorage.setItem("welcomePopupSeen", "true");
     };
 
-    const checkBannerAndShowPopup = () => {
-      const cookieBanner = document.getElementById("cookiescript_injected");
-      if (!cookieBanner || cookieBanner.style.display === "none") {
-        return showPopup();
-      }
-      return false;
-    };
-
-    if (checkBannerAndShowPopup()) {
+    const cookieBanner = document.getElementById("cookiescript_injected");
+    if (!cookieBanner || cookieBanner.style.display === "none") {
+      showThePopup();
       return;
     }
 
     const observer = new MutationObserver(() => {
-      if (checkBannerAndShowPopup()) {
+      const banner = document.getElementById("cookiescript_injected");
+      if (banner && banner.style.display === "none") {
+        showThePopup();
         observer.disconnect();
       }
     });
@@ -239,24 +231,28 @@ export default function Home() {
         aria-atomic="true"
         data-testid="aria-announcements"
       ></div>
-      <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-primary font-serif">
-              {t("popup.title")}
-            </DialogTitle>
-            <DialogDescription asChild>
-              <div className="space-y-4 pt-4 text-sm leading-relaxed text-muted-foreground">
-                <p>{t("popup.mainText")}</p>
-                <p className="font-semibold text-foreground">
-                  {t("popup.dedication")}
-                </p>
-                <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+
+      {showWelcomePopup && (
+        <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
+          <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-primary font-serif">
+                {t("popup.title")}
+              </DialogTitle>
+              <DialogDescription asChild>
+                <div className="space-y-4 pt-4 text-sm leading-relaxed text-muted-foreground">
+                  <p>{t("popup.mainText")}</p>
+                  <p className="font-semibold text-foreground">
+                    {t("popup.dedication")}
+                  </p>
+                  <p className="text-xs italic pt-2">{t("popup.disclaimer")}</p>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
+
       <AnimatePresence>
         {isScrollTopVisible && (
           <motion.button
