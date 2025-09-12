@@ -208,7 +208,7 @@ export default function Home() {
         data-testid="aria-announcements"
       ></div>
       <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+        <DialogContent className="z-[2147483640] w-[95vw] sm:w-full sm:max-w-md text-center">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-primary font-serif">
               {t("popup.title")}

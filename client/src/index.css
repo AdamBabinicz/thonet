@@ -260,6 +260,24 @@
     transform: rotate(360deg);
   }
 }
+div[data-state][data-aria-hidden="true"][aria-hidden="true"] {
+  pointer-events: none !important;
+}
+
+/* --- zachowaj interaktywność samego dialogu (treści) --- */
+[role="dialog"],
+[role="dialog"] * {
+  pointer-events: auto !important;
+  z-index: 2147483640 !important; /* poniżej bannera cookie */
+}
+
+/* --- upewnij się, że cookie banner jest przypięty i najwyżej --- */
 #cookiescript_injected {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: auto !important; /* nie zasłania całego viewportu */
   z-index: 2147483647 !important;
+  pointer-events: auto !important;
 }
