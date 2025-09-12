@@ -145,20 +145,32 @@ export default function Home() {
       return;
     }
 
+    let popupTimer: NodeJS.Timeout;
+
     const showThePopup = () => {
-      setShowWelcomePopup(true);
-      sessionStorage.setItem("welcomePopupSeen", "true");
+      if (sessionStorage.getItem("welcomePopupSeen")) return;
+      popupTimer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        sessionStorage.setItem("welcomePopupSeen", "true");
+      }, 500);
     };
 
     const cookieBanner = document.getElementById("cookiescript_injected");
-    if (!cookieBanner || cookieBanner.style.display === "none") {
+
+    if (
+      !cookieBanner ||
+      window.getComputedStyle(cookieBanner).display === "none"
+    ) {
       showThePopup();
       return;
     }
 
     const observer = new MutationObserver(() => {
       const banner = document.getElementById("cookiescript_injected");
-      if (banner && banner.style.display === "none") {
+      const isHidden =
+        banner && window.getComputedStyle(banner).display === "none";
+
+      if (isHidden) {
         showThePopup();
         observer.disconnect();
       }
@@ -167,10 +179,15 @@ export default function Home() {
     observer.observe(document.body, {
       attributes: true,
       subtree: true,
-      attributeFilter: ["style"],
+      attributeFilter: ["style", "class"],
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (popupTimer) {
+        clearTimeout(popupTimer);
+      }
+    };
   }, []);
 
   return (

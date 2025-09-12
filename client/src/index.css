@@ -260,18 +260,20 @@
     transform: rotate(360deg);
   }
 }
-[data-radix-dialog-overlay] {
-  pointer-events: none !important;
-}
-
-/* 2. Sam popup (okno z treścią) ma być klikalny */
-[data-radix-dialog-content] {
+#cookiescript_injected,
+#cookiescript_injected * {
+  z-index: 2147483647 !important;
   pointer-events: auto !important;
 }
 
-/* 3. Baner cookie i WSZYSTKIE jego elementy wewnętrzne muszą być zawsze klikalne,
-      nadpisując dziedziczenie z nakładki. */
-#cookiescript_injected,
-#cookiescript_injected * {
+/* Nakładka popupu jest o 1 poziom wyżej, ale przepuszcza kliknięcia */
+[data-radix-dialog-overlay] {
+  z-index: 2147483648 !important;
+  pointer-events: none !important;
+}
+
+/* Treść popupu jest na samym szczycie i jest klikalna */
+[data-radix-dialog-content] {
+  z-index: 2147483649 !important;
   pointer-events: auto !important;
 }
