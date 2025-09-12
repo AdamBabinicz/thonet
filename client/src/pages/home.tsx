@@ -167,7 +167,7 @@ export default function Home() {
           ref={(el) => (sectionRefs.current[0] = el)}
         >
           <HeroSection />
-          <div className="text-center -mt-8 sm:-mt-4 md:mt-0 mb-12">
+          <div className="relative z-10 text-center -mt-8 sm:-mt-4 md:mt-0 mb-12">
             <button
               onClick={() => setShowWelcomePopup(true)}
               className="inline-flex items-center justify-center px-5 py-2 border border-primary text-sm font-medium rounded-md text-primary bg-background hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
