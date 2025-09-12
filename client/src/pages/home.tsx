@@ -90,7 +90,6 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (!isScrollTrackingEnabled) return;
-
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
@@ -99,12 +98,10 @@ export default function Home() {
       },
       { rootMargin: "-30% 0px -70% 0px" }
     );
-
     const currentRefs = sectionRefs.current;
     currentRefs.forEach((section) => {
       if (section) observer.observe(section);
     });
-
     return () => {
       currentRefs.forEach((section) => {
         if (section) observer.unobserve(section);
@@ -141,22 +138,18 @@ export default function Home() {
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
-    if (hasSeenPopup) {
-      return;
-    }
+    if (hasSeenPopup) return;
 
     let popupTimer: NodeJS.Timeout;
-
     const showThePopup = () => {
       if (sessionStorage.getItem("welcomePopupSeen")) return;
       popupTimer = setTimeout(() => {
         setShowWelcomePopup(true);
         sessionStorage.setItem("welcomePopupSeen", "true");
-      }, 500);
+      }, 300); // Niewielkie opóźnienie dla pewności
     };
 
     const cookieBanner = document.getElementById("cookiescript_injected");
-
     if (
       !cookieBanner ||
       window.getComputedStyle(cookieBanner).display === "none"
@@ -167,10 +160,7 @@ export default function Home() {
 
     const observer = new MutationObserver(() => {
       const banner = document.getElementById("cookiescript_injected");
-      const isHidden =
-        banner && window.getComputedStyle(banner).display === "none";
-
-      if (isHidden) {
+      if (banner && window.getComputedStyle(banner).display === "none") {
         showThePopup();
         observer.disconnect();
       }
@@ -179,16 +169,21 @@ export default function Home() {
     observer.observe(document.body, {
       attributes: true,
       subtree: true,
-      attributeFilter: ["style", "class"],
+      attributeFilter: ["style"],
     });
 
     return () => {
       observer.disconnect();
-      if (popupTimer) {
-        clearTimeout(popupTimer);
-      }
+      if (popupTimer) clearTimeout(popupTimer);
     };
   }, []);
+
+  const handlePointerDownOutside = (event: Event) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("#cookiescript_injected")) {
+      event.preventDefault();
+    }
+  };
 
   return (
     <motion.div
@@ -222,7 +217,6 @@ export default function Home() {
         >
           <HeroSection />
         </section>
-
         {homeSections.map(
           ({ id, component: Component }: SectionConfig, index) => (
             <section
@@ -251,7 +245,10 @@ export default function Home() {
 
       {showWelcomePopup && (
         <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-          <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
+          <DialogContent
+            onPointerDownOutside={handlePointerDownOutside}
+            className="w-[95vw] sm:w-full sm:max-w-md text-center"
+          >
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-primary font-serif">
                 {t("popup.title")}
