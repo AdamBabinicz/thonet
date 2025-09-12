@@ -136,55 +136,6 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    const hasSeenPopup = sessionStorage.getItem("welcomePopupSeen");
-    if (hasSeenPopup) return;
-
-    let popupTimer: NodeJS.Timeout;
-    const showThePopup = () => {
-      if (sessionStorage.getItem("welcomePopupSeen")) return;
-      popupTimer = setTimeout(() => {
-        setShowWelcomePopup(true);
-        sessionStorage.setItem("welcomePopupSeen", "true");
-      }, 300); // Niewielkie opóźnienie dla pewności
-    };
-
-    const cookieBanner = document.getElementById("cookiescript_injected");
-    if (
-      !cookieBanner ||
-      window.getComputedStyle(cookieBanner).display === "none"
-    ) {
-      showThePopup();
-      return;
-    }
-
-    const observer = new MutationObserver(() => {
-      const banner = document.getElementById("cookiescript_injected");
-      if (banner && window.getComputedStyle(banner).display === "none") {
-        showThePopup();
-        observer.disconnect();
-      }
-    });
-
-    observer.observe(document.body, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ["style"],
-    });
-
-    return () => {
-      observer.disconnect();
-      if (popupTimer) clearTimeout(popupTimer);
-    };
-  }, []);
-
-  const handlePointerDownOutside = (event: Event) => {
-    const target = event.target as HTMLElement;
-    if (target.closest("#cookiescript_injected")) {
-      event.preventDefault();
-    }
-  };
-
   return (
     <motion.div
       initial="initial"
@@ -216,6 +167,14 @@ export default function Home() {
           ref={(el) => (sectionRefs.current[0] = el)}
         >
           <HeroSection />
+          <div className="text-center -mt-8 sm:-mt-4 md:mt-0 mb-12">
+            <button
+              onClick={() => setShowWelcomePopup(true)}
+              className="inline-flex items-center justify-center px-5 py-2 border border-primary text-sm font-medium rounded-md text-primary bg-background hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            >
+              {t("popup.dedicationButtonTitle", "Dedykacja")}
+            </button>
+          </div>
         </section>
         {homeSections.map(
           ({ id, component: Component }: SectionConfig, index) => (
@@ -245,10 +204,7 @@ export default function Home() {
 
       {showWelcomePopup && (
         <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-          <DialogContent
-            onPointerDownOutside={handlePointerDownOutside}
-            className="w-[95vw] sm:w-full sm:max-w-md text-center"
-          >
+          <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-primary font-serif">
                 {t("popup.title")}
