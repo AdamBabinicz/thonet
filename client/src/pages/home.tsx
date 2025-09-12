@@ -145,18 +145,40 @@ export default function Home() {
       return;
     }
 
-    const cookieBannerCheckInterval = setInterval(() => {
-      const cookieBanner = document.getElementById("cookiescript_injected");
-
-      // Sprawdź, czy baner nie istnieje LUB jest ukryty
-      if (!cookieBanner || cookieBanner.style.display === "none") {
+    const showPopup = () => {
+      if (!sessionStorage.getItem("welcomePopupSeen")) {
         setShowWelcomePopup(true);
         sessionStorage.setItem("welcomePopupSeen", "true");
-        clearInterval(cookieBannerCheckInterval);
+        return true;
       }
-    }, 500);
+      return false;
+    };
 
-    return () => clearInterval(cookieBannerCheckInterval);
+    const checkBannerAndShowPopup = () => {
+      const cookieBanner = document.getElementById("cookiescript_injected");
+      if (!cookieBanner || cookieBanner.style.display === "none") {
+        return showPopup();
+      }
+      return false;
+    };
+
+    if (checkBannerAndShowPopup()) {
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      if (checkBannerAndShowPopup()) {
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["style"],
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (
