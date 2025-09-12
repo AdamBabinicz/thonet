@@ -260,31 +260,25 @@
     transform: rotate(360deg);
   }
 }
-div[data-state][data-aria-hidden="true"][aria-hidden="true"] {
-  pointer-events: none !important;
-}
-
-/* --- zachowaj interaktywność samego dialogu (treści) --- */
-[role="dialog"],
-[role="dialog"] * {
-  pointer-events: auto !important;
-  z-index: 2147483640 !important; /* poniżej bannera cookie */
-}
-
-/* --- upewnij się, że cookie banner jest przypięty i najwyżej --- */
+/* Główny kontener – zostaje tylko na dole */
 #cookiescript_injected {
   position: fixed !important;
   bottom: 0 !important;
   left: 0 !important;
+  right: 0 !important;
   width: 100% !important;
+  height: auto !important;
   z-index: 2147483647 !important;
+  pointer-events: none !important; /* domyślnie nie blokuje niczego */
 }
 
+/* Tylko faktyczne elementy interaktywne bannera mogą być klikane */
 #cookiescript_injected * {
   pointer-events: auto !important;
 }
 
-/* sam kontener bannera nie przechwytuje klików nad sobą */
-#cookiescript_injected:not(:has(*:hover)) {
-  pointer-events: none !important;
+/* Jeśli CookieScript dokleja overlay jako pełnoekranowy DIV wewnątrz */
+#cookiescript_injected div[style*="position: fixed"],
+#cookiescript_injected div[style*="inset: 0"] {
+  display: none !important; /* usuń niewidzialny overlay */
 }
