@@ -83,7 +83,7 @@ export function BiographySection() {
             >
               <div className="relative group overflow-hidden rounded-lg shadow-lg">
                 <img
-                  src="/13.png"
+                  src="/13.avif"
                   alt="Warsztat stolarski z tradycyjnymi narzędziami i meblami z giętego drewna"
                   className="w-full h-auto"
                   data-testid="img-workshop"

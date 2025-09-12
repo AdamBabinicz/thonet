@@ -67,7 +67,7 @@ export default function Home() {
       name: t("locations.vienna.title"),
     },
     url: "https://wizjoner.netlify.app/pl",
-    image: "https://wizjoner.netlify.app/15.png",
+    image: "https://wizjoner.netlify.app/15.webp",
   };
 
   const productSchema = {
@@ -171,6 +171,7 @@ export default function Home() {
             <button
               onClick={() => setShowWelcomePopup(true)}
               className="inline-flex items-center justify-center px-5 py-2 border border-primary text-sm font-medium rounded-md text-primary bg-background hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              aria-label={t("popup.dedicationButtonTitle", "Dedykacja")}
             >
               {t("popup.dedicationButtonTitle", "Dedykacja")}
             </button>

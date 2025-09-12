@@ -8,9 +8,9 @@ import NotFound from "@/pages/not-found";
 import { motion } from "framer-motion";
 
 const articleImages: { [key: string]: string } = {
-  "technological-revolution": "/9.png",
-  "design-democratization": "/10.png",
-  "global-impact": "/11.png",
+  "technological-revolution": "/9.avif",
+  "design-democratization": "/10.avif",
+  "global-impact": "/11.avif",
 };
 
 const pageVariants = {
