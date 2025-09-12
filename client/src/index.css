@@ -264,10 +264,14 @@
   pointer-events: none !important;
 }
 
+/* 2. Sam popup (okno z treścią) ma być klikalny */
 [data-radix-dialog-content] {
   pointer-events: auto !important;
 }
 
-#cookiescript_injected {
-  z-index: 2147483647 !important;
+/* 3. Baner cookie i WSZYSTKIE jego elementy wewnętrzne muszą być zawsze klikalne,
+      nadpisując dziedziczenie z nakładki. */
+#cookiescript_injected,
+#cookiescript_injected * {
+  pointer-events: auto !important;
 }
