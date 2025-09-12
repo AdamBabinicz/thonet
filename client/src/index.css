@@ -277,7 +277,14 @@ div[data-state][data-aria-hidden="true"][aria-hidden="true"] {
   bottom: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: auto !important; /* nie zasłania całego viewportu */
   z-index: 2147483647 !important;
+}
+
+#cookiescript_injected * {
   pointer-events: auto !important;
+}
+
+/* sam kontener bannera nie przechwytuje klików nad sobą */
+#cookiescript_injected:not(:has(*:hover)) {
+  pointer-events: none !important;
 }
