@@ -89,6 +89,7 @@ export function HeritageSection() {
               <Link
                 key={index}
                 href={createLocalizedArticlePath(item.slug)}
+                aria-label={t(item.titleKey)}
                 className="group block h-full focus:outline-none focus:ring-4 focus:ring-ring focus:ring-offset-4 focus:ring-offset-card rounded-lg"
               >
                 <motion.div
