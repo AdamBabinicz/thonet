@@ -149,6 +149,25 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const removeCookieOverlay = () => {
+      const overlays = document.querySelectorAll(
+        '#cookiescript_injected div[style*="position: fixed"], ' +
+          '#cookiescript_injected div[style*="inset: 0"]'
+      );
+      overlays.forEach((el) => {
+        (el as HTMLElement).style.display = "none";
+      });
+    };
+
+    removeCookieOverlay();
+
+    const observer = new MutationObserver(removeCookieOverlay);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <motion.div
       initial="initial"
@@ -208,7 +227,7 @@ export default function Home() {
         data-testid="aria-announcements"
       ></div>
       <Dialog open={showWelcomePopup} onOpenChange={setShowWelcomePopup}>
-        <DialogContent className="z-[2147483640] w-[95vw] sm:w-full sm:max-w-md text-center">
+        <DialogContent className="w-[95vw] sm:w-full sm:max-w-md text-center">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-primary font-serif">
               {t("popup.title")}
