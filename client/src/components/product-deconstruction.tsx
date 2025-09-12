@@ -240,6 +240,11 @@ export function ProductDeconstruction() {
         <button
           onClick={toggleDeconstruction}
           className="transform-all rounded-lg bg-amber-700 px-8 py-3 font-semibold text-white transition-all hover:scale-105 hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 active:scale-95"
+          aria-label={
+            isExploded
+              ? t("interactiveModules.productDeconstruction.reassembleButton")
+              : t("interactiveModules.productDeconstruction.startButton")
+          }
         >
           {isExploded
             ? t("interactiveModules.productDeconstruction.reassembleButton")
